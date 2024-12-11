@@ -447,15 +447,15 @@ $ cat /etc/hosts
 ```
 $ kolla-genpwd
 ```
-  * change for human readable admin password (search ```keystone_admin_password```) in file ```/etc/kolla/passwords.yml```
+  * change for human readable the admin password (search ```keystone_admin_password```) in file ```/etc/kolla/passwords.yml```
     (you can set it simple, e.g. ```admin``` as in our case)
 ```
 $ sudo nano /etc/kolla/passwords.yml
 ```
 
-2. Prepare inventory ```multinode``` and  ```globals.yml``` files
+2. Prepare inventory file ```multinode``` and feature configuration file ```globals.yml```
 
-  * ```multinode``` is in the working directory
+  * file ```multinode``` is in the working directory
 ```
 $ sudo nano multinode
 
@@ -476,17 +476,19 @@ ost04
 [storage]
 #storage01
 
-# należy sprawdzić łaczność ansible:
+# check if ansible can reach target hosts (our RaPis):
 $ ansible -i multinode all -m ping
 ```
 
-  * globals.yml file is in ```/etc/kolla/globals.yml```
+  * file globals.yml is in ```/etc/kolla/globals.yml```
 
-    Take care of adjusting the following attributes. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
+    Take care of adjusting the attributes listed below. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
 
     **NOTE 1: The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
     
     Note 2: Enabling ```enable_neutron_provider_networks``` is not required in this case as we will use only flat provider network (we do not configure VLANs in our example setup). But we can leave this feature enabled to mark where the setting has to be done should one want to use VLANs in the future.
+
+    **Attributes to update**
 ```
 $ sudo nano /etc/kolla/globals.yml
 
