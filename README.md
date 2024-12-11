@@ -294,9 +294,9 @@ EOT
 
 ### General notes
 
-1. **Maintaining 100% consistency between Kolla-Ansible version use and OpenStack release deployes is the key requirement for successfull installatiuon of the OpenStack cloud.**
-2. **This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of the release in the URI.**
-3. **The guide basically instruct how to install OpenStack cloud with Kolla-Ansible. For information how to mange OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.**
+1. **Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud.**
+2. **This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the URI.**
+3. **Basically, the guide instructs how to install OpenStack cloud with Kolla-Ansible. For information how to manage OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.**
 
 ### Mngnt host system configuration
 
