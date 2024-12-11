@@ -415,7 +415,7 @@ $ kolla-ansible install-deps
 ```
   **WARNING: if you see error message _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change the branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).**
 
-  * Update Ansible configuration file ansible.cfg (it can be kept in the working directory or in directory /etc/ansible/ansible.cfg)
+  * Update Ansible configuration file ```ansible.cfg``` (it can be kept in the working directory or in directory ```/etc/ansible/ansible.cfg```)
 ```
 $ tee ansible.cfg << EOT
 [defaults]
@@ -425,7 +425,48 @@ forks=100
 EOT
 ```
 
+### Configure Kolla-Ansible files for specific OpenStack depolyment
 
+  * Generate passwors in file ```/etc/kolla/passwords.yml```
+```
+$ kolla-genpwd
+```
+  * change for human readable admin password as ```keystone_admin_password``` in file ```/etc/kolla/passwords.yml```
+    (you can set it simple, e.g. ```admin``` as in our case)
+    ```
+$ sudo nano /etc/kolla/passwords.yml
+```
 
+2. wypełnij inventory multinode i globals.yml; zadanie projektowe: zaprojektuj DC i opracuj multinode oraz globals.yml dla struktury naszego DC
+
+  2a. multinode w naszym katalogu lokalnym (u mnie ubuntu@labs:~/labs/kolla$)
+$ sudo nano multinode
+      - do każdego węzła przy pierwszym wystąpieniu dopisać dyrektywy ansible_user/password/become (np.):
+      [control]
+      ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
+      
+      [compute]
+      ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
+      ost04
+
+      - należy sprawdzić łaczność ansible:
+      $ ansible -i multinode all -m ping
+        ansible -i all-in-one all -m ping
+
+  2b. globals w pliku /etc/kolla/globals.yml
+$ sudo nano /etc/kolla/globals.yml
+
+- w globals pamiętać m.inn o sprawdzeniu/ew. ustawieniu (odkomentowaniu przez usunięcie znaku #) tych pól:
+  Uwaga: NIE RUSZAĆ pola #openstack_release: "<jakiś-identyfikator"
+
+kolla_base_distro: "debian"
+openstack_tag_suffix: "-aarch64"
+kolla_internal_vip_address: "192.168.1.60" (przykładowo taki adres)
+network_interface: "veth0"
+neutron_external_interface: "veth1"
+nova_compute_virt_type: "kvm"  <=== jest domyślnie, nie trzeba nic robić (można sprawdzić)
+enable_neutron_provider_networks: "yes"
+
+# cały networking wg: https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html
 
  
