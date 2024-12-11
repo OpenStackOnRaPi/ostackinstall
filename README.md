@@ -183,7 +183,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 In the following, terminal commands to be run on each RaPi are shown (ssh to the RaPi first).
 
-**NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective confogurations of VLANS should also be done on the TP-Link switch). If you are interested in VLAN provider networks, contact the instructor for more info.**
+**NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective configurations of VLANS should also be introduced in the TP-Link switch). If you are interested in setting VLAN provider networks in your cluster, contact the instructor for more info.**
 
   * networkd, for veth0-veth0br pair
 ```
