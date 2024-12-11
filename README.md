@@ -245,7 +245,7 @@ network:
 # Kolla-Ansible networking configurations #
 #-----------------------------------------#
 
-# Interfejsy
+# Interfaces
 
   ethernets:
     eth0:
@@ -276,9 +276,9 @@ network:
       dhcp4: false
       dhcp6: false
 
-# Bridge brmux - intermediary 
-# logically, this is a switch belonging to in the infrastructure of the
-# data centre provider network (physical)
+# Bridge brmux 
+# logically, this is a switch belonging to the physical infrastructure of the
+# data centre provider network (normally, physical network)
 
   bridges:
     brmux:
