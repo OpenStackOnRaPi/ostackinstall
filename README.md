@@ -138,8 +138,7 @@ $ sudo sysctl -p
    * ```$ sudo apt show qemu-system-arm```
    
 ```
-$ sudo apt-get update && sudo apt-get upgrade
-$ sudo apt-get install -y qemu-system-arm
+$ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 ```    
 
 10. Upgrade for any case, reboot
