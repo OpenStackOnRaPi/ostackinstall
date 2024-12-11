@@ -367,5 +367,24 @@ _**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the 
 
 The overall installatiuon procedure is the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project withoud updating the status name in the original Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes in respective instructions are commented in the following.
 
+  * Install Python packages, create and activate virtual environment
+    ```
+$ sudo apt-get update
+$ sudo apt-get install -y git python3-dev libffi-dev gcc libssl-dev python3-venv
+$ python3 -m venv kolla-2023.1
+$ source kolla-2023.1/bin/activate
+```
+
+(deaktywacja aktywnego venv: $ deactivate)
+(całkowite usunięcie venv: rm -r <nazwa-folderu-z-naszym-venv>
+
+Uwagi
+# Od teraz pracujemy w wirtualnym środowisku Python (u mnie dla zed środowisko nazwałem: kolla-zed)
+
+
+pip install -U pip
+pip install 'ansible>=6,<8'
+
+
 
  
