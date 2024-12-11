@@ -491,9 +491,7 @@ $ ansible -i multinode all -m ping
     **Attributes to update**
 ```
 $ sudo nano /etc/kolla/globals.yml
-
-# update the fllowing lines
-
+...
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
 kolla_internal_vip_address: "192.168.1.60"
