@@ -292,12 +292,12 @@ EOT
 
 ## Management host preparation
 
-### General note
-Maintaining 100% consistency between Kolla-Ansible version use and OpenStack release deployes is the key requirement for successfull installatiuon of the cloud.
+### General notes
 
-# Istota powodzenia: spójność wersji (release) OpenStack; tu przykładowo dla zed
-(wzorcowy link dla OpenStack, rel. zed: https://docs.openstack.org/kolla-ansible/zed/user/quickstart.html)
-(dla nowszych wersji OStack zamiana nazwy wersji, np. 2023.1 czy 2023.2 zamiast zed)
+**Maintaining 100% consistency between Kolla-Ansible version use and OpenStack release deployes is the key requirement for successfull installatiuon of the OpenStack cloud.**
+
+**This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of the release in the URI.**
+
 
 # dodatkowe linki (informacyjnie, na razie nie budujemy obrazów kontenerów OStack)
 https://docs.openstack.org/kolla/zed/admin/image-building.html  
