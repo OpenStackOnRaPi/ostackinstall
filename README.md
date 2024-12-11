@@ -6,9 +6,10 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 1. [Introduction](#introduction)
 2. [Assumptions](#assumptions)
 3. [Raspberry Pi preparation](#raspberry-pi-preparation)
-4. [Management host preparation](#management-host-preparation)
-5. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
-
+   1. [System configuration](#system-configuration)
+   2. [Network configuration](#network-configuration)
+5. [Management host preparation](#management-host-preparation)
+6. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
 ## Introduction
 
@@ -42,7 +43,10 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
   
 ## Raspberry Pi preparation
 
-The following has to be done for each Rasppbery Pi in your cluster. The instructions will be given one by one, but you are free to gather them in bash scripts if you wish (sometimes a reboot is needed so you will have to prepare a couple of such scripts or you could prepare Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide).
+
+The following has to be done for each Rasppbery Pi in your cluster. The instructions will be given one by one, but you are free to gather them in bash scripts if you wish (sometimes a reboot is needed so you will have to prepare a couple of such scripts or you could prepare Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The configurations include two phases: system configuration (inslalls, upgrades, etc.) and configuration of the network configuration.
+
+### System configuration
 
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
@@ -125,7 +129,7 @@ save the file, quit and check the setting:
 $ sudo sysctl -p
 ```
 
-9. Install qemu-system-arm (qemu-kvm)
+9. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
    Note: you can check:
     sudo apt install --simulate qemu-kvm
@@ -135,8 +139,13 @@ $ sudo apt-get update && sudo apt-get upgrade
 $ sudo apt-get install -y qemu-system-arm
 ```    
 
+10. Upgrade for any case, reboot
 
+```
+$ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo reboot    
+```
 
+### Network configuration
 
 
 
