@@ -124,8 +124,8 @@ $ sensors
 $ sudo nano /etc/sysctl.conf
 
 # uncomment the line: net.ipv4.ip_forward=1
+# save the file, quit and check the setting:
 
-save the file, quit and check the setting:
 $ sudo sysctl -p
 ```
 
