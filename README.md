@@ -152,6 +152,8 @@ $ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y &
 
 ### RaPi network configuration
 
+#### Configuration description
+
 We must configure network devices on our RaPi to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign various OpenStack roles to those interfaces). As Raspbbery Pi has only one network card we have to create virtual interfaces to fulfill the above qualitative requirement. To this end, we create veth pairs and a linux bridge, and put them together them in appropriate configuration. This is shown in the figure below where also the role of respective interfaces is depicted. In our setup, interfaces ```veth0``` and ```veth1``` correspond to OpenStack host physical interfaces. They will be configured by Kolla-Ansible according to OpenStack networking principles and we assume that ```veth0``` and ```veth1``` serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to Kolla-Ansible documentation.
 
 ```
@@ -177,7 +179,109 @@ network_interface                 neutron_external_interface
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan complements the definitions with the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible using netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
-In the following, terminal commands to be run on each RaPi are shown (one has to ssh to a give RaPi -check its address in the router device list
+#### Configuration implementation
+
+In the following, terminal commands to be run on each RaPi are shown (ssh to the RaPi first).
+
+  * networkd, for veth0
+```
+$ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
+#network_interface w globals kolla-ansible
+[NetDev]
+Name=veth0
+Kind=veth
+[Peer]
+Name=veth0br
+EOT
+```
+
+  * networkd, for veth1
+```
+$ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
+#neutron_external_interface w globals kolla-ansible
+[NetDev]
+Name=veth1
+Kind=veth
+[Peer]
+Name=veth1br
+EOT
+```
+
+  * netplan, remaining settings for the network
+```
+$ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
+# This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init's
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+#------------------------------------------
+# Konfiguracje sieciowe dla Lab OpenStack #
+#------------------------------------------
+network:
+  version: 2
+  renderer: networkd
+
+#-----------------------------------------#
+# Konfiguracja WiFi RbPi jako ratunkowego #
+#     (odkomentować linie operacyjne)     #
+#-----------------------------------------#
+
+## Interfejs wlan0 dostanie IPaddr z Linksysa przez DHCP.
+#  wifis:
+#    wlan0:
+#      access-points:
+#        FreshTomato06:
+#          password: klasterek
+#      dhcp4: true
+#      optional: true
+
+#-----------------------------------------#
+# Konfiguracje sieciowe dla Kolla-Ansible #
+#-----------------------------------------#
+
+# Interfejsy
+
+  ethernets:
+    eth0:
+      dhcp4: false
+      dhcp6: false
+
+    # para veth0-veth0br
+    veth0:                  # to bedzie network_interface dla kolla-ansible
+      addresses:
+        - 192.168.1.62/24   # dopasowac adres
+      nameservers:
+        addresses:
+          - 192.168.1.1     # dhcp na Linksysie
+          - 8.8.8.8
+          - 8.8.2.2
+      routes:
+        - to: 0.0.0.0/0
+          via: 192.168.1.1  # dhcp na Linksysie
+    veth0br:
+      dhcp4: false
+      dhcp6: false
+
+    # para veth1-veth1br
+    veth1:                  # to bedzie neutron_external_interface dla kolla-ansible;
+      dhcp4: false
+      dhcp6: false
+    veth1br:
+      dhcp4: false
+      dhcp6: false
+
+# Bridge posredniczacy-multipleksujacy 
+# - logicznie to switch leżący po stronie providera sieci DC
+
+  bridges:
+    brmux:
+      interfaces:
+        - eth0
+        - veth0br
+        - veth1br
+EOT
+```
 
 
 ## Management host preparation
