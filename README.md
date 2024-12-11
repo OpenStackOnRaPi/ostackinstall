@@ -156,7 +156,7 @@ network_interface                 neutron_external_interface
 (OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
 192.168.1.6x/24                   no IP addr assigned (Kolla-Ansible requires that)
     +---------+                     +---------+
-    |  veth0  |                     |  veth1  |  <=== interfaces to be declared in globals.yml for the use by Kolla-Ansible (and OpenStack)
+    |  veth0  |                     |  veth1  |  <=== intfcs to be declared in globals.yml, used by Kolla-Ansible (and OpenStack)
     +---------+                     +---------+
          |                               |            HOST-NETWORK domain (host-internal - under OpenStack/Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
