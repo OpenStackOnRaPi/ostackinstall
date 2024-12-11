@@ -309,7 +309,7 @@ EOT
   * Your host should work in the same network as the cluster (in our lab setup, attach it to the Linksys router)
   * After launching the VM, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the next steps.
   * Disable the automatic upgrade option; in desktop search for this in Options
-  * If the terminal suspends/ does not open or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., ```https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop```
+  * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
 
     
 - podstawowe konfigi - uruchomienie terminala, $USER w grupie sudo, GuestAdditions (na desktop, etc.)
