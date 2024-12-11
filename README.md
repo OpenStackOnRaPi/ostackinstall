@@ -1,5 +1,5 @@
 # OStackInstallRaPi
-This repo describes how to install OpenStack on raspberry Pi cluster using Kolla-Ansible. The basic scope of application of those clusters for us is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack that are hard or impossible to show in AIO or virtualized configurations. Many of them are related to the administration of the DC, e.g., the management of provider networks where the admin needs to confige VLANs in the physical network of the data centre and declare them in OpenStack config file. And the time needed to practice and learn even basic things is non negigible. One does not need to have dozens of servers worth thousands of $ each to do that.
+This repo describes how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible. The basic scope of application of such clusters for us is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack that are hard or impossible to show using AIO or virtualized setups. Many of them are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack config file. And the time needed to practice and learn even basic things is non negigible. One does not need to have dozens of servers worth thousands of $ each to do that.
 
 Currently, Raspberry Pi 4 is assumed. It is expected that extensions (if any) needed for Rraspberry Pi 5 will be included in the future once we test this option sufficiently well.
 
@@ -8,13 +8,13 @@ Currently, Raspberry Pi 4 is assumed. It is expected that extensions (if any) ne
 All procedures described herein refer to HW and SW setup of the cluster as specified below
 
 1. Raspberry Pi 4
-   * (1x4GB RAM + 1x8GB RAM) or (2x4GB RAM+2*8GB RAM)
+   * [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM+2*8GB RAM]
    * all Pi are equipped with 32GB SD disk
    * Note: we believe that a single RaPi 8GB RAM and the default configuration of Kolla-Ansible OpenStack should work for basic evaluation, but we have not tested this option.
 2. SW
    * OS: Raspberry Pi OS Light - root of Debian 12 (Bookworm)
    * Kolla-Ansible 2023.1; respective envirnment components according to 
-   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 got status "unmaintained" during our trials) and we'll update these instructions accordingly after positive tests
+   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained" recently) and we'll update these instructions accordingly after completing the tests 
 4. Network:
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare
    * they are powered form TP-Link TL-SG105PE switch
@@ -22,7 +22,8 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
 5. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
    * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups
-   * other details that may be relevant are explained in the description below
+   * other details that may be relevant are explained in the description that follows
+   * trials with Raspberry Pi 5 are planned for the near future
 
 
 
