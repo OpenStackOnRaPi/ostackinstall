@@ -7,7 +7,7 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 2. [Assumptions](#assumptions)
 3. [Raspberry Pi preparation](#raspberry-pi-preparation)
 4. [Management host preparation](#management-host-preparation)
-5. [Kolla-ansible and OpenStack instalation](#kolla-ansible-and-openstack-instalation) 
+5. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
 
 ## Introduction
@@ -18,7 +18,7 @@ Currently, Raspberry Pi 4 is assumed as the HW implementation base. It is expect
 
 Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s - an excellent match for Raspbbery Pi.
 
-## Assumptios
+## Assumptions
 
 All procedures described herein refer to HW and SW setup of the cluster as specified below:
 
@@ -44,7 +44,7 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
 
 ## Management host preparation
 
-## Kolla-Ansible and OpenStack instalation
+## Kolla-Ansible and OpenStack installation
 
 
 
