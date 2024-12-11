@@ -1,5 +1,12 @@
 # OStackInstallRaPi
-This repo describes how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible. The basic scope of application of such clusters for us is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack that are hard or impossible to show using AIO or virtualized setups. Many of them are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack config file. And the time needed to practice and learn even basic things is non negigible. One does not need to have dozens of servers worth thousands of $ each to do that.
+This repo describes how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible.
+
+## Table of contents
+
+
+## Introduction
+
+The basic scope of application of such clusters for us is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack that are hard or impossible to show using AIO or virtualized setups. Many of them are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack config file. And the time needed to practice and learn even basic things is non negigible. One does not need to have dozens of servers worth thousands of $ each to do that.
 
 Currently, Raspberry Pi 4 is assumed as HW implementation base. It is expected that extensions (if any) needed for Rraspberry Pi 5 will be included in the future once we test RaPi 5 setup sufficiently well.
 
@@ -24,6 +31,13 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
    * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups
    * other details that may be relevant are explained in the description that follows
    * trials with Raspberry Pi 5 are planned for the near future
+  
+## Raspberry Pi preparation
+
+## Management host preparation
+
+## Kolla-ansible and OpenStack instalation
+
 
 
 
