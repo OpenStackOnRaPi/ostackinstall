@@ -6,10 +6,12 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 1. [Introduction](#introduction)
 2. [Assumptions](#assumptions)
 3. [Raspberry Pi preparation](#raspberry-pi-preparation)
-   1. [System configuration](#system-configuration)
-   2. [Network configuration](#network-configuration)
+   1. [RaPi system configuration](#rapi-system-configuration)
+   2. [RaPi network configuration](#rapi-network-configuration)
 5. [Management host preparation](#management-host-preparation)
-6. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
+   1. [Mngnt host system configuration](#mngnt-host-system-configuration)
+   2. [Mngnt host network configuration](#mngnt-host-network-configuration)
+7. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
 ## Introduction
 
@@ -43,10 +45,9 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
   
 ## Raspberry Pi preparation
 
-
 The following has to be done for each Rasppbery Pi in your cluster. The instructions will be given one by one, but you are free to gather them in bash scripts if you wish (sometimes a reboot is needed so you will have to prepare a couple of such scripts or you could prepare Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The configurations include two phases: system configuration (inslalls, upgrades, etc.) and configuration of the network configuration.
 
-### System configuration
+### RaPi system configuration
 
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
@@ -147,9 +148,9 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 $ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo reboot    
 ```
 
-### Network configuration
+### RaPi network configuration
 
-Here, we configure network devices on our RaPi to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host. As Raspbbery Pi has only one network card we have to create virtal interfaces to fulfill that requirement. To this end, we create vethpairs and a linux bridge, and put them together them in appropriate configuration. This is shown in the figure below where the role of Kolla-ansible interfaces is also depicted. In this setup, interfaces veth0 and veth1 play the role of OpenStack host (pfysical) interfaces. They will be configured by according to OpenStanc networking principles.
+We must configure network devices on our RaPi to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign various OpenStack roles to those interfaces). As Raspbbery Pi has only one network card we have to create virtual interfaces to fulfill the above qualitative requirement. To this end, we create veth pairs and a linux bridge, and put them together them in appropriate configuration. This is shown in the figure below where also the role of respective interfaces is depicted. In our setup, interfaces ```veth0``` and ```veth1``` correspond to OpenStack host physical interfaces. They will be configured by Kolla-Ansible according to OpenStack networking principles and we assume that ```veth0``` and ```veth1``` serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to Kolla-Ansible documentation.
 
 ```
 network_interface                 neutron_external_interface 
@@ -158,7 +159,7 @@ network_interface                 neutron_external_interface
     +---------+                     +---------+
     |  veth0  |                     |  veth1  |  <=== intfcs to be declared in globals.yml, used by Kolla-Ansible and OpenStack
     +---------+                     +---------+
-         |                               |            HOST-NETWORK domain (host-internal - under OpenStack/Nova/Neutron governance)
+         |                               |            HOST-NETWORK domain (host-internal - under Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
          |         veth  pairs           |            DATA CENTRE NETWORK domain (physical - DC admin governance)
     +---------+                     +---------+ 
@@ -170,10 +171,18 @@ network_interface                 neutron_external_interface
                      +---------+
                      |  eth0   |      physical interface of RaPi (taken by brmux), no IP address is needed, but VLANs 
                      +---------+      have to be configured in case of using provider VLAN networks
-
 ```
 
+To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANS on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan complements the definitions with the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANS on eth0, brmux, veth0br and veth1br) are possible using netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
+
+
 ## Management host preparation
+
+### Mngnt host system configuration
+
+
+
+### Mngnt host network configuration
 
 ## Kolla-Ansible and OpenStack installation
 
