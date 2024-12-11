@@ -9,8 +9,8 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
    1. [RaPi system configuration](#rapi-system-configuration)
    2. [RaPi network configuration](#rapi-network-configuration)
 5. [Management host preparation](#management-host-preparation)
-   1. [Mngnt host system configuration](#mngnt-host-system-configuration)
-   2. [Mngnt host network configuration](#mngnt-host-network-configuration)
+   1. [Management host system configuration](#management-host-system-configuration)
+   2. [Management host environment configuration](#management-host-environment-configuration)
 7. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
 ## Introduction
@@ -298,11 +298,11 @@ EOT
 2. **This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the URI.**
 3. **Basically, the guide instructs how to install OpenStack cloud with Kolla-Ansible. For information how to manage OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.**
 
-### Mngnt host system configuration
+### Management host system configuration
 
 
 
-### Mngnt host network configuration
+### Mngnt host environment configuration
 
 
 
