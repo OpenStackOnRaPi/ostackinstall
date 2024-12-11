@@ -413,7 +413,7 @@ $ cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
 ```
 $ kolla-ansible install-deps
 ```
-  **WARNING: if you see error message "error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.", then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).**
+  **WARNING: if you see error message ```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```, then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).**
 
   * Update Ansible configuration file ansible.cfg (it can be kept in the working directory or in directory /etc/ansible/ansible.cfg)
 ```
