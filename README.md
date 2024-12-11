@@ -363,7 +363,7 @@ $ docker run hello-world
 
 ## Kolla-Ansible and OpenStack installation
 
-_**Note: we assume the working (current) directory to be ```ubuntu@labs:~/labs/ostack$```. Adjust the commands when copy-pasting according to your setup.**_
+_**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the working (current) directory. When copy-pasting, adjust the commands according to your machine setup.**_
 
 
 
