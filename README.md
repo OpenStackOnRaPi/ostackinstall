@@ -471,7 +471,7 @@ $ ansible -i multinode all -m ping
 
     Take care of adjusting the following attributes. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
 
-    **NOTE: Address ```kolla_internal_vip_address```** should be adjusted according to your environments. It has to be an unused address in your network, and among others it will serve as the Horizon (OpenStack dashboard) address to be used for accessing OpenStack by the admin and the users.
+    **NOTE: The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
 ```
 $ sudo nano /etc/kolla/globals.yml
 
