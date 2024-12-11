@@ -161,7 +161,7 @@ network_interface                 neutron_external_interface
     +---------+                     +---------+
          |                               |            HOST-NETWORK domain (host-internal - under Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
-         |         veth  pairs           |            DATA CENTRE NETWORK domain (physical - DC admin governance)
+         | <-------- veth pairs -------> |            DATA CENTRE NETWORK domain (physical - DC admin governance)
     +---------+                     +---------+ 
     | veth0br |                     | veth1br |       VLANs have to be configured in case of using provider VLAN networks
     +---------+                     +---------+
