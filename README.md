@@ -40,7 +40,7 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
    * **reserve a pool of IP addresses for the use by OpenStack**; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
 5. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
-   * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups
+   * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note however, that this guide does NOT cover configuring VLAN provider networks.
    * other details that may be relevant are explained in the description that follows
    * trials with Raspberry Pi 5 are planned for the near future
   
