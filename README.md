@@ -426,7 +426,7 @@ forks=100
 EOT
 ```
 
-  * Once we have prepared networking on our RaPis we should update the file /etc/hosts (on the management host) by adding our OpenStack hosts (RaPis); this information will be used by Ansible. For example:
+  * Once we have prepared networking on our RaPis we should update the file ```/etc/hosts``` (on the management host) by adding our OpenStack hosts (RaPis); this information will be used by Ansible. For example:
 ```
 $ cat /etc/hosts
 127.0.0.1	localhost
@@ -484,7 +484,9 @@ $ ansible -i multinode all -m ping
 
     Take care of adjusting the following attributes. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
 
-    **NOTE: The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
+    **NOTE 1: The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
+    
+    Note 2: Enabling ```enable_neutron_provider_networks``` is not required in this case as we will use only flat provider network (we do not configure VLANs in our example setup). But we can leave this feature enabled to mark where the setting has to be done should one want to use VLANs in the future.
 ```
 $ sudo nano /etc/kolla/globals.yml
 
