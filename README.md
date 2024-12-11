@@ -315,7 +315,8 @@ EOT
 $ su
 $ usermod -aG sudo $USER
 $ reboot
-'''
+```
+
   * Run
 ```
 $ sudo apt update && sudo apt upgrade
