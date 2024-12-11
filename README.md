@@ -229,7 +229,8 @@ network:
 #   (uncomment the operations if needed)  #
 #-----------------------------------------#
 
-## wlan0 itf will receine IP address from the Linksys DHCP.
+## wlan0 itf will receive IP address from the Linksys DHCP.
+#  adjust access point SSID and password according to your environment
 #  wifis:
 #    wlan0:
 #      access-points:
