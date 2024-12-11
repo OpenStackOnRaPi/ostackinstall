@@ -23,12 +23,12 @@ Worth of noting is also that our clusters are a perfect base for experimenting w
 
 ## Assumptions
 
-All procedures described herein refer to HW and SW setup of the cluster as specified below:
+All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
 1. Raspberry Pi 4
-   * [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM+2*8GB RAM] per cluster
+   * amount: [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM + 2*8GB RAM] per cluster
    * all Pi are equipped with 32GB SD disk
-   * Note: we believe that a single RaPi 8GB RAM under the all-in-one setup of Kolla-Ansible OpenStack should work well for basic evaluation, but we have not tested this option.
+   * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack should work well for basic evaluation, but we have not tested this option.
 2. SW
    * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
    * Kolla-Ansible 2023.1; respective envirnment components according to 
@@ -38,7 +38,9 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
    * they are powered form TP-Link TL-SG105PE switch
    * TP-Link switch is connected to a local router with DHCP enabled to separate the network of OpenStack DC frome the rest of the network environment
    * **reserve a pool of IP addresses for the use by OpenStack**; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
-5. Notes
+5. Virtualization
+   Currently, we use qemu emulation as he have not managed to get KVM working on Raspberry Pi under Kolla-Ansible. This may change in the future.
+7. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
    * for general education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
    * other details that may be relevant are explained in the description that follows
