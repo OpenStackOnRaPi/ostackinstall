@@ -300,9 +300,40 @@ EOT
 
 ### Management host system configuration
 
+#### Assumption: management host is implemented as Ubuntu 22.04 desktop od VirtualBox. Other solutions will work too after appropriate adaptations.
+
+1. Basic configs
+
+  * Create the VM as desktop machine. There are not high requirements for the resources (4GB RAM, 20GB disk, 2vCPU should be sufficient)
+  * Configure the network card of the VM in VirtualBox as ```Bridged```. This is well suited for Ansible as it may not work well running behind NAT.
+  * Your host should work in the same network as the cluster (in our lab setup, attach it to the Linksys router)
+  * After launching the VM, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the next steps.
+  * Disable the automatic upgrade option; in desktop search for this in Options
+  * If the terminal suspends/ does not open or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., ```https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop```
+
+    
+- podstawowe konfigi - uruchomienie terminala, $USER w grupie sudo, GuestAdditions (na desktop, etc.)
+  na razie prawdfopodobnie nie działa jeszcze copy-paste - musimy wpisywac komendy ręcznie
+
+- teraz najlepiej wyłącz "automatic upgrade" (w desktop - wyszukaj w opcjach)
+- jeśli terminal się "zawiesza" (nie otwiera): Settings->Region & Language -> zmień na inne niż bieżące i zatwierdź ustawienia języka (później można przywrócieć pożądane) -> reboot
+
+$ sudo apt update
+$ sudo apt upgrade
+
+- jeśli użytkownik nie jest w grupie sudo (komunikat), jako root dodać usera do sudo:
+$ su
+$ usermod -aG sudo $USER
+$ reboot
+
+ - teraz instalacja GuestAdditions (dla desktop) wg
+https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true
+
+- umożliwienie logowania "passwordless sudo on the management host" (potrzebne dla Ansible)
+$ sudo apt install sshpass
 
 
-### Mngnt host environment configuration
+### Management host environment configuration
 
 
 
