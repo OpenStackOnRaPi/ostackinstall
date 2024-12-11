@@ -300,7 +300,7 @@ EOT
 
 ### Management host system configuration
 
-#### Assumption: management host is implemented as Ubuntu 22.04 desktop od VirtualBox. Other solutions will work too after appropriate adaptations.
+#### Assumption: the management host is implemented as Ubuntu 22.04 desktop in VirtualBox. Other solutions will work too after appropriate adaptations.
 
 1. Basic configs
 
@@ -327,6 +327,36 @@ $ sudo apt update && sudo apt upgrade
 ```
 $ sudo apt install sshpass
 ```
+
+#### Docker installation
+
+* Add Docker's official GPG key:
+  ```
+$ sudo apt update
+$ sudo apt install ca-certificates curl gnupg
+$ sudo install -m 0755 -d /etc/apt/keyrings
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+$ sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  ```
+
+# Add the repository to Apt sources:
+$ echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+$sudo apt update
+$sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+$ sudo groupadd docker   <=== to dla pewności
+$ sudo usermod -aG docker $USER
+$ newgrp docker          <=== dodaje usera do grupy w bieżącej powłoce (bez reboot)
+
+- zweryfikuj czy możesz wywoływać docker bez sudo (powinno działać)
+$ docker run hello-world
+
+# odtąd pracujemy na folderze ubuntu@labs:~/labs/ostack$ (w nim utworzymy venv też o nazwie kolla-zed)
+
 
 ### Management host environment configuration
 
