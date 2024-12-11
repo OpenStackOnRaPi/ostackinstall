@@ -156,20 +156,20 @@ network_interface                 neutron_external_interface
 (OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
 192.168.1.6x/24                   no IP addr assigned (Kolla-Ansible requires that)
     +---------+                     +---------+
-    |  veth0  |                     |  veth1  |  <=== interfaces declared in globals.yml for the use by Kolla-Ansible (and OpenStack)
+    |  veth0  |                     |  veth1  |  <=== interfaces to be declared in globals.yml for the use by Kolla-Ansible (and OpenStack)
     +---------+                     +---------+
-         |                               |            HOST-NETWORK domain (internal - under OpenStack/Nova/Neutron governanve)
+         |                               |            HOST-NETWORK domain (host-internal - under OpenStack/Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
-         |         veth  pairs           |            DATA CENTRE NETWOR domain (physical - DC network admin governance)
+         |         veth  pairs           |            DATA CENTRE NETWORK domain (physical - DC admin governance)
     +---------+                     +---------+ 
     | veth0br |                     | veth1br |       VLANs have to be configured in case of using provider VLAN networks
     +---------+                     +---------+
     +----┴-------------------------------┴----+
-    |                   brmux                 |       L2 device, IP address not needed here, VLANs have to be configured in case of using provider VLAN networks
-    +---------------------┬-------------------+
+    |                   brmux                 |       L2 device, IP address not needed here, VLANs have to be configured here
+    +---------------------┬-------------------+       in case of using provider VLAN networks
                      +---------+
-                     |  eth0   |      physical interface of RaPi (taken by brmux)
-                     +---------+      no IP address is needed, but VLANs have to be configured in case of using provider VLAN networks
+                     |  eth0   |      physical interface of RaPi (taken by brmux), no IP address is needed, but VLANs 
+                     +---------+      have to be configured in case of using provider VLAN networks
 
 ```
 
