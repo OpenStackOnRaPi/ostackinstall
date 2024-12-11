@@ -16,6 +16,8 @@ The scope of application of our clusters is education. A cluster of this type al
 
 Currently, Raspberry Pi 4 is assumed as the HW implementation base. It is expected that extensions (if any) needed for Rraspberry Pi 5 will be added to this guide in the future once we test RaPi 5 setup sufficiently well.
 
+Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s - an excellent match for Raspbbery Pi.
+
 ## Assumptios
 
 All procedures described herein refer to HW and SW setup of the cluster as specified below:
