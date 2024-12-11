@@ -159,9 +159,9 @@ network_interface                 neutron_external_interface
     +---------+                     +---------+
     |  veth0  |                     |  veth1  |  <=== intfcs to be declared in globals.yml, used by Kolla-Ansible and OpenStack
     +---------+                     +---------+
-         |                               |            HOST-NETWORK domain (host-internal - under Nova/Neutron governance)
+         |                               |            HOST NETWORK domain ("host-internal" - under Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
-         | <-------- veth pairs -------> |            DATA CENTRE NETWORK domain (physical - DC admin governance)
+         | <-------- veth pairs -------> |            DATA CENTRE NETWORK domain ("physical" - under DC admin governance)
     +---------+                     +---------+ 
     | veth0br |                     | veth1br |       VLANs have to be configured in case of using provider VLAN networks
     +---------+                     +---------+
