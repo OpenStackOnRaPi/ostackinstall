@@ -42,7 +42,7 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
 
 ## Management host preparation
 
-## Kolla-ansible and OpenStack instalation
+## Kolla-Ansible and OpenStack instalation
 
 
 
