@@ -37,7 +37,7 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare
    * they are powered form TP-Link TL-SG105PE switch
    * TP-Link switch is connected to a local router with DHCP enabled to separate the network of OpenStack DC frome the rest of the network environment
-   * reserve a pool of, say, 20 IP addresses for the use by OpenStack. They MUST NOT be namaged by your DHCP server. Four of them will be assigned by you to the RbPis using netplan (see []()), and one will be allocated as so-called ```kolla_internal_vip_address``` (). Remaining addresses will serve as so-called ```floating IP addresses``` for accessing created instances fron outside of your cloud.
+   * reserve a pool of, say, 20 IP addresses for the use by OpenStack. They MUST NOT be namaged by your DHCP server. Four of them will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as so-called ```kolla_internal_vip_address``` (see [here]()). Remaining addresses will serve as so-called ```floating IP addresses``` for accessing created instances fron outside of your cloud.
 5. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
    * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups
