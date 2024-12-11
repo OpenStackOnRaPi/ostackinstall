@@ -86,7 +86,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 $ sudo netplan generate
 $ sudo netplan apply
 
-#check connectivity
+# check the connectivity
 $ ping wp.pl
 
 ```
@@ -114,7 +114,7 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 ```
 $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 
-#run to check CPU temperature
+# run to check CPU temperature
 $ sensors
 ```
 
@@ -131,9 +131,9 @@ $ sudo sysctl -p
 
 9. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
-   Note: you can check:
-    sudo apt install --simulate qemu-kvm
-    sudo apt show qemu-system-arm
+   Note: you can chec
+    ```$ sudo apt install --simulate qemu-kvm```
+    ```$ sudo apt show qemu-system-arm```
 ```
 $ sudo apt-get update && sudo apt-get upgrade
 $ sudo apt-get install -y qemu-system-arm
