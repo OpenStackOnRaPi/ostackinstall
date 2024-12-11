@@ -47,12 +47,14 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
    * it is recommended to set the value of host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
-2. assuming we set user name ubontu (otherwise, adapt the flollowing)
+
+2. Assuming we set user name ubontu (otherwise, adapt the flollowing)
 
    ```$ sudo usermod -aG sudo ubuntu```
 
-4. stop NetworkManager, and and start systemd-networkd
-   Note: we use networkd for defining persistent configuration of network devices in our RaPis; one can use NetworkManager for this, but it will be necessary to express respective network constructs in NetworkManager notation (different form the one used by networkd).
+4. Stop NetworkManager, and and start systemd-networkd
+
+   _Note: for some historical reasons, we use networkd for defining persistent configuration of network devices in our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs to NetworkManager notation (different form the one used by networkd)._
 
 ```
 $ sudo systemctl stop NetworkManager
@@ -61,8 +63,76 @@ $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-network
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
 ```
 
+5. Configure interface eth0 for networkd (it is case sensitive!)
 
-5. 
+```
+$ sudo tee /etc/systemd/network/20-wired.network << EOT
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
+EOT
+```
+
+6. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+
+   check connectivity
+
+```
+$ sudo apt-get update && sudo apt-get -y install netplan.io
+sudo netplan generate
+sudo netplan apply
+$ ping wp.pl
+
+```
+
+6. System upgrade
+
+```
+$ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get dist-upgrade -y
+```
+
+7. Installs for the use by Ansible
+
+```
+$ sudo apt-get install sshpass -y 
+$ sudo apt-get install ufw -y     <=== needed on debian, not necessary on Ubuntu
+$ sudo visudo    ==> change sudo permissions to:
+# Allow members of group sudo to execute any command
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL
+```
+
+8. Install usefull tools
+
+```
+$ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y   <=== lm-sensors nie służy samemu OpenStack - do monitorwania temperatury CPU 
+
+#run to check processor temperature
+$ sensors
+```
+
+8. Enable packet forwarding on RbPi
+
+```
+$ sudo nano /etc/sysctl.conf
+- odkomentować linię: net.ipv4.ip_forward=1
+- zapisać, wyjść
+$ sudo sysctl -p
+```
+
+9. Install qemu-system-arm (qemu-kvm)
+
+   Note: you can check:
+    sudo apt install --simulate qemu-kvm
+    sudo apt show qemu-system-arm
+```
+$ sudo apt-get update && sudo apt-get upgrade
+$ sudo apt-get install -y qemu-system-arm   <=== (na amd64 qemu-system-x86)
+```    
+
+
+
 
 
 
