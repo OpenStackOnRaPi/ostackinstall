@@ -426,6 +426,19 @@ forks=100
 EOT
 ```
 
+  * Once we have prepared networking on our RaPis we should update the file /etc/hosts (on the management host) by adding our OpenStack hosts (RaPis); this information will be used by Ansible. For example:
+```
+$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	labs
+
+192.168.1.61    ost01
+192.168.1.62    ost02
+192.168.1.63    ost03
+192.168.1.64    ost04
+...
+```
+
 ### Configure Kolla-Ansible files for specific OpenStack depolyment
 
 1. Prepara passwords.yml file
@@ -485,6 +498,6 @@ neutron_external_interface: "veth1"
 nova_compute_virt_type: "qemu" 
 enable_neutron_provider_networks: "yes"
 ```
-  Note: more details on OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html)
+  Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html)
 
  
