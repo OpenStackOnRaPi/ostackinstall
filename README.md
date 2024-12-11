@@ -14,11 +14,11 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 
 The basic scope of application of such clusters for us is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack that are hard or impossible to show using AIO or virtualized setups. Many of them are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack config file. Considering that the time needed to practice and learn even basic things is non negigible, a decent amount of resources is needed to serve a dozen or more student teams. One does not need to allocate dozens of servers worth thousands of $ each for that.
 
-Currently, Raspberry Pi 4 is assumed as HW implementation base. It is expected that extensions (if any) needed for Rraspberry Pi 5 will be included in the future once we test RaPi 5 setup sufficiently well.
+Currently, Raspberry Pi 4 is assumed as the HW implementation base. It is expected that extensions (if any) needed for Rraspberry Pi 5 will be added to this guide in the future once we test RaPi 5 setup sufficiently well.
 
 ## Assumptios
 
-All procedures described herein refer to HW and SW setup of the cluster as specified below
+All procedures described herein refer to HW and SW setup of the cluster as specified below:
 
 1. Raspberry Pi 4
    * [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM+2*8GB RAM]
