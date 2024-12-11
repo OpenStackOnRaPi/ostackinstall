@@ -77,12 +77,12 @@ EOT
 
 6. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
-   check connectivity
-
 ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
-sudo netplan generate
-sudo netplan apply
+$ sudo netplan generate
+$ sudo netplan apply
+
+#check connectivity
 $ ping wp.pl
 
 ```
@@ -98,7 +98,7 @@ $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo a
 ```
 $ sudo apt-get install sshpass -y 
 $ sudo apt-get install ufw -y     <=== needed on debian, not necessary on Ubuntu
-$ sudo visudo    ==> change sudo permissions to:
+$ sudo visudo    ==> change user group "sudo" permissions to:
 # Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
 ```
@@ -112,12 +112,14 @@ $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y   <===
 $ sensors
 ```
 
-8. Enable packet forwarding on RbPi
+8. Enable packet forwarding on the RbPi
 
 ```
 $ sudo nano /etc/sysctl.conf
-- odkomentować linię: net.ipv4.ip_forward=1
-- zapisać, wyjść
+
+# uncomment the line: net.ipv4.ip_forward=1
+
+save the file, quit and run:
 $ sudo sysctl -p
 ```
 
