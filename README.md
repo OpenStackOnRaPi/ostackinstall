@@ -183,7 +183,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 In the following, terminal commands to be run on each RaPi are shown (ssh to the RaPi first).
 
-  * networkd, for veth0
+  * networkd, for veth0-veth0br pair
 ```
 $ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
@@ -195,7 +195,7 @@ Name=veth0br
 EOT
 ```
 
-  * networkd, for veth1
+  * networkd, for veth1-veth1br pair
 ```
 $ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
@@ -208,9 +208,10 @@ EOT
 ```
 
   * netplan, remaining settings for the network
+    * **NOTE: adjust the IP address of veth0 according to you network setup**
 ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
-# This file is generated from information provided by the datasource.  Changes
+# This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  To disable cloud-init's
 # network configuration capabilities, write a file
 # /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
@@ -223,11 +224,11 @@ network:
   renderer: networkd
 
 #-----------------------------------------#
-# Konfiguracja WiFi RbPi jako ratunkowego #
-#     (odkomentować linie operacyjne)     #
+# WiFi configurations (as the last-resort)#
+#   (uncomment the operations if needed)  #
 #-----------------------------------------#
 
-## Interfejs wlan0 dostanie IPaddr z Linksysa przez DHCP.
+## wlan0 itf will receine IP address from the Linksys DHCP.
 #  wifis:
 #    wlan0:
 #      access-points:
@@ -237,7 +238,7 @@ network:
 #      optional: true
 
 #-----------------------------------------#
-# Konfiguracje sieciowe dla Kolla-Ansible #
+# Kolla-Ansible networking configurations #
 #-----------------------------------------#
 
 # Interfejsy
@@ -248,31 +249,31 @@ network:
       dhcp6: false
 
     # para veth0-veth0br
-    veth0:                  # to bedzie network_interface dla kolla-ansible
+    veth0:                  # network_interface for kolla-ansible
       addresses:
-        - 192.168.1.62/24   # dopasowac adres
+        - 192.168.1.6x/24   # ADJUST THIS ADDRESS !!!!!!!!!!!!!!!!!!!!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # dhcp na Linksysie
+          - 192.168.1.1     # Lnksys dhcp server
           - 8.8.8.8
           - 8.8.2.2
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.1.1  # dhcp na Linksysie
+          via: 192.168.1.1  # Linksys router
     veth0br:
       dhcp4: false
       dhcp6: false
 
     # para veth1-veth1br
-    veth1:                  # to bedzie neutron_external_interface dla kolla-ansible;
+    veth1:                  # neutron_external_interface for kolla-ansible
       dhcp4: false
       dhcp6: false
     veth1br:
       dhcp4: false
       dhcp6: false
 
-# Bridge posredniczacy-multipleksujacy 
-# - logicznie to switch leżący po stronie providera sieci DC
+# Bridge brmux - intermediary 
+# logically, this is a switch belongiing to in the infrastructure of the data centre provider network (physical)
 
   bridges:
     brmux:
