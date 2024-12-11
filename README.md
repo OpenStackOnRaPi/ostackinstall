@@ -63,16 +63,16 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 
    _Note: for some historical reasons, we use networkd for defining persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (different form the one used by networkd)._
 
-```
+  ```
 $ sudo systemctl stop NetworkManager
 $ sudo systemctl disable NetworkManager
 $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
-```
+  ```
 
 5. Configure interface eth0 for networkd (it is case sensitive!)
 
-```
+  ```
 $ sudo tee /etc/systemd/network/20-wired.network << EOT
 [Match]
 Name=eth0
@@ -80,57 +80,56 @@ Name=eth0
 [Network]
 DHCP=yes
 EOT
-```
+  ```
 
 6. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
-```
+  ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
 $ sudo netplan generate
 $ sudo netplan apply
 
 # check the connectivity
 $ ping wp.pl
-
-```
+  ```
 
 6. System upgrade
 
-```
+  ```
 $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get dist-upgrade -y
-```
+  ```
 
 7. Installs for the use by Ansible
 
-```
+  ```
 $ sudo apt-get install sshpass -y 
 $ sudo apt-get install ufw -y     <=== needed on debian, not necessary on Ubuntu
 $ sudo visudo    ==> change user group "sudo" permissions to:
 # Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
-```
+  ```
 
 8. Install usefull tools
 
    Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RaPi) 
 
-```
+  ```
 $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 
 # run to check CPU temperature
 $ sensors
-```
+  ```
 
 8. Enable packet forwarding on the RaPi
 
-```
+  ```
 $ sudo nano /etc/sysctl.conf
 
 # uncomment the line: net.ipv4.ip_forward=1
 # save the file, quit and check if forwarding has been activated:
 
 $ sudo sysctl -p
-```
+  ```
 
 9. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
@@ -140,9 +139,9 @@ $ sudo sysctl -p
    
    * ```$ sudo apt show qemu-system-arm```
    
-```
+  ```
 $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
-```    
+  ```    
 
 10. Upgrade for any case, reboot
 
@@ -186,7 +185,7 @@ In the following, terminal commands to be run on each RaPi are shown (ssh to the
 **NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective configurations of VLANS should also be introduced in the TP-Link switch). If you are interested in setting VLAN provider networks in your cluster, contact the instructor for more info.**
 
   * networkd, for veth0-veth0br pair
-```
+  ```
 $ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
@@ -195,10 +194,10 @@ Kind=veth
 [Peer]
 Name=veth0br
 EOT
-```
+  ```
 
   * networkd, for veth1-veth1br pair
-```
+  ```
 $ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
@@ -207,11 +206,11 @@ Kind=veth
 [Peer]
 Name=veth1br
 EOT
-```
+  ```
 
   * netplan, remaining settings for the network
     * **NOTE: adjust the IP address of veth0 according to you network setup**
-```
+  ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
@@ -287,7 +286,7 @@ network:
         - veth0br
         - veth1br
 EOT
-```
+  ```
 
 
 ## Management host preparation
@@ -311,26 +310,29 @@ EOT
   * Disable the automatic upgrade option; in desktop search for this in Options
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
   * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges
-```
+  ```
 $ su
 $ usermod -aG sudo $USER
 $ reboot
-```
+  ```
 
   * Run
-```
+  ```
 $ sudo apt update && sudo apt upgrade
-```
+  ```
+
   * Install GuestAdditions
     refer, e.g., to [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
+    
   * Enable passwordless sudo logging on the management host (required by Ansible)
-```
+  ```
 $ sudo apt install sshpass
-```
+  ```
 
 #### Docker installation
+**Note: docker is installed according to this] original guide. You can safely refer to that document. Below, we replicate that descriprtion only for sake of completeness of this guide.**
 
-* Add Docker's official GPG key:
+  * Add Docker's official GPG key:
   ```
 $ sudo apt update
 $ sudo apt install ca-certificates curl gnupg
@@ -339,7 +341,8 @@ $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -
 $ sudo chmod a+r /etc/apt/keyrings/docker.gpg
   ```
 
-# Add the repository to Apt sources:
+  * Add the repository to Apt sources:
+  ```
 $ echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
@@ -352,15 +355,14 @@ $ sudo groupadd docker   <=== to dla pewności
 $ sudo usermod -aG docker $USER
 $ newgrp docker          <=== dodaje usera do grupy w bieżącej powłoce (bez reboot)
 
-- zweryfikuj czy możesz wywoływać docker bez sudo (powinno działać)
+  * Verify if docker works (check if you can run docker without sudo - should be possible)
+  ```
 $ docker run hello-world
-
-# odtąd pracujemy na folderze ubuntu@labs:~/labs/ostack$ (w nim utworzymy venv też o nazwie kolla-zed)
-
+  ```
 
 ### Management host environment configuration
 
-
+# odtąd pracujemy na folderze ubuntu@labs:~/labs/ostack$ (w nim utworzymy venv też o nazwie kolla-zed)
 
 ## Kolla-Ansible and OpenStack installation
 
