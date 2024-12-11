@@ -105,8 +105,10 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 
 8. Install usefull tools
 
+   Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature(after ssh onto RaPi) 
+
 ```
-$ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y   <=== lm-sensors nie służy samemu OpenStack - do monitorwania temperatury CPU 
+$ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 
 #run to check processor temperature
 $ sensors
@@ -130,7 +132,7 @@ $ sudo sysctl -p
     sudo apt show qemu-system-arm
 ```
 $ sudo apt-get update && sudo apt-get upgrade
-$ sudo apt-get install -y qemu-system-arm   <=== (na amd64 qemu-system-x86)
+$ sudo apt-get install -y qemu-system-arm
 ```    
 
 
