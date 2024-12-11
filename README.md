@@ -48,8 +48,20 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
    * it is recommended to set the value of host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
 2. assuming we set user name ubontu (otherwise, adapt the flollowing)
+
    ```$ sudo usermod -aG sudo ubuntu```
-3. 
+
+4. stop NetworkManager, and install ans start systemd-networkd
+
+```
+$ sudo systemctl stop NetworkManager
+$ sudo systemctl disable NetworkManager
+$ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
+$ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
+```
+
+
+5. 
 
 
 
