@@ -37,6 +37,7 @@ All procedures described herein refer to HW and SW setup of the cluster as speci
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare
    * they are powered form TP-Link TL-SG105PE switch
    * TP-Link switch is connected to a local router with DHCP enabled to separate the network of OpenStack DC frome the rest of the network environment
+   * reserve a pool of, say, 20 IP addresses for the use by OpenStack. They MUST NOT be namaged by your DHCP server. Four of them will be assigned by you to the RbPis using netplan (see []()), and one will be allocated as so-called ```kolla_internal_vip_address``` (). Remaining addresses will serve as so-called ```floating IP addresses``` for accessing created instances fron outside of your cloud.
 5. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
    * for education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups
@@ -469,6 +470,8 @@ $ ansible -i multinode all -m ping
   * globals.yml file is in ```/etc/kolla/globals.yml```
 
     Take care of adjusting the following attributes. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
+
+    **NOTE: Address ```kolla_internal_vip_address```** should be adjusted according to your environments. It has to be an unused address in your network, and among others it will serve as the Horizon (OpenStack dashboard) address to be used for accessing OpenStack by the admin and the users.
 ```
 $ sudo nano /etc/kolla/globals.yml
 
@@ -476,7 +479,7 @@ $ sudo nano /etc/kolla/globals.yml
 
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
-kolla_internal_vip_address: "192.168.1.60" (przykładowo taki adres)
+kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 nova_compute_virt_type: "qemu" 
