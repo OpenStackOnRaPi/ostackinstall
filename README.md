@@ -212,13 +212,14 @@ EOT
 ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
-# to it will not persist across an instance reboot.  To disable cloud-init's
-# network configuration capabilities, write a file
+# to it will not persist across an instance reboot.  In ubuntu, to disable
+# cloud-init's network configuration capabilities, write a file
 # /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
 # network: {config: disabled}
-#------------------------------------------
-# Konfiguracje sieciowe dla Lab OpenStack #
-#------------------------------------------
+# in debian, this is not needed.
+#=========================================#
+# Network configs for the OpenStack lab   #
+#=========================================#
 network:
   version: 2
   renderer: networkd
@@ -248,10 +249,10 @@ network:
       dhcp4: false
       dhcp6: false
 
-    # para veth0-veth0br
+    # veth0-veth0br pair
     veth0:                  # network_interface for kolla-ansible
       addresses:
-        - 192.168.1.6x/24   # ADJUST THIS ADDRESS !!!!!!!!!!!!!!!!!!!!!!!!!!
+        - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RAPI !!!!!!!!
       nameservers:
         addresses:
           - 192.168.1.1     # Lnksys dhcp server
@@ -264,7 +265,7 @@ network:
       dhcp4: false
       dhcp6: false
 
-    # para veth1-veth1br
+    # veth1-veth1br pair
     veth1:                  # neutron_external_interface for kolla-ansible
       dhcp4: false
       dhcp6: false
@@ -273,7 +274,8 @@ network:
       dhcp6: false
 
 # Bridge brmux - intermediary 
-# logically, this is a switch belongiing to in the infrastructure of the data centre provider network (physical)
+# logically, this is a switch belonging to in the infrastructure of the
+# data centre provider network (physical)
 
   bridges:
     brmux:
