@@ -105,16 +105,16 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 
 8. Install usefull tools
 
-   Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature(after ssh onto RaPi) 
+   Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RaPi) 
 
 ```
 $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 
-#run to check processor temperature
+#run to check CPU temperature
 $ sensors
 ```
 
-8. Enable packet forwarding on the RbPi
+8. Enable packet forwarding on the RaPi
 
 ```
 $ sudo nano /etc/sysctl.conf
