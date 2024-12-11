@@ -365,6 +365,8 @@ $ docker run hello-world
 
 _**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the working (current) directory. When copy-pasting, adjust the commands according to your machine setup.**_
 
+### Kolla-Ansible installation
+
 The overall installatiuon procedure is the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project withoud updating the status name in the original Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes in respective instructions are commented in the following.
 
   * Install Python packages, create and activate virtual environment
@@ -381,7 +383,7 @@ $ deactivate
 $ rm -r <venv-root-folder-name->
 ```
 
-**Note: from now on, we work inn virtual environment kolla-2023.1**
+**Note: from now on, we work in virtual environment kolla-2023.1**
 
   * Install Kolla-Ansible in the active venv
 ```
@@ -389,6 +391,41 @@ $ pip install -U pip
 $ pip install 'ansible>=6,<8'
 $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
 ```
-_**Note for future: if you see a notification simlar to "WARNING: Did not find branch or tag '@stable/2023.1', assuming revision or ref", you should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored in. Then change the name of supposed branch (```@stable``` in the example) to the right one (probably it will be ```@unmaintained```).**_
+_**Note for the future: if you see a notification simlar to "WARNING: Did not find branch or tag '@stable/2023.1', assuming revision or ref", you should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored in. Then change the name of supposed branch (```@stable``` in the example) to the right one (probably it will be ```@unmaintained```).**_
+
+### Generate configuration files for Kolla-Ansible (default templates)
+
+```
+$ sudo mkdir -p /etc/kolla
+$ sudo chown $USER:$USER /etc/kolla
+```
+
+  * Copy globals.yml and passwords.yml to /etc/kolla directory, and kolla-ansible inventory files to our working directory. We will configure these file for our deployment soon.
+
+    We remind ```~/labs/ostack``` is current working directory.
+    
+```
+$ cp -r kolla-2023.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
+$ cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
+```
+
+  * Install Ansible Galaxy dependencies (bez sudo)
+```
+$ kolla-ansible install-deps
+```
+  **WARNING: if you see error message "error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.", then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).**
+
+  * Update Ansible configuration file ansible.cfg (it can be kept in the working directory or in directory /etc/ansible/ansible.cfg)
+```
+$ tee ansible.cfg << EOT
+[defaults]
+host_key_checking=False
+pipelining=True
+forks=100
+EOT
+```
+
+
+
 
  
