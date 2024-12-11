@@ -149,7 +149,29 @@ $ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y &
 
 ### Network configuration
 
+Here, we configure network devices on our RaPi to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host. As Raspbbery Pi has only one network card we have to create virtal interfaces to fulfill that requirement. To this end, we create vethpairs and a linux bridge, and put them together them in appropriate configuration. This is shown in the figure below where the role of Kolla-ansible interfaces is also depicted. In this setup, interfaces veth0 and veth1 play the role of OpenStack host (pfysical) interfaces. They will be configured by according to OpenStanc networking principles.
 
+```
+network_interface    neutron_external_interface 
+(GUI, tenant nets)  (provider networks, tetnant routers/floating IPs)
+192.168.1.6x/24     no IP addr assigned (Kolla-Ansible requires that)
+  +---------+           +---------+
+  |  veth0  |           |  veth1  |  <=== interfaces declared in globals.yml for the use by Kolla-Ansible (and OpenStack)
+  +---------+           +---------+
+         |                 |              HOST-NETWORK domain (internal - under OpenStack/Nova/Neutron governanve)
+    - - -|- - - - - - - - -|- - - - - - - - -  - - -                       
+         |   veth  pairs   |              DOMAIN od data centre network (physical, network admin domain)
+  +---------+           +---------+ 
+  | veth0br |           | veth1br |  VLANs have to be configured in case of using provider VLAN networks
+  +---------+           +---------+
+       +-┴-----------------┴-+
+       |        brmux        |       L2 device, IP address not needed here, VLANs have to be configured in case of using provider VLAN networks
+       +----------┬----------+
+             +---------+
+             |  eth0   |             physical interface of RaPi (taken by brmux)
+             +---------+             no IP address is needed, but VLANs have to be configured in case of using provider VLAN networks
+
+```
 
 ## Management host preparation
 
