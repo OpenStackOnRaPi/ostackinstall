@@ -433,7 +433,7 @@ $ kolla-genpwd
 ```
   * change for human readable admin password as ```keystone_admin_password``` in file ```/etc/kolla/passwords.yml```
     (you can set it simple, e.g. ```admin``` as in our case)
-    ```
+```
 $ sudo nano /etc/kolla/passwords.yml
 ```
 
