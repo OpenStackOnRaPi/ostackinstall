@@ -310,12 +310,11 @@ EOT
   * After launching the VM, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the next steps.
   * Disable the automatic upgrade option; in desktop search for this in Options
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
-  * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges, add
-   '''- jeśli użytkownik nie jest w grupie sudo (komunikat), jako root dodać usera do sudo:
+  * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges
+```
 $ su
 $ usermod -aG sudo $USER
 $ reboot
-
 '''
   * Run
 ```
