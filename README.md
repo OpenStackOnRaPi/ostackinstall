@@ -427,21 +427,24 @@ EOT
 
 ### Configure Kolla-Ansible files for specific OpenStack depolyment
 
+1. Prepara passwords.yml file
+
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 ```
 $ kolla-genpwd
 ```
-  * change for human readable admin password as ```keystone_admin_password``` in file ```/etc/kolla/passwords.yml```
+  * change for human readable admin password (search ```keystone_admin_password```) in file ```/etc/kolla/passwords.yml```
     (you can set it simple, e.g. ```admin``` as in our case)
 ```
 $ sudo nano /etc/kolla/passwords.yml
 ```
 
-2. wypełnij inventory multinode i globals.yml; zadanie projektowe: zaprojektuj DC i opracuj multinode oraz globals.yml dla struktury naszego DC
+2. Prepare inventory ```multinode``` and  ```globals.yml``` files
 
-  2a. multinode w naszym katalogu lokalnym (u mnie ubuntu@labs:~/labs/kolla$)
+  * ```multinode``` is in the working directory
+```
 $ sudo nano multinode
-      - do każdego węzła przy pierwszym wystąpieniu dopisać dyrektywy ansible_user/password/become (np.):
+      # for every appearance of each node provide ansible directives ansible_user/password/become, e.g.:
       [control]
       ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
       
@@ -449,9 +452,15 @@ $ sudo nano multinode
       ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
       ost04
 
-      - należy sprawdzić łaczność ansible:
+
+
+
+
+
+      # należy sprawdzić łaczność ansible:
       $ ansible -i multinode all -m ping
         ansible -i all-in-one all -m ping
+```
 
   2b. globals w pliku /etc/kolla/globals.yml
 $ sudo nano /etc/kolla/globals.yml
