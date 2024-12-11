@@ -52,8 +52,10 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
    * it is recommended to set the value of host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
+  
+2. After switching on the RaPi, find its IP address. In our setup, check the ```Device list``` panel in the Linksys router GUI (access on, e.g., 192.168.1.1, login as root, pwd admin). SSH to the RaPi using the credentials from step 1 above.
 
-2. Assuming we set user name ubontu (otherwise, adapt the flollowing)
+2. Assuming your user name on the RaPi is ubuntu (otherwise, adapt the following) run
 
    ```$ sudo usermod -aG sudo ubuntu```
 
@@ -155,7 +157,7 @@ We must configure network devices on our RaPi to meet Kolla-Ansible requirements
 ```
 network_interface                 neutron_external_interface 
 (OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
-192.168.1.6x/24                   no IP addr assigned (Kolla-Ansible requires that)
+ IP 192.168.1.6x/24               no IP addr assigned (Kolla-Ansible requires that)
     +---------+                     +---------+
     |  veth0  |                     |  veth1  |  <=== intfcs to be declared in globals.yml, used by Kolla-Ansible and OpenStack
     +---------+                     +---------+
@@ -174,6 +176,8 @@ network_interface                 neutron_external_interface
 ```
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan complements the definitions with the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible using netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
+
+In the following, terminal commands to be run on each RaPi are shown (one has to ssh to a give RaPi -check its address in the router device list
 
 
 ## Management host preparation
