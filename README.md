@@ -51,7 +51,8 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 
    ```$ sudo usermod -aG sudo ubuntu```
 
-4. stop NetworkManager, and install ans start systemd-networkd
+4. stop NetworkManager, and and start systemd-networkd
+   Note: we use networkd for defining persistent configuration of network devices in our RaPis; one can use NetworkManager for this, but it will be necessary to express respective network constructs in NetworkManager notation (different form the one used by networkd).
 
 ```
 $ sudo systemctl stop NetworkManager
