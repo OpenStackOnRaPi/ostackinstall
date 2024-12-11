@@ -500,6 +500,6 @@ neutron_external_interface: "veth1"
 nova_compute_virt_type: "qemu" 
 enable_neutron_provider_networks: "yes"
 ```
-  Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html)
+  Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
  
