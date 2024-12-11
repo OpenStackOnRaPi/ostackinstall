@@ -8,10 +8,10 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 3. [Raspberry Pi preparation](#raspberry-pi-preparation)
    1. [RaPi system configuration](#rapi-system-configuration)
    2. [RaPi network configuration](#rapi-network-configuration)
-5. [Management host preparation](#management-host-preparation)
-   1. [Management host system configuration](#management-host-system-configuration)
-   2. [Management host environment configuration](#management-host-environment-configuration)
-7. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
+4. [Management host preparation](#management-host-preparation)
+   1. [General notes](#general-notes)
+   2. [Management host system configuration](#management-host-system-configuration)
+5. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
 ## Introduction
 
@@ -330,7 +330,8 @@ $ sudo apt install sshpass
   ```
 
 #### Docker installation
-**Note: docker is installed according to this] original guide. You can safely refer to that document. Below, we replicate that descriprtion only for sake of completeness of this guide.**
+
+_**Note: docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.**_
 
   * Add Docker's official GPG key:
   ```
@@ -354,17 +355,15 @@ $sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin doc
 $ sudo groupadd docker   <=== to dla pewności
 $ sudo usermod -aG docker $USER
 $ newgrp docker          <=== dodaje usera do grupy w bieżącej powłoce (bez reboot)
-
+  ```
   * Verify if docker works (check if you can run docker without sudo - should be possible)
   ```
 $ docker run hello-world
   ```
 
-### Management host environment configuration
-
-# odtąd pracujemy na folderze ubuntu@labs:~/labs/ostack$ (w nim utworzymy venv też o nazwie kolla-zed)
-
 ## Kolla-Ansible and OpenStack installation
+
+_**Note: we assume the working (current) directory to be ```ubuntu@labs:~/labs/ostack$```. Adjust the commands when copy-pasting according to your setup.**_
 
 
 
