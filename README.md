@@ -441,7 +441,7 @@ $ cat /etc/hosts
 
 ### Configure Kolla-Ansible files for specific OpenStack depolyment
 
-1. Prepara passwords.yml file
+1. Prepare passwords.yml file
 
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 ```
