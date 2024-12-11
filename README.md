@@ -131,11 +131,11 @@ $ sudo sysctl -p
 
 9. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
-   Note: you can check
+   Note: you can check first:
    
-    ```$ sudo apt install --simulate qemu-kvm```
+   * ```$ sudo apt install --simulate qemu-kvm```
    
-    ```$ sudo apt show qemu-system-arm```
+   * ```$ sudo apt show qemu-system-arm```
    
 ```
 $ sudo apt-get update && sudo apt-get upgrade
