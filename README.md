@@ -444,38 +444,44 @@ $ sudo nano /etc/kolla/passwords.yml
   * ```multinode``` is in the working directory
 ```
 $ sudo nano multinode
-      # for every appearance of each node provide ansible directives ansible_user/password/become, e.g.:
-      [control]
-      ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
-      
-      [compute]
-      ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
-      ost04
 
+# for every appearance of each node provide ansible directives ansible_user/password/become, e.g.:
+[control]
+ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
+[network]
+ost04
 
+[compute]
+ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
+ost04
 
+[monitoring]
+ost04
 
+[storage]
+#storage01
 
-      # należy sprawdzić łaczność ansible:
-      $ ansible -i multinode all -m ping
-        ansible -i all-in-one all -m ping
+# należy sprawdzić łaczność ansible:
+$ ansible -i multinode all -m ping
 ```
 
-  2b. globals w pliku /etc/kolla/globals.yml
+  * globals.yml file is in ```/etc/kolla/globals.yml```
+
+    Take care of adjusting the following attributes. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
+```
 $ sudo nano /etc/kolla/globals.yml
 
-- w globals pamiętać m.inn o sprawdzeniu/ew. ustawieniu (odkomentowaniu przez usunięcie znaku #) tych pól:
-  Uwaga: NIE RUSZAĆ pola #openstack_release: "<jakiś-identyfikator"
+# update the fllowing lines
 
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
 kolla_internal_vip_address: "192.168.1.60" (przykładowo taki adres)
 network_interface: "veth0"
 neutron_external_interface: "veth1"
-nova_compute_virt_type: "kvm"  <=== jest domyślnie, nie trzeba nic robić (można sprawdzić)
+nova_compute_virt_type: "qemu" 
 enable_neutron_provider_networks: "yes"
-
-# cały networking wg: https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html
+```
+  Note: more details on OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html)
 
  
