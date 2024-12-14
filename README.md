@@ -564,12 +564,12 @@ kolla-ansible deploy -i multinode
   * In not present, create appropriate directories. Run: 
 
     ```bash
-    $ kolla-ansible post-deploy
-    $ sudo mkdir ~/.config 
-    $ mkdir ~/.config/openstack
+    kolla-ansible post-deploy
+    sudo mkdir ~/.config 
+    mkdir ~/.config/openstack
     #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
-    $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
-    $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
+    sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
+    cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
 2. First checks - create first instance
