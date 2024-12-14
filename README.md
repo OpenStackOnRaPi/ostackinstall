@@ -206,6 +206,7 @@ $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # Network configs for the OpenStack lab   #
 #=========================================#
 network:
+
   version: 2
   renderer: networkd
 
