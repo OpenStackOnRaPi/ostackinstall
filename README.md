@@ -306,8 +306,7 @@ $ ping wp.pl
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
   * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges
   ```
-$ su
-$ usermod -aG sudo $USER
+$ sudo usermod -aG sudo $USER
 $ reboot
   ```
 
