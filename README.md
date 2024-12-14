@@ -383,6 +383,7 @@ $ rm -r <venv-root-folder-name->
 ```
 $ pip install -U pip
 $ pip install 'ansible>=6,<8'        ==>    for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
+                                            for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
 $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
       ==> for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
 ```
