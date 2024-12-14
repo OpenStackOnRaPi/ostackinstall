@@ -505,12 +505,13 @@ sudo tee /etc/kolla/conf/nova/nova-compute.conf << EOT
 resume_guests_state_on_host_boot = true
 
 ## according to OpenEuler needed for ARM
+#for RaPi 5 enable cortex-a76
+#for RaPi 4 enable cortex-a72
 [libvirt]
 virt_type = qemu
 cpu_mode = custom
 cpu_model = cortex-a76
-#cpu_model = cortex-a72
-#cpu_model = cortex-a76 for RaPi 5  
+#cpu_model = cortex-a72  
 EOT                                                   
 </pre>
 
