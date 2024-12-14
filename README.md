@@ -96,7 +96,7 @@ $ sudo netplan apply
 $ ping wp.pl
   ```
 
-7. System upgrade
+7. System upgrade (there is no package unattended-upgrades on debian, so remove can be skipped in this case)
 
   ```
 $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get dist-upgrade -y
