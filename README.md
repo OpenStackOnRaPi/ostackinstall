@@ -3,17 +3,17 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 
 ## Table of contents
 
-1. [Introduction](#introduction)
-2. [Assumptions](#assumptions)
-3. [Raspberry Pi preparation](#raspberry-pi-preparation)
+1. [Introduction](#1-introduction)
+2. [Assumptions](#2-assumptions)
+3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RaPi system configuration](#rapi-system-configuration)
    2. [RaPi network configuration](#rapi-network-configuration)
-4. [Management host preparation](#management-host-preparation)
+4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [Management host system configuration](#management-host-system-configuration)
-5. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
+5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) 
 
-## Introduction
+## 1. Introduction
 
 The scope of application of our clusters is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack, some of them being hard or impossible to show using AIO or virtualized OpenStack setups. Many of such features are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack and Kolla-Ansible config files. Considering that the time needed to practice and learn even basic things is non negigible, a decent amount of resources is needed to serve a dozen or more student teams in limited time. With our approach, one does not need to allocate dozens of servers each worth thousands of $ for that.
 
@@ -292,7 +292,7 @@ EOT
   ```
 
 
-## Management host preparation
+## 4. Management host preparation
 
 ### General notes
 
@@ -364,7 +364,7 @@ $ newgrp docker          <=== dodaje usera do grupy w bieżącej powłoce (bez r
 $ docker run hello-world
   ```
 
-## Kolla-Ansible and OpenStack installation
+## 5. Kolla-Ansible and OpenStack installation
 
 _**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the working (current) directory. When copy-pasting, adjust the commands according to your machine setup.**_
 
