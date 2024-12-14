@@ -62,47 +62,13 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 
    ```$ sudo usermod -aG sudo ubuntu```
 
-4. Stop NetworkManager, and and start systemd-networkd
-
-   _Note: for some historical reasons, we use networkd for defining persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (different form the one used by networkd)._
-
-  ```
-$ sudo systemctl stop NetworkManager
-$ sudo systemctl disable NetworkManager
-$ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
-$ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
-  ```
-
-5. Configure interface eth0 for networkd (it is case sensitive!)
-
-  ```
-$ sudo tee /etc/systemd/network/20-wired.network << EOT
-[Match]
-Name=eth0
-
-[Network]
-DHCP=yes
-EOT
-  ```
-
-6. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
-
-  ```
-$ sudo apt-get update && sudo apt-get -y install netplan.io
-$ sudo netplan generate
-$ sudo netplan apply
-
-# check the connectivity
-$ ping wp.pl
-  ```
-
-7. System upgrade (there is no package unattended-upgrades installed on debian, so remove can be skipped in this case)
+4. System upgrade (there is no package unattended-upgrades installed on debian, so remove can be skipped in this case)
 
   ```
 $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get dist-upgrade -y
   ```
 
-8. Install for the use by Ansible
+5. Install for the use by Ansible
 
   ```
 $ sudo apt-get install sshpass -y 
@@ -112,7 +78,7 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
   ```
 
-9. Install usefull tools
+6. Install usefull tools
 
    Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RaPi) 
 
@@ -123,7 +89,7 @@ $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 $ sensors
   ```
 
-10. Enable packet forwarding on the RaPi
+7. Enable packet forwarding on the RaPi
 
   ```
 $ sudo nano /etc/sysctl.conf
@@ -134,7 +100,7 @@ $ sudo nano /etc/sysctl.conf
 $ sudo sysctl -p
   ```
 
-11. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
+8. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
    Note: you can check first:
    
@@ -177,7 +143,23 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 #### Configuration implementation
 
-In the following, terminal commands to be run on each RaPi are shown (ssh to the RaPi first).
+1. Stop NetworkManager, and and start systemd-networkd
+
+   _Note: for some historical reasons, we use networkd for defining persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (different form the one used by networkd)._
+
+  ```
+$ sudo systemctl stop NetworkManager
+$ sudo systemctl disable NetworkManager
+$ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
+$ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
+  ```
+
+2. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+
+  ```
+$ sudo apt-get update && sudo apt-get -y install netplan.io
+
+3. Main host network configurations
 
 **NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective configurations of VLANS should also be introduced in the TP-Link switch). If you are interested in setting VLAN provider networks in your cluster, contact the instructor for more info.**
 
@@ -206,7 +188,8 @@ EOT
   ```
 
   * netplan, remaining settings for the network
-    * **NOTE: adjust the IP address of veth0 according to you network setup**
+    * **NOTE: adjust the IP address of veth0 on each RaPi according to you network setup**
+
   ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
@@ -285,6 +268,16 @@ network:
 EOT
   ```
 
+  * deploy the changes permanently - create and configure devices
+    Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
+
+  ```
+$ sudo netplan generate
+$ sudo netplan apply
+
+# check the connectivity
+$ ping wp.pl
+  ```
 
 ## 4. Management host preparation
 
