@@ -611,7 +611,7 @@ kolla-ansible deploy -i multinode
 
 ### Destroy your cluster
 
-To reinstall, first decrtroy currnet installation. Run
+To reinstall your cluster in case of failure, first destroy currnet installation. Run
 ```bash
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
