@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+
+# This is for release 2024.1
+#===========================
+
+set -o errexit
+set -o pipefail
+
+KOLLA_DEBUG=${KOLLA_DEBUG:-0}
+KOLLA_CONFIG_PATH=${KOLLA_CONFIG_PATH:-/etc/kolla}
+
+KOLLA_OPENSTACK_COMMAND=openstack
+
+if [[ $KOLLA_DEBUG -eq 1 ]]; then
+    set -o xtrace
+    KOLLA_OPENSTACK_COMMAND="$KOLLA_OPENSTACK_COMMAND --debug"
+fi
+
+# This script is meant to be run once after running start for the first
+# time.  This script downloads a cirros image and registers it.  Then it
+# configures networking and nova quotas to allow 40 m1.small instances
+# to be created.
+
+#ARCH=$(uname -m)
+ARCH=aarch64
+CIRROS_RELEASE=${CIRROS_RELEASE:-0.6.2}
+IMAGE_PATH=/opt/cache/files/
+IMAGE_URL=https://github.com/cirros-dev/cirros/releases/download/${CIRROS_RELEASE}/
+IMAGE=cirros-${CIRROS_RELEASE}-${ARCH}-disk.img
+IMAGE_NAME=cirros
+IMAGE_TYPE=linux
+
+IP_VERSION=${IP_VERSION:-4}
+
+DEMO_NET_CIDR=${DEMO_NET_CIDR:-'10.0.0.0/24'}
+DEMO_NET_GATEWAY=${DEMO_NET_GATEWAY:-'10.0.0.1'}
+DEMO_NET_DNS=${DEMO_NET_DNS:-'8.8.8.8'}
+
+# This EXT_NET_CIDR is your public network,that you want to connect to the internet via.
+# Enable external network: set ${ENABLE_EXT_NET:-1}; disable: ${ENABLE_EXT_NET:-0}
+ENABLE_EXT_NET=${ENABLE_EXT_NET:-1}
+EXT_NET_CIDR=${EXT_NET_CIDR:-'192.168.2.0/24'}
+EXT_NET_RANGE=${EXT_NET_RANGE:-'start=192.168.2.65,end=192.168.2.80'}
+EXT_NET_GATEWAY=${EXT_NET_GATEWAY:-'192.168.2.1'}
+
+# Sanitize language settings to avoid commands bailing out
+# with "unsupported locale setting" errors.
+unset LANG
+unset LANGUAGE
+LC_ALL=C
+export LC_ALL
+for i in curl openstack; do
+    if [[ ! $(type ${i} 2>/dev/null) ]]; then
+        if [ "${i}" == 'curl' ]; then
+            echo "Please install ${i} before proceeding"
+        else
+            echo "Please install python-${i}client before proceeding"
+        fi
+        exit
+    fi
+done
+
+# Test for clouds.yaml
+if [[ ! -f ${KOLLA_CONFIG_PATH}/clouds.yaml ]]; then
+    echo "${KOLLA_CONFIG_PATH}/clouds.yaml is missing."
+    echo " Did your deploy finish successfully?"
+    exit 1
+fi
+
+# Specify clouds.yaml file to use
+export OS_CLIENT_CONFIG_FILE=${KOLLA_CONFIG_PATH}/clouds.yaml
+
+# Select admin account from clouds.yaml
+export OS_CLOUD=kolla-admin
+
+
+# Test to ensure configure script is run only once
+if $KOLLA_OPENSTACK_COMMAND image list | grep -q cirros; then
+    echo "This tool should only be run once per deployment."
+    exit
+fi
+
+echo Checking for locally available cirros image.
+# Let's first try to see if the image is available locally
+# nodepool nodes caches them in $IMAGE_PATH
+if ! [ -f "${IMAGE_PATH}/${IMAGE}" ]; then
+    IMAGE_PATH='./'
+    if ! [ -f "${IMAGE_PATH}/${IMAGE}" ]; then
+        echo "None found, downloading cirros image (version $CIRROS_RELEASE)."
+        curl --fail -L -o ${IMAGE_PATH}/${IMAGE} ${IMAGE_URL}/${IMAGE}
+    fi
+else
+    echo Using cached cirros image from the nodepool node.
+fi
+
+echo Creating glance image.
+$KOLLA_OPENSTACK_COMMAND image create --disk-format qcow2 --container-format bare --public \
+    --property os_type=${IMAGE_TYPE} --file ${IMAGE_PATH}/${IMAGE} ${IMAGE_NAME}
+
+echo Configuring neutron.
+
+$KOLLA_OPENSTACK_COMMAND router create demo-router
+
+SUBNET_CREATE_EXTRA=""
+
+if [[ $IP_VERSION -eq 6 ]]; then
+    # NOTE(yoctozepto): Neutron defaults to "unset" (external) addressing for IPv6.
+    # The following is to use stateful DHCPv6 (RA for routing + DHCPv6 for addressing)
+    # served by Neutron Router and DHCP services.
+    # Setting this for IPv4 errors out instead of being ignored.
+    SUBNET_CREATE_EXTRA="${SUBNET_CREATE_EXTRA} --ipv6-ra-mode dhcpv6-stateful"
+    SUBNET_CREATE_EXTRA="${SUBNET_CREATE_EXTRA} --ipv6-address-mode dhcpv6-stateful"
+fi
+
+$KOLLA_OPENSTACK_COMMAND network create demo-net
+$KOLLA_OPENSTACK_COMMAND subnet create --ip-version ${IP_VERSION} \
+    --subnet-range ${DEMO_NET_CIDR} --network demo-net \
+    --gateway ${DEMO_NET_GATEWAY} --dns-nameserver ${DEMO_NET_DNS} \
+    ${SUBNET_CREATE_EXTRA} demo-subnet
+
+$KOLLA_OPENSTACK_COMMAND router add subnet demo-router demo-subnet
+
+if [[ $ENABLE_EXT_NET -eq 1 ]]; then
+    $KOLLA_OPENSTACK_COMMAND network create --external --provider-physical-network physnet1 \
+        --provider-network-type flat public1
+    $KOLLA_OPENSTACK_COMMAND subnet create --no-dhcp --ip-version ${IP_VERSION} \
+        --allocation-pool ${EXT_NET_RANGE} --network public1 \
+        --subnet-range ${EXT_NET_CIDR} --gateway ${EXT_NET_GATEWAY} public1-subnet
+
+    if [[ $IP_VERSION -eq 4 ]]; then
+        $KOLLA_OPENSTACK_COMMAND router set --external-gateway public1 demo-router
+    else
+        # NOTE(yoctozepto): In case of IPv6 there is no NAT support in Neutron,
+        # so we have to set up native routing. Static routes are the simplest.
+        # We need a static IP address for the router to demo.
+        $KOLLA_OPENSTACK_COMMAND router set --external-gateway public1 \
+            --fixed-ip subnet=public1-subnet,ip-address=${EXT_NET_DEMO_ROUTER_ADDR} \
+            demo-router
+    fi
+fi
+
+# Get admin user and tenant IDs
+ADMIN_PROJECT_ID=$($KOLLA_OPENSTACK_COMMAND project list | awk '/ admin / {print $2}')
+ADMIN_SEC_GROUP=$($KOLLA_OPENSTACK_COMMAND security group list --project ${ADMIN_PROJECT_ID} | awk '/ default / {print $2}')
+
+# Sec Group Config
+$KOLLA_OPENSTACK_COMMAND security group rule create --ingress --ethertype IPv${IP_VERSION} \
+    --protocol icmp ${ADMIN_SEC_GROUP}
+$KOLLA_OPENSTACK_COMMAND security group rule create --ingress --ethertype IPv${IP_VERSION} \
+    --protocol tcp --dst-port 22 ${ADMIN_SEC_GROUP}
+# Open heat-cfn so it can run on a different host
+$KOLLA_OPENSTACK_COMMAND security group rule create --ingress --ethertype IPv${IP_VERSION} \
+    --protocol tcp --dst-port 8000 ${ADMIN_SEC_GROUP}
+$KOLLA_OPENSTACK_COMMAND security group rule create --ingress --ethertype IPv${IP_VERSION} \
+    --protocol tcp --dst-port 8080 ${ADMIN_SEC_GROUP}
+
+if [ ! -f ~/.ssh/id_ecdsa.pub ]; then
+    echo Generating ssh key.
+    ssh-keygen -t ecdsa -N '' -f ~/.ssh/id_ecdsa
+fi
+if [ -r ~/.ssh/id_ecdsa.pub ]; then
+    echo Configuring nova public key and quotas.
+    $KOLLA_OPENSTACK_COMMAND keypair create --public-key ~/.ssh/id_ecdsa.pub mykey
+fi
+
+# Increase the quota to allow 2 m1.small instances to be created
+
+# 2 instances
+$KOLLA_OPENSTACK_COMMAND quota set --instances 4 ${ADMIN_PROJECT_ID}
+
+# 2 cores
+$KOLLA_OPENSTACK_COMMAND quota set --cores 2 ${ADMIN_PROJECT_ID}
+
+# 4096MB ram
+$KOLLA_OPENSTACK_COMMAND quota set --ram 4096 ${ADMIN_PROJECT_ID}
+
+# add default flavors, if they don't already exist
+if ! $KOLLA_OPENSTACK_COMMAND flavor list | grep -q m1.tiny; then
+    $KOLLA_OPENSTACK_COMMAND flavor create --id 1 --ram 512 --disk 1 --vcpus 1 m1.tiny
+    $KOLLA_OPENSTACK_COMMAND flavor create --id 2 --ram 1024 --disk 1 --vcpus 1 m1.small
+    $KOLLA_OPENSTACK_COMMAND flavor create --id 3 --ram 1024 --disk 2 --vcpus 1 m1.medium
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 4 --ram 2048 --disk 2 --vcpus 1 m1.medium2
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 1 --ram 512 --disk 1 --vcpus 1 m1.tiny
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 2 --ram 2048 --disk 20 --vcpus 1 m1.small
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 3 --ram 4096 --disk 40 --vcpus 2 m1.medium
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 4 --ram 8192 --disk 80 --vcpus 4 m1.large
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 5 --ram 16384 --disk 160 --vcpus 8 m1.xlarge
+#    $KOLLA_OPENSTACK_COMMAND flavor create --id 6 --ram 512 --disk 1 --vcpus 2 m2.tiny
+fi
+
+cat << EOF
+
+Done.
+
+To deploy a demo instance, run:
+
+openstack --os-cloud=kolla-admin server create \\
+    --image ${IMAGE_NAME} \\
+    --flavor m1.tiny \\
+    --key-name mykey \\
+    --network demo-net \\
+    demo1
+EOF
