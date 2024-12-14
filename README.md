@@ -146,12 +146,6 @@ $ sudo sysctl -p
 $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
   ```    
 
-12. Upgrade for any case, reboot
-
-```
-$ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo reboot    
-```
-
 ### RaPi network configuration
 
 #### Configuration description
