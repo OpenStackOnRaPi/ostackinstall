@@ -145,7 +145,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 1. Stop NetworkManager, and and start systemd-networkd
 
-   _Note: for some historical reasons, we use networkd for defining persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (different form the one used by networkd)._
+   _Note: for some historical reasons, we use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different form the one used by networkd)._
 
   ```
 $ sudo systemctl stop NetworkManager
@@ -158,10 +158,11 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 
   ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
+  ```
 
 3. Main host network configurations
 
-**NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective configurations of VLANS should also be introduced in the TP-Link switch). If you are interested in setting VLAN provider networks in your cluster, contact the instructor for more info.**
+  **NOTE: this setup is prepared for a flat provider network only in the OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set the VLANs that should be served by those devices (respective configurations of VLANS should also be introduced in the TP-Link switch). If you are interested in setting VLAN provider networks in your cluster, contact the instructor for more info.**
 
   * networkd, for veth0-veth0br pair
   ```
@@ -188,7 +189,7 @@ EOT
   ```
 
   * netplan, remaining settings for the network
-    * **NOTE: adjust the IP address of veth0 on each RaPi according to you network setup**
+    **NOTE:** adjust the IP address of veth0 in each RaPi according to you network setup.
 
   ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
@@ -274,7 +275,7 @@ EOT
   ```
 $ sudo netplan generate
 $ sudo netplan apply
-
+(ssh again)
 # check the connectivity
 $ ping wp.pl
   ```
