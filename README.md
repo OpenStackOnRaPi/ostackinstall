@@ -499,8 +499,8 @@ enable_neutron_provider_networks: "yes"
   * prepare file `/etc/kolla/conf/nova/nova-compute.conf`
 
 <pre>
-sudo mkdir -p /etc/kolla/config/neutron
-sudo tee  << EOT
+sudo mkdir -p /etc/kolla/config/nova
+sudo tee /etc/kolla/conf/nova/nova-compute.conf << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
@@ -511,6 +511,7 @@ cpu_mode = custom
 cpu_model = cortex-a76
 #cpu_model = cortex-a72
 #cpu_model = cortex-a76 for RaPi 5  
+EOT                                                   
 </pre>
 
  * prepare file `/etc/kolla/config/neutron/ml2_conf.ini`
