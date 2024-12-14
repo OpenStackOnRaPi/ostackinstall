@@ -192,7 +192,7 @@ EOT
   * 
     **NOTE 1:** adjust the IP address of veth0 in each RaPi according to you network setup.
 
-    **NOTE 1:** in case of problems during netplan generate (or apply) check the format of file /etc/netplan/50-cloud-init.yaml - it's YAML and spaces matter.
+    **NOTE 1:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
 <pre>
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
