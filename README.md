@@ -583,8 +583,8 @@ kolla-ansible deploy -i multinode
 
   * run init-runonce script that creates network, subnetwork, router, downloads iso image of cirros VM, and creates a couple of flavors in the admin project
     - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links:
-      - init-runonce.2023.1
-      - init-runonce.2024.1
+      - [init-runonce.2023.1](/init-runonce.2023.1)
+      - [init-runonce.2024.1](/init-runonce.2024.1)
      
     After running ./init-runonce.20xy.z, the first instance can be created:
 
