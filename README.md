@@ -531,3 +531,38 @@ flat_networks = physnet1
 EOT
 </pre>
 
+### Deploy OpenStack instance
+
+```bash
+kolla-ansible bootstrap-servers -i multinode 
+kolla-ansible prechecks -i multinode
+kolla-ansible deploy -i multinode
+```
+
+
+### Stop the cluster (switch off, not destroy) and start again
+
+1. Switch-off
+  * Stop containers
+    ```kolla-ansible -i multinode stop --yes-i-really-really-mean-it```
+    Note: if there is a notification about certain hosts being ureachable, run the stop command again.
+  * Switch off RbPis
+    - adapt and run script
+    ```bash
+    #!/bin/bash
+    # check the following links for the ansible command options used:
+    # https://www.jeffgeerling.com/blog/2018/reboot-and-wait-reboot-complete-ansible-playbook
+    # https://www.middlewareinventory.com/blog/ansible_wait_for_reboot_to_complete/
+    CLUSTER_FILE="multinode.zed"
+    ansible all -i $CLUSTER_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
+    ```
+    
+ 2. Start the cluster
+  * Power on
+  * Management host: activate virtual environment of your installation and run
+  ```bash
+  kolla-ansible -i multinode deploy-containers
+  ```
+
+
+
