@@ -574,12 +574,19 @@ kolla-ansible deploy -i multinode
     
 2. First checks - create first instance
 
-   First instance will be crerated from command line. To this end you have to enable python-openstackclient tool. After that, you will be able to create the instance.
+   First instance will be created from command line. To this end you have to enable python-openstackclient tool. After that, you will be able to create the instance.
    
   * source `admin-openrc.sh` script to enable python-openstackclient
     ``` bash
     source /etc/kolla/admin-openrc.sh
     ```
+
+  * run init-runonce script that creates network, subnetwork, router, downloads iso image of cirros VM, and creates a couple of flavors in the admin project
+    - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links:
+      - init-runonce.2023.1
+      - init-runonce.2024.1
+     
+    After running ./init-runonce.20xy.z, the first instance can be created:
 
   * create first instance
     ```bash
