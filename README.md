@@ -371,7 +371,7 @@ $ python3 -m venv kolla-2023.1
 $ source kolla-2023.1/bin/activate
 ```
 
-    * Note: deactivate active venv / completely delete given venv
+    - Note: deactivate active venv / completely delete given venv
 ```
 $ deactivate
 $ rm -r <venv-root-folder-name->
