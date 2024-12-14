@@ -3,9 +3,9 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
 
 ## Table of contents
 
-1. [Introduction](#1.-introduction)
-2. [Assumptions](#2.-assumptions)
-3. [Raspberry Pi preparation](#3.-raspberry-pi-preparation)
+1. [Introduction](#introduction)
+2. [Assumptions](#assumptions)
+3. [Raspberry Pi preparation](#raspberry-pi-preparation)
    1. [RaPi system configuration](#rapi-system-configuration)
    2. [RaPi network configuration](#rapi-network-configuration)
 4. [Management host preparation](#management-host-preparation)
