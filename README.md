@@ -501,7 +501,7 @@ enable_neutron_provider_networks: "yes"
 
 <pre>
 sudo mkdir -p /etc/kolla/config/nova
-sudo tee /etc/kolla/conf/nova/nova-compute.conf << EOT
+sudo tee /etc/kolla/config/nova/nova-compute.conf << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
