@@ -14,6 +14,7 @@ I this repo we describe how to install OpenStack on a Raspberry Pi cluster using
 5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Koll-Ansible installation](#kolla-ansible-installation)
    2. [Generate configuration files for Kolla-Ansible (default templates)](#generate-configuration-files-for-kolla-ansible-default-templates))
+   3. [Configure Kolla-Ansible files for specific OpenStack Depolyment](configure-kolla-ansible-files-for-specific-openstack-depolyment)
    
 ## 1. Introduction
 
