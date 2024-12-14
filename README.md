@@ -13,7 +13,7 @@ This repo describes how to install OpenStack on a Raspberry Pi cluster using Kol
    2. [Management host system configuration](#management-host-system-configuration)
 5. [Kolla-ansible and OpenStack installation](#kolla-ansible-and-openstack-installation) 
 
-## Introduction
+## 1. Introduction
 
 The scope of application of our clusters is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack, some of them being hard or impossible to show using AIO or virtualized OpenStack setups. Many of such features are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack and Kolla-Ansible config files. Considering that the time needed to practice and learn even basic things is non negigible, a decent amount of resources is needed to serve a dozen or more student teams in limited time. With our approach, one does not need to allocate dozens of servers each worth thousands of $ for that.
 
@@ -21,7 +21,7 @@ Currently, Raspberry Pi 4 is assumed as the HW implementation base. It is expect
 
 Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s - an excellent match for Raspbbery Pi.
 
-## Assumptions
+## 2. Assumptions
 
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
@@ -33,20 +33,20 @@ All procedures described in this guide assume HW and SW setup of the cluster as 
    * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
    * Kolla-Ansible 2023.1; respective envirnment components according to 
    * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained" recently) and we'll update these instructions accordingly after completing the tests 
-4. Network:
+3. Network:
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare
    * they are powered form TP-Link TL-SG105PE switch
    * TP-Link switch is connected to a local router with DHCP enabled to separate the network of OpenStack DC frome the rest of the network environment
    * **reserve a pool of IP addresses for the use by OpenStack**; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
-5. Virtualization
+4. Virtualization
    * Currently, we use qemu emulation for instances as we have not managed to get KVM working on Raspberry Pi under Kolla-Ansible OpenStack. This may change in the future.
-7. Notes
+5. Notes
    * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
    * for general education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
    * other details that may be relevant are explained in the description that follows
    * trials with Raspberry Pi 5 are planned for the near future
   
-## Raspberry Pi preparation
+## 3. Raspberry Pi preparation
 
 The following has to be done for each Rasppbery Pi in your cluster. The instructions will be given one by one, but you are free to gather them in bash scripts if you wish (sometimes a reboot is needed so you will have to prepare a couple of such scripts or you could prepare Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The configurations include two phases: system configuration (inslalls, upgrades, etc.) and configuration of the network configuration.
 
@@ -58,7 +58,7 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
   
 2. After switching on the RaPi, find its IP address. In our setup, check the ```Device list``` panel in the Linksys router GUI (access on, e.g., 192.168.1.1, login as root, pwd admin). SSH to the RaPi using the credentials from step 1 above.
 
-2. Assuming your user name on the RaPi is ubuntu (otherwise, adapt the following) run
+3. Assuming your user name on the RaPi is ubuntu (otherwise, adapt the following) run
 
    ```$ sudo usermod -aG sudo ubuntu```
 
@@ -96,13 +96,13 @@ $ sudo netplan apply
 $ ping wp.pl
   ```
 
-6. System upgrade
+7. System upgrade
 
   ```
 $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get dist-upgrade -y
   ```
 
-7. Installs for the use by Ansible
+8. Installs for the use by Ansible
 
   ```
 $ sudo apt-get install sshpass -y 
@@ -112,7 +112,7 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
   ```
 
-8. Install usefull tools
+9. Install usefull tools
 
    Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RaPi) 
 
@@ -123,7 +123,7 @@ $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 $ sensors
   ```
 
-8. Enable packet forwarding on the RaPi
+10. Enable packet forwarding on the RaPi
 
   ```
 $ sudo nano /etc/sysctl.conf
@@ -134,7 +134,7 @@ $ sudo nano /etc/sysctl.conf
 $ sudo sysctl -p
   ```
 
-9. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
+11. Install qemu-system-arm (qemu-kvm) - critical for enabling virtualization
 
    Note: you can check first:
    
@@ -146,7 +146,7 @@ $ sudo sysctl -p
 $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
   ```    
 
-10. Upgrade for any case, reboot
+12. Upgrade for any case, reboot
 
 ```
 $ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo reboot    
