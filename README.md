@@ -544,20 +544,37 @@ kolla-ansible deploy -i multinode
 
 1. Postdeployment
 
-In not present, create appropriate directories. Run: 
+   * Install `python-openstackclient` to access OpenStack commands in console
+     ```bash
+       pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2023.1
+       #other options
+       #pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
+       #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
+     ```
 
-```bash
-$ kolla-ansible post-deploy
-$ sudo mkdir ~/.config 
-$ mkdir ~/.config/openstack
-#if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
-$ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
-$ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
-```
+  * In not present, create appropriate directories. Run: 
+
+    ```bash
+    $ kolla-ansible post-deploy
+    $ sudo mkdir ~/.config 
+    $ mkdir ~/.config/openstack
+    #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
+    $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
+    $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
+    ```
+    
 2. First checks
 
+  * source `admin-openrc.sh` script to enable python-openstackclient
+    ``` bash
+    source /etc/kolla/admin-openrc.sh
+    ```
 
-3. 
+  * create first instance
+    ```bash
+    openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net demo1
+    openstack server list  <==== check the status of the instance
+    ```
 
 ### Stop the cluster (switch off, not destroy) and start again
 
