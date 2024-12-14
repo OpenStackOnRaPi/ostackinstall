@@ -496,4 +496,36 @@ enable_neutron_provider_networks: "yes"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
- 
+  * prepare file `/etc/kolla/conf/nova/nova-compute.conf`
+
+<pre>
+sudo mkdir -p /etc/kolla/config/neutron
+sudo tee  << EOT
+[DEFAULT]
+resume_guests_state_on_host_boot = true
+
+## according to OpenEuler needed for ARM
+[libvirt]
+virt_type = qemu
+cpu_mode = custom
+cpu_model = cortex-a76
+#cpu_model = cortex-a72
+#cpu_model = cortex-a76 for RaPi 5  
+</pre>
+
+ * prepare file `/etc/kolla/config/neutron/ml2_conf.ini`
+<pre>
+$ sudo mkdir -p /etc/kolla/config/neutron
+$ sudo tee /etc/kolla/config/neutron/ml2_conf.ini << EOT
+[ml2]
+type_drivers = flat,vlan,vxlan
+tenant_network_types = vxlan
+
+[ml2_type_vlan]
+network_vlan_ranges = physnet1:100:200
+
+[ml2_type_flat]
+flat_networks = physnet1
+EOT
+</pre>
+
