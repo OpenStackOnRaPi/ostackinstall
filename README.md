@@ -572,8 +572,10 @@ kolla-ansible deploy -i multinode
     $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
-2. First checks
+2. First checks - create first instance
 
+   First instance will be crerated from command line. To this end you have to enable python-openstackclient tool. After that, you will be able to create the instance.
+   
   * source `admin-openrc.sh` script to enable python-openstackclient
     ``` bash
     source /etc/kolla/admin-openrc.sh
