@@ -166,7 +166,7 @@ fi
 # Increase the quota to allow 2 m1.small instances to be created
 
 # 2 instances
-$KOLLA_OPENSTACK_COMMAND quota set --instances 4 ${ADMIN_PROJECT_ID}
+$KOLLA_OPENSTACK_COMMAND quota set --instances 2 ${ADMIN_PROJECT_ID}
 
 # 2 cores
 $KOLLA_OPENSTACK_COMMAND quota set --cores 2 ${ADMIN_PROJECT_ID}
