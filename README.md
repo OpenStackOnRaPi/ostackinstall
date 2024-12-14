@@ -396,7 +396,7 @@ $ sudo mkdir -p /etc/kolla
 $ sudo chown $USER:$USER /etc/kolla
 ```
 
-  * Copy globals.yml and passwords.yml to /etc/kolla directory, and kolla-ansible inventory files to our working directory. We will configure these file for our deployment soon.
+  * Copy globals.yml and passwords.yml to /etc/kolla directory, and kolla-ansible inventory file to our working directory. We will configure these file for our deployment soon.
 
     We remind ```~/labs/ostack``` is current working directory.
     
