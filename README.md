@@ -194,7 +194,7 @@ EOT
 
     **NOTE 1:** in case of problems during netplan generate (or apply) check the format of file /etc/netplan/50-cloud-init.yaml - it's YAML and spaces matter.
 
-  ```bash
+  ```yaml
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
