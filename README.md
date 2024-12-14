@@ -1,5 +1,5 @@
 # OpenStack installation on Raspberry Pi
-This repo describes how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible.
+I this repo we describe how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible.
 
 ## Table of contents
 
