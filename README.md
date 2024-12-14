@@ -581,7 +581,7 @@ kolla-ansible deploy -i multinode
     source /etc/kolla/admin-openrc.sh
     ```
 
-  * run init-runonce script that creates network, subnetwork, router, downloads iso image of cirros VM, and creates a couple of flavors in the admin project
+  * run init-runonce script that creates external network, subnetwork, router, downloads img image of cirros VM, and creates a couple of flavors in the admin project
     - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links:
       - [init-runonce.2023.1](/init-runonce.2023.1)
       - [init-runonce.2024.1](/init-runonce.2024.1)
@@ -591,7 +591,9 @@ kolla-ansible deploy -i multinode
   * create first instance
     ```bash
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net demo1
-    openstack server list  <==== check the status of the instance
+
+    # check the status of the instance
+    openstack server list
     ```
 
 ### Stop the cluster (switch off, not destroy) and start again
