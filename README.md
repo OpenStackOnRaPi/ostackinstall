@@ -601,7 +601,7 @@ kolla-ansible deploy -i multinode
 
 1. Switch-off
   * Stop containers
-    ```kolla-ansible -i multinode stop --yes-i-really-really-mean-it```
+    ```kolla-ansible stop -i multinode --yes-i-really-really-mean-it```
     Note: if there is a notification about certain hosts being ureachable, run the stop command again.
   * Switch off RbPis
     - adapt if needed and run the script
@@ -618,7 +618,7 @@ kolla-ansible deploy -i multinode
   * Power on
   * Management host: activate virtual environment of your installation and run
     ```bash
-    kolla-ansible -i multinode deploy-containers
+    kolla-ansible deploy-containers -i multinode 
     ```
 
 ### Destroy your cluster
