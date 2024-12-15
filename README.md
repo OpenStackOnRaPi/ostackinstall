@@ -1,6 +1,8 @@
 # OpenStack installation on Raspberry Pi
 I this repo we describe how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible.
 
+Note: currently, only Raspberry Pi 4B on Kolla--Ansible/OpenStack release 2023.1 can be used. Newr versions (of Kolla-Ansible and RPi 5) can not be recommended at the time of this writing (Dec. 2024) for problems with virtualization (incompatibilities between RPi platform and qemu/libvirt and/or lack of support for RPi5 in qemu).
+
 ## Table of contents
 
 1. [Introduction](#1-introduction)
