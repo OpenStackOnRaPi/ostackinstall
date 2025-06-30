@@ -560,8 +560,8 @@ kolla-ansible deploy -i multinode
     ```bash
     pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2023.1
     #other options
-    #pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
-    #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
+      #pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
+      #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
     ```
 
   * In not present, create appropriate directories. Run: 
