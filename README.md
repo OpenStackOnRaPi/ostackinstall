@@ -253,7 +253,7 @@ network:
         - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RAPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # Lnksys dhcp server
+          - 192.168.1.1     # Linksys dhcp server
           - 8.8.8.8
           - 8.8.2.2
       routes:
