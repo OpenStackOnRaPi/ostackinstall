@@ -30,25 +30,25 @@ The scope of application of our clusters is education. A cluster of this type al
 
 Currently, Raspberry Pi 4 is assumed as the HW implementation base. It is expected that extensions (if any) needed for Raspberry Pi 5 will be added to this guide once we test RaPi 5 setup sufficiently well.
 
-Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s - an excellent match for Raspbbery Pi.
+Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s which is perfect for Raspbbery Pi.
 
 ## 2. Assumptions
 
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
 1. Raspberry Pi 4
-   * amount: [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM + 2*8GB RAM] per cluster
+   * recommended amount: [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM + 2x8GB RAM] per cluster
    * all Pi are equipped with 32GB SD disk
-   * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack should work well for basic evaluation, but we have not tested this option.
+   * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack should work well for basic evaluation, but we have not tested this option thoroughly.
 2. SW
    * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
-   * Kolla-Ansible 2023.1; respective envirnment components according to 
-   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained" recently) and we'll update these instructions accordingly after completing the tests 
+   * Kolla-Ansible 2023.1; respective environment components according to 
+   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained" recently) and we'll update our guide accordingly after completing the tests 
 3. Network:
-   * the Pis are equipped with 802.3af/at PoE HAT from Waveshare
-   * they are powered form TP-Link TL-SG105PE switch
-   * TP-Link switch is connected to a local router with DHCP enabled to separate the network of OpenStack DC frome the rest of the network environment
-   * **reserve a pool of IP addresses for the use by OpenStack**; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
+   * the Pis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
+   * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
+   * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of local network infrastructure
+   * **reserve a pool of IP addresses for the use by OpenStack** on your local router; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them (two in case of two-board cluster)) will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
 4. Virtualization
    * Currently, we use qemu emulation for instances as we have not managed to get KVM working on Raspberry Pi under Kolla-Ansible OpenStack. This may change in the future.
 5. Notes
