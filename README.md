@@ -158,25 +158,25 @@ To make sure the above structure is persistent (survives system reboots), we use
 
    _Note: for some historical reasons, we use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different form the one used by networkd)._
 
-  ```
+```
 $ sudo systemctl stop NetworkManager
 $ sudo systemctl disable NetworkManager
 $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
-  ```
+```
 
 2. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
-  ```
+```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
-  ```
+```
 
 3. Main host network configurations
 
    _**NOTE: this setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, please contact the instructor for more info.**_
 
   * networkd, for veth0-veth0br pair
-  ```
+```
 $ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
@@ -185,10 +185,10 @@ Kind=veth
 [Peer]
 Name=veth0br
 EOT
-  ```
+```
 
   * networkd, for veth1-veth1br pair
-  ```
+```
 $ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
@@ -197,7 +197,7 @@ Kind=veth
 [Peer]
 Name=veth1br
 EOT
-  ```
+```
 
   * netplan, remaining settings for the network
   * 
