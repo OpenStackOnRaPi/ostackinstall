@@ -205,7 +205,7 @@ EOT
 
     **NOTE 1:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
-<pre>
+```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
@@ -282,18 +282,18 @@ network:
         - veth0br
         - veth1br
 EOT
-</pre>
+```
 
   * deploy the changes permanently - create and configure devices
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
 
-  ```
+```
 $ sudo netplan generate
 $ sudo netplan apply
 (ssh again)
 # check the connectivity
 $ ping wp.pl
-  ```
+```
 
 ## 4. Management host preparation
 
