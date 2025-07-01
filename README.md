@@ -390,7 +390,7 @@ $ deactivate
 $ rm -r <venv-root-folder-name->
 ```
 
-**Note: from now on, we work in virtual environment kolla-2023.1**
+**Note: from now on, we work in virtual environment kolla-2023.1. The versions of all conponents installed are compatible with kolla-2023.1 and should be changed appropriately for other releases of kolla-ansible (follow respective Kolla-Ansible Quickstart section for each release https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)**
 
   * Install Kolla-Ansible in the active venv
 ```
