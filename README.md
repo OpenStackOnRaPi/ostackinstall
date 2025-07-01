@@ -129,7 +129,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 
 Network devices on our RaPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration. This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces of OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
-```
+  ```
 network_interface                 neutron_external_interface 
 (OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
  IP 192.168.1.6x/24               no IP addr assigned (Kolla-Ansible requires that)
@@ -148,7 +148,7 @@ network_interface                 neutron_external_interface
                      +---------+
                      |  eth0   |      physical interface of RaPi (taken by brmux), no IP address is needed, but tagged VLANs 
                      +---------+      have to be configured in case of using provider VLAN networks
-```
+  ```
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan complements the definitions with the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible using netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
@@ -158,25 +158,26 @@ To make sure the above structure is persistent (survives system reboots), we use
 
    _Note: for some historical reasons, we use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different form the one used by networkd)._
 
-```
+  ```
 $ sudo systemctl stop NetworkManager
 $ sudo systemctl disable NetworkManager
 $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
-```
+  ```
 
 2. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
-```
+  ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
-```
+  ```
 
 3. Main host network configurations
 
    _**NOTE: this setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, please contact the instructor for more info.**_
 
   * networkd, for veth0-veth0br pair
-```
+
+  ```
 $ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
@@ -185,10 +186,10 @@ Kind=veth
 [Peer]
 Name=veth0br
 EOT
-```
+  ```
 
   * networkd, for veth1-veth1br pair
-```
+  ```
 $ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
@@ -197,7 +198,7 @@ Kind=veth
 [Peer]
 Name=veth1br
 EOT
-```
+  ```
 
   * netplan, remaining settings for the network
 
@@ -205,7 +206,7 @@ EOT
 
     **NOTE 1:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
-```
+  ```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
@@ -282,18 +283,19 @@ network:
         - veth0br
         - veth1br
 EOT
-```
+  ```
 
   * deploy the changes permanently - create and configure devices
+    
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
 
-```
+  ```
 $ sudo netplan generate
 $ sudo netplan apply
 (ssh again)
 # check the connectivity
 $ ping wp.pl
-```
+  ```
 
 ## 4. Management host preparation
 
