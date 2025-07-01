@@ -200,8 +200,8 @@ EOT
 ```
 
   * netplan, remaining settings for the network
-  * 
-    **NOTE 1:** adjust the IP address of veth0 in each RaPi according to you network setup.
+
+    **NOTE 1: adjust the IP address of veth0 in each RaPi according to you network setup.**
 
     **NOTE 1:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
