@@ -320,7 +320,7 @@ $ ping wp.pl
   * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges
   ```
 $ sudo usermod -aG sudo $USER
-$ reboot
+$ reboot    <= reboot is necessary if you make all the installation in one attempt for guaranteeing Ansible permissions
   ```
 
   * Run
