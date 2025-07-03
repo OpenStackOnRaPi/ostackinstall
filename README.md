@@ -395,11 +395,13 @@ $ rm -r <venv-root-folder-name->
   * Install Kolla-Ansible in the active venv
 ```
 $ pip install -U pip
-$ pip install 'ansible>=6,<8'        ==>    for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
-                                            for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
+$ pip install 'ansible>=6,<8'     ==>   for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
+                                        for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
+                                        for 2025.1: installing ansible is included in kolla-ansible installation so we skip this step for 2025.1
 $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
       ==> for 2024.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.1
           for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
+
 ```
 _**Note for the future:** if you see a notification simlar to "WARNING: Did not find branch or tag '@stable/2023.1', assuming revision or ref", you should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored in. Then change the name of supposed branch (```@stable``` in the example) to the right one (probably it will be ```@unmaintained```)._
 
