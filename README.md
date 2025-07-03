@@ -296,6 +296,7 @@ $ sudo netplan apply
 # check the connectivity
 $ ping wp.pl
   ```
+$ reboot
 
 ## 4. Management host preparation
 
