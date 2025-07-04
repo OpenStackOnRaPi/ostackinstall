@@ -491,6 +491,7 @@ ost04
 # check if ansible can reach target hosts (our RaPis):
 $ ansible -i multinode all -m ping
 ```
+**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis, you probably have to delete file ~/.ssh/known_hosts. 
 
   * file globals.yml is in ```/etc/kolla/globals.yml```
 
@@ -560,6 +561,8 @@ kolla-ansible bootstrap-servers -i multinode
 kolla-ansible prechecks -i multinode
 kolla-ansible deploy -i multinode
 ```
+
+**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis, you probably have to delete file ~/.ssh/known_hosts. 
 
 ### Postdeployment and first instance
 
