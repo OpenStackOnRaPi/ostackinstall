@@ -606,8 +606,10 @@ kolla-ansible deploy -i multinode
   * create first instance
     ```bash
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net demo1
-
-    # check the status of the instance
+    ```
+    
+  * check the status of the instance
+    ```
     openstack server list
     ```
 
