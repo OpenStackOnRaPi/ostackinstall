@@ -609,9 +609,11 @@ kolla-ansible deploy -i multinode
     ```bash
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net cirros1
     ```
-
     ```bash
-    openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine2
+    openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine1
+    ```
+    ```bash
+    openstack --os-cloud=kolla-admin server create --image ubuntu --flavor m1.large --key-name mykey --network demo-net ubuntu1
     ```
     
   * check the status of the instance
