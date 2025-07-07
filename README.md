@@ -613,7 +613,7 @@ kolla-ansible deploy -i multinode
     openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine1
     ```
     ```bash
-    openstack --os-cloud=kolla-admin server create --image ubuntu --flavor m1.large --key-name mykey --network demo-net ubuntu1
+    openstack --os-cloud=kolla-admin server create --image ubuntu --flavor m1.medium --key-name mykey --network demo-net ubuntu1
     ```
     
   * check the status of the instance
