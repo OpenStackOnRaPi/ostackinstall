@@ -178,7 +178,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
   * networkd, for veth0-veth0br pair
 
 ```
-$ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
+sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
 Name=veth0
