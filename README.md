@@ -599,20 +599,28 @@ kolla-ansible deploy -i multinode
     ```
 
   * run init-runonce script that creates external network, subnetwork, router, downloads img image of cirros VM, and creates a couple of flavors in the admin project
-    - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links:
-      - [init-runonce.2023.1](/init-runonce.2023.1)
+    - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links (select appropriate os-name):
+      - [init-runonce.2023.1.<os-name>](/init-runonce.2023.1)
       - [init-runonce.2024.1](/init-runonce.2024.1)
      
     After running ./init-runonce.20xy.z, the first instance can be created:
 
   * create first instance
+    (add link to cirros script)
     ```bash
+    ./init-runonce.2023.1.cirros
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net cirros1
     ```
+
+    (add link to alpine script)
     ```bash
+    ./init-runonce.2023.1.alpine
     openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine1
     ```
+
+    (add link to ubuntu script)
     ```bash
+    ./init-runonce.2023.1.ubuntu
     openstack --os-cloud=kolla-admin server create --image ubuntu --flavor m1.medium --key-name mykey --network demo-net ubuntu1
     ```
     
