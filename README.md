@@ -537,8 +537,8 @@ resume_guests_state_on_host_boot = true
 [libvirt]
 virt_type = qemu
 cpu_mode = custom
-cpu_model = cortex-a72
-#cpu_model = cortex-a76  
+cpu_models = cortex-a72
+#cpu_models = cortex-a76  
 EOT                                                   
 </pre>
 
