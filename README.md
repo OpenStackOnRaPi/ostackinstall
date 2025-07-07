@@ -564,7 +564,9 @@ kolla-ansible prechecks -i multinode
 kolla-ansible deploy -i multinode
 ```
 
-**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis, you probably have to delete file ~/.ssh/known_hosts. 
+**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis and receive "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!", you have to **delete file ~/.ssh/known_hosts**.
+
+atal: [rapi]: UNREACHABLE! => {"changed": false, "msg": "Data could not be sent to remote host \"rapi\". Make sure this host can be reached over ssh: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! 
 
 ### Postdeployment and first instance
 
