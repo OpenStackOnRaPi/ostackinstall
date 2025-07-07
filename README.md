@@ -16,7 +16,7 @@ Note: currently, only Raspberry Pi 4B and Kolla-Ansible/OpenStack release 2023.1
 5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Koll-Ansible installation](#kolla-ansible-installation)
    2. [Generate configuration files for Kolla-Ansible (default templates)](#generate-configuration-files-for-kolla-ansible-default-templates))
-   3. [Configure Kolla-Ansible files for specific OpenStack depolyment](configure-kolla-ansible-files-for-specific-openstack-depolyment)
+   3. [Configure Kolla Ansible files for specific OpenStack depolyment](configure-kolla-ansible-files-for-specific-openstack-depolyment)
    4. [Deploy OpenStack instance](#deploy-openstack-instance)
    5. [Postdeployment and first instance](#postdeployment-and-first-instance)
    6. [Stop the cluster and start again](#stop-the-cluster-switch-off-not-destroy-and-start-again)
@@ -457,7 +457,7 @@ $ cat /etc/hosts
 ...
 ```
 
-### Configure Kolla-Ansible files for specific OpenStack depolyment
+### Configure Kolla Ansible files for specific OpenStack depolyment
 
 1. Prepare passwords.yml file
 
