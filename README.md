@@ -132,7 +132,7 @@ Network devices on our RaPi have to meet Kolla-Ansible requirements for network 
   ```
 network_interface                 neutron_external_interface 
 (OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
- IP 192.168.1.6x/24               no IP addr assigned (Kolla-Ansible requires that)
+static IP 192.168.1.6x/24         no IP addr assigned (Kolla-Ansible requires that)
     +---------+                     +---------+
     |  veth0  |                     |  veth1  | <=== intfcs to be declared in globals.yml, used by Kolla-Ansible and OpenStack
     +---------+                     +---------+
