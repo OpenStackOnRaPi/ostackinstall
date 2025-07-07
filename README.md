@@ -287,6 +287,8 @@ network:
 EOT
 ```
 
+  * now edit file /etc/netplan/50-cloud-init.yaml and check/correct IP addresses according to your environment.
+
   * deploy the changes permanently - create and configure devices
     
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
