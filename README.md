@@ -431,7 +431,7 @@ $ kolla-ansible install-deps
   **WARNING:** if you see error message _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change the branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).
 
   * Update Ansible configuration file ```ansible.cfg``` (it can be kept in the working directory or in directory ```/etc/ansible/ansible.cfg```)
-```
+```bash
 $ tee ansible.cfg << EOT
 [defaults]
 host_key_checking=False
@@ -558,7 +558,7 @@ EOT
 
 ### Deploy OpenStack instance
 
-```bash
+```
 kolla-ansible bootstrap-servers -i multinode 
 kolla-ansible prechecks -i multinode
 kolla-ansible deploy -i multinode
@@ -580,7 +580,7 @@ kolla-ansible deploy -i multinode
 
   * In not present, create appropriate directories. Run: 
 
-    ```bash
+    ```
     kolla-ansible post-deploy
     sudo mkdir ~/.config 
     mkdir ~/.config/openstack
@@ -607,7 +607,11 @@ kolla-ansible deploy -i multinode
 
   * create first instance
     ```bash
-    openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net demo1
+    openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net cirros1
+    ```
+
+    ```bash
+    openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.medium --key-name mykey --network demo-net alpine2
     ```
     
   * check the status of the instance
