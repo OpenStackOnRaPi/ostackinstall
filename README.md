@@ -190,7 +190,7 @@ EOT
 
   * networkd, for veth1-veth1br pair
 ```
-$ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
+sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
 Name=veth1
