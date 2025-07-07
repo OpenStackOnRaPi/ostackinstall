@@ -424,8 +424,8 @@ $ sudo chown $USER:$USER /etc/kolla
     We remind ```~/labs/ostack``` is current working directory.
     
 ```
-$ cp -r kolla-2023.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
-$ cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
+$ sudo cp -r kolla-2023.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
+$ sudo cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
 ```
 
   * Install Ansible Galaxy dependencies (bez sudo)
