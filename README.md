@@ -83,7 +83,7 @@ $ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo a
 
   ```
 $ sudo apt-get install sshpass -y 
-$ sudo apt-get install ufw -y     <=== needed on debian, not necessary on Ubuntu
+$ sudo apt-get install ufw -y     <=== needed in Debian, default in Ubuntu
 $ sudo visudo    ==> change user group "sudo" permissions to:
 # Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
