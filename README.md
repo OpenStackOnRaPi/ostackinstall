@@ -560,13 +560,13 @@ EOT
 
 ### Deploy OpenStack instance
 
+**Warning:** In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
+
 ```
 kolla-ansible bootstrap-servers -i multinode 
 kolla-ansible prechecks -i multinode
 kolla-ansible deploy -i multinode
 ```
-
-**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis and receive "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!", you have to **delete file ~/.ssh/known_hosts**.
 
 ### Postdeployment and first instance
 
