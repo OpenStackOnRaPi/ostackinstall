@@ -296,7 +296,7 @@ EOT
 ```
 $ sudo netplan generate
 $ sudo netplan apply
-(ssh disconnects, ssh again)
+(if ssh disconnects do ssh again)
 # check the connectivity
 $ ping wp.pl
 ```
