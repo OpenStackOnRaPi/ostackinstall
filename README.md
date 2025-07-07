@@ -177,7 +177,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 
   * networkd, for veth0-veth0br pair
 
-  ```
+```
 $ sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
@@ -186,10 +186,10 @@ Kind=veth
 [Peer]
 Name=veth0br
 EOT
-  ```
+```
 
   * networkd, for veth1-veth1br pair
-  ```
+```
 $ sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
@@ -198,15 +198,17 @@ Kind=veth
 [Peer]
 Name=veth1br
 EOT
-  ```
+```
 
   * netplan, remaining settings for the network
 
     **NOTE 1: adjust the IP address of veth0 in each RaPi according to you network setup.**
 
-    **NOTE 1:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
+    **NOTE 2:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
-  ```
+    **Warning:** this part sometimes does not copy-paste correctly. If command `sudo netplan generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by adding missing spaces. 
+
+```
 $ sudo tee /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
@@ -283,19 +285,19 @@ network:
         - veth0br
         - veth1br
 EOT
-  ```
+```
 
   * deploy the changes permanently - create and configure devices
     
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
 
-  ```
+```
 $ sudo netplan generate
 $ sudo netplan apply
 (ssh again)
 # check the connectivity
 $ ping wp.pl
-  ```
+```
 $ reboot
 
 ## 4. Management host preparation
