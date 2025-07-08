@@ -100,6 +100,11 @@ $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
 $ sensors
   ```
 
+   * check temperature every 20 sec.
+```
+while :; do sensors; sleep 20; done
+```
+
 7. Enable packet forwarding on the RaPi
 
   ```
