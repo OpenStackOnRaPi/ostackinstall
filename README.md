@@ -289,7 +289,10 @@ network:
 EOT
 ```
 
-  * now edit file /etc/netplan/50-cloud-init.yaml and check/correct IP addresses according to your environment.
+  * now edit file `/etc/netplan/50-cloud-init.yaml` and check/correct IP addresses according to your environment.
+```
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
 
   * deploy the changes permanently - create and configure devices
     
