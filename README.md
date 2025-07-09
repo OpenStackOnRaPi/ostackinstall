@@ -653,14 +653,14 @@ kolla-ansible deploy -i multinode
     Note: if there is a notification about certain hosts being ureachable, run the stop command again.
     
   * Switch off RbPis
-    - adapt if needed and run the script
+    - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command)
     ```bash
     #!/bin/bash
     # check the following links for the ansible command options used:
     # https://www.jeffgeerling.com/blog/2018/reboot-and-wait-reboot-complete-ansible-playbook
     # https://www.middlewareinventory.com/blog/ansible_wait_for_reboot_to_complete/
     CLUSTER_FILE="multinode"
-    ansible all -i $CLUSTER_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
+    ansible all -i $CLUSTER_INVENTORY_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
     ```
     
  2. Start the cluster
