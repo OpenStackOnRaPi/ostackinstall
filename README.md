@@ -37,7 +37,8 @@ Worth of noting is also that our clusters are a perfect base for experimenting w
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
 1. Raspberry Pi 4
-   * recommended amount: [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM + 2x8GB RAM] per cluster
+   * recommended sets: [1x4GB RAM + 1x8GB RAM] or [2x4GB RAM + 2x8GB RAM] per cluster
+     * control node should run on 8GB machine
    * all Pi are equipped with 32GB SD disk
    * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack should work well for basic evaluation, but we have not tested this option thoroughly.
 2. SW
