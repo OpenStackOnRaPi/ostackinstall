@@ -647,8 +647,11 @@ kolla-ansible deploy -i multinode
 
 1. Switch-off
   * Stop containers
-    ```kolla-ansible stop -i multinode --yes-i-really-really-mean-it```
+    ```
+    kolla-ansible stop -i multinode --yes-i-really-really-mean-it
+    ```
     Note: if there is a notification about certain hosts being ureachable, run the stop command again.
+    
   * Switch off RbPis
     - adapt if needed and run the script
     ```bash
@@ -663,14 +666,14 @@ kolla-ansible deploy -i multinode
  2. Start the cluster
   * Power on
   * Management host: activate virtual environment of your installation and run
-    ```bash
+    ```
     kolla-ansible deploy-containers -i multinode 
     ```
 
 ### Destroy your cluster
 
 To reinstall your cluster in case of failure, first destroy currnet installation. Run
-```bash
+```
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
