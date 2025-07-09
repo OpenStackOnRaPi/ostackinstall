@@ -77,9 +77,7 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 
 4. System upgrade (there is no package unattended-upgrades installed on debian, so remove can be skipped in this case)
 
-  ```
-$ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get upgrade -y
-  ```
+   ```$ sudo apt-get remove unattended-upgrades -y && sudo apt-get update -y && sudo apt-get upgrade -y```
 
 5. Install for the use by Ansible
 
