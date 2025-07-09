@@ -41,7 +41,7 @@ All procedures described in this guide assume HW and SW setup of the cluster as 
      * at least [1x4GB RAM + 1x8GB RAM]
      * control node should run on 8GB machine
    * all Pi are equipped with 32GB SD disk
-   * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack could work well for very basic evaluation, but we have not tested this option thoroughly. We observe that one can create a single cirros instance with 512MB memory, but creating a second instance breaks OpenStack because of lack of memory.
+   * Note: we believe that a single RaPi 8GB RAM in all-in-one setup of Kolla-Ansible OpenStack could work well for very basic evaluation, but we have not tested this option thoroughly. However, we've observed that in -all-in-one OpenStack with default Kolla-Ansible settings, one can successfully create a single cirros instance with 512MB memory, but creating second similar instance breaks OpenStack because of lack of memory.
 2. SW
    * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
    * Kolla-Ansible 2023.1; respective environment components according to 
