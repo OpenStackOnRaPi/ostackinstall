@@ -643,7 +643,7 @@ kolla-ansible deploy -i multinode
     openstack server list
     ```
 
-### Stop the cluster (switch off, not destroy) and start again
+### Stop/start the cluster (switch off, not destroy / and start again)
 
 1. Switch-off
   * Stop containers
