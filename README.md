@@ -19,8 +19,9 @@ Note: currently, only Raspberry Pi 4B and Kolla-Ansible/OpenStack release 2023.1
    3. [Configure Kolla-Ansible files for specific OpenStack depolyment](#configure-kolla-ansible-files-for-specific-openstack-depolyment)
    4. [Deploy OpenStack instance](#deploy-openstack-instance)
    5. [Postdeployment and first instance](#postdeployment-and-first-instance)
-   6. [Stop the cluster and start again](#stopstart-the-cluster-switch-off-not-destroy--and-start-again)
-   7. [Destroy your cluster](#destroy-your-cluster)
+6. [Managing your cluster](#managing-your-cluster)
+   1. [Stop the cluster and start again](#stopstart-the-cluster-switch-off-not-destroy--and-start-again)
+   2. [Destroy your cluster](#destroy-your-cluster)
 
 
    
@@ -642,6 +643,8 @@ kolla-ansible deploy -i multinode
     ```
     openstack server list
     ```
+
+## Managing your cluster 
 
 ### Stop/start the cluster (switch off, not destroy / and start again)
 
