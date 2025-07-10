@@ -593,7 +593,7 @@ kolla-ansible deploy -i multinode
       #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
     ```
 
-  * In not present, create appropriate directories. Run: 
+  * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed by install-runonce stript in a while to create your first instance): 
 
     ```
     kolla-ansible post-deploy
