@@ -46,7 +46,7 @@ All procedures described in this guide assume HW and SW setup of the cluster as 
 2. SW
    * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
    * Kolla-Ansible 2023.1; respective environment components according to 
-   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained" recently) and we'll update our guide accordingly after completing the tests 
+   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained") and we'll update this guide accordingly after completing the tests 
 3. Network:
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
