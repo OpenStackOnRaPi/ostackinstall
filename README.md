@@ -606,7 +606,7 @@ kolla-ansible deploy -i multinode
     
 2. First checks - create first instance
 
-   Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line (similar to creating pods in Kubernetes using kubctl).
+   Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line using openstack command line client (similar to creating pods in Kubernetes using kubctl).
 
   * run init-runonce script that creates external network, subnetwork, router, downloads img image of cirros VM, and creates a couple of flavors in the admin project
     - init-runonce script files for various kolla-ansible/OpenStack releases are available under following links. Select appropriate os-name, possibly editing it to change some settings according to your environment (e.g., external network address range):
