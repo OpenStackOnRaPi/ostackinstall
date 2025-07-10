@@ -114,6 +114,9 @@ $ sudo nano /etc/sysctl.conf
 # uncomment the line: net.ipv4.ip_forward=1
 # save the file, quit and check if forwarding has been activated:
 
+# alternatively - with one-line command, but from root shell
+root@rapi3:/home/rapi# sudo printf 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+
 $ sudo sysctl -p
   ```
 
