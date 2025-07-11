@@ -214,7 +214,7 @@ EOT
     **Warning:** this part sometimes does not copy-paste correctly. If command `sudo netplan generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by adding missing spaces. 
 
 ```
-sudo tee /etc/netplan/50-cloud-init.yaml << EOT
+sudo tee -a /etc/netplan/50-cloud-init.yaml << EOT
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot.  In ubuntu, to disable
 # cloud-init's network configuration capabilities, write a file
