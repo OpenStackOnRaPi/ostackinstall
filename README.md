@@ -416,7 +416,8 @@ $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.
           for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
 
 ```
-_**Note for the future:** if you see a notification simlar to "WARNING: Did not find branch or tag '@stable/2023.1', assuming revision or ref", you should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored in. Then change the name of supposed branch (```@stable``` in the example) to the right one (probably it will be ```@unmaintained```)._
+> [WARNING]
+> If you see error message similar to _```error: pathspec 'stable/<release-tag>2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored and where you will find its current name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the release tag in the branch name from ```stable/2023.1``` to ```unmaintained/2023.1```). In case of using other release than 2023.1 similar procedure applies.
 
 ### Generate configuration files for Kolla-Ansible (default templates)
 
@@ -438,8 +439,6 @@ $ sudo cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
 ```
 $ kolla-ansible install-deps
 ```
-  **WARNING:** if you see error message _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, then you need to edit a file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml``` and change the branch name from ```stable/2023.1``` to ```unmaintained/2023.1```).
-
   * Update Ansible configuration file ```ansible.cfg``` (it can be kept in the working directory or in directory ```/etc/ansible/ansible.cfg```)
 ```bash
 $ tee ansible.cfg << EOT
