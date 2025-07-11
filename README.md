@@ -293,6 +293,7 @@ EOT
 ```
 
   * now edit file `/etc/netplan/50-cloud-init.yaml` and check/correct IP addresses according to your environment.
+  * $\color{red}{\textsf{now edit file `/etc/netplan/50-cloud-init.yaml` and check/correct IP addresses according to your environment.}}$
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
