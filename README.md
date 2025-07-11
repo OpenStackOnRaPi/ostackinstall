@@ -414,10 +414,9 @@ $ pip install 'ansible>=6,<8'     ==>   for 2024.2: pip install 'ansible-core>=2
 $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
       ==> for 2024.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.1
           for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
-
 ```
 
-> [WARNING]
+> [!WARNING]
 > If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored and where you will find its current name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1```). In case of using other release than 2023.1 similar procedure applies.
 
 ### Generate configuration files for Kolla-Ansible (default templates)
