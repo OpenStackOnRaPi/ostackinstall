@@ -1,7 +1,7 @@
 # OpenStack on Raspberry Pi
 In this repo we describe how to install OpenStack on Raspberry Pi cluster using Kolla-Ansible.
 
-As of mid July 2025, both Raspberry Pi 4B and Raspberry Pi 5, and Kolla-Ansible release 2023.1 have been tested successfully and can be recommended for deployment of OpenStack. OpenStack have been in two variants: with QEMU emulation and with KVM enabled. Both variants work well on RPi4/5 and K-A 2023.1, with KVM being the prefered one. Newer versions of Kolla-Ansible and RPi 5 can not be recommended at present. There seem to be incompatibilities between the RPi platform and qemu/libvirt and/or lack of support for RPi5 in qemu. Therefore, even if some parts of this guide mention releases other than 2023.1, they are currently for illustrative purposes only and not for practical use.
+As of mid July 2025, both Raspberry Pi 4B and Raspberry Pi 5, and Kolla-Ansible release 2023.1 have been tested successfully and can be recommended for deployment of OpenStack. OpenStack have been deployed in two variants: with QEMU emulation and with KVM enabled. Both variants work well on RPi4/5 and K-A 2023.1, with KVM being the prefered one. Newer versions of Kolla-Ansible and RPi 5 can not be recommended at present. There seem to be incompatibilities between the RPi platform and qemu/libvirt and/or lack of support for RPi5 in qemu. Therefore, even if some parts of this guide mention releases other than 2023.1, they are currently for illustrative purposes only and not for practical use.
 
 ## Table of contents
 
