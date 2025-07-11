@@ -297,7 +297,6 @@ EOT
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
-
   * deploy the changes permanently - create and configure devices
     
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
