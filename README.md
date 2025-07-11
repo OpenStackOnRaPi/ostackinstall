@@ -83,8 +83,7 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 5. Install for the use by Ansible
 
   ```
-$ sudo apt-get install sshpass -y 
-$ sudo apt-get install ufw -y     <=== needed in Debian, default in Ubuntu
+$ sudo apt-get install sshpass -y && sudo apt-get install ufw -y  <=== "install fw" needed only on Debian, default on Ubuntu
 $ sudo visudo    ==> change user group "sudo" permissions to:
 # Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
