@@ -291,8 +291,8 @@ network:
         - veth1br
 EOT
 ```
-> [!IMPORTANT]
-> *Now edit file `/etc/netplan/50-cloud-init.yaml` and set correct IP addresses for your RPi.
+  > [!IMPORTANT]
+  > Now edit file `/etc/netplan/50-cloud-init.yaml` and set correct IP addresses for your RPi.
 
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
