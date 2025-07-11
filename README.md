@@ -481,6 +481,9 @@ $ sudo nano /etc/kolla/passwords.yml
 
 2. Prepare inventory file ```multinode``` and feature configuration file ```globals.yml```
 
+> [!IMPORTANT]
+> Kolla-Ansible expects the user to assign OpenStack roles (`control`, `network`, `compute`, etc.) to hosts and specify role allocation in inventory file. Multiple experiments have shown that the roles `compute` and `network` MUST be separated when using with RPis 8GB RAM, i.e., allocated to different hosts. Otherwise the cluster becomes very unstable. In all-in-one installation (one RPi in the cluster) the node runs out of memory very soon after creating the first cirros VM crushing the OpenStack. Moreover, the compute/network node runs with almost zero margin after creating second cirros VM even when there are dedicated compute nodes and the control/network node has not been assigned compute role. These conclusions are reflected below in the example fragment of inventory file where `copmute` nad `network` roles are assigned to different hosts (ost4 and ost3, respectively).
+
   * file ```multinode``` is in the working directory
 ```
 $ sudo nano multinode
@@ -490,14 +493,13 @@ $ sudo nano multinode
 ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
 [network]
-ost04
+ost03
 
 [compute]
 ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
-ost04
 
 [monitoring]
-ost04
+#monitoring01
 
 [storage]
 #storage01
