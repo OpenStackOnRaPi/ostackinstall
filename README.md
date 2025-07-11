@@ -519,7 +519,7 @@ $ ansible -i multinode all -m ping
 
     **Attributes to update**
 
-    **Warning: kolla_internal_vip_address must be anassigned (unused - non-pingable) IP address in your network (in particular different from the address assigned to veth0)**
+    **Warning: kolla_internal_vip_address MUST be anassigned (unused) IP address in your network (in particular different from the address assigned to veth0)**
     
 ```
 $ sudo nano /etc/kolla/globals.yml
@@ -530,27 +530,28 @@ openstack_tag_suffix: "-aarch64"
 kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
-nova_compute_virt_type: "qemu" 
 enable_neutron_provider_networks: "yes"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
   * prepare file `/etc/kolla/conf/nova/nova-compute.conf`
+    Here, we actually only request that created virtual machines should be automatically brought to their previous state (e.g., ACTIVE) when the host is booted. This is convenient when we stop OpenStack (e.g., to shut down the cluster for some time) and start it again afterwards. The latter is described in section [Stop the cluster and start again](#stopstart-the-cluster-switch-off-not-destroy--and-start-again).
+
+> [!NOTE]
+> File /etc/kolla/config/nova/nova-compute.conf can overwrite the settings given in file `/etc/kolla/globals.yml`. In particular, we can set non-default virtualization type and cmu mode and type in [libvirt] section. Below, such customization for Raspberry Pi 4 is shown but commented out. It actually works for RPi4, but as of this writing (July 2025) it has not counter part for Raspberry Pi 5 (libvirt seems not to support cortex-a74 cpu model). QEMU emulation is slower than KVM and in fact the latter is the default option in Kolla-Ansible when processor architecture of hosts is aarch64. In such a case (aarch64) libvirt driver in nova-compute selects host-passthrough CPU mode as the only choice (see here for more on that). All in all, we use KVM for both Raspberry Pi 4 and 5 for which it iss sufficient to not change default settings for  in globals.yml and not specify [libvirt] section in `nova-compute.conf'.
 
 <pre>
 sudo mkdir -p /etc/kolla/config/nova
-sudo tee /etc/kolla/config/nova/nova-compute.conf << EOT
+sudo tee /etc/kolla/config/nova/ << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
-## according to OpenEuler needed for ARM
 #for RaPi 5 enable cortex-a76 <== currently lack of support of RPi5 board in qemu
 #for RaPi 4 enable cortex-a72
-[libvirt]
-virt_type = qemu
-cpu_mode = custom
-cpu_models = cortex-a72
-#cpu_models = cortex-a76  
+#[libvirt]
+#virt_type = qemu
+#cpu_mode = custom
+#cpu_models = cortex-a72
 EOT                                                   
 </pre>
 
