@@ -180,7 +180,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 
    _**NOTE: this setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, please contact the instructor for more info.**_
 
-  * networkd, for veth0-veth0br pair
+  * for `networkd` backend, for `veth0-veth0br` pair
 
 ```
 sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
@@ -193,7 +193,7 @@ Name=veth0br
 EOT
 ```
 
-  * networkd, for veth1-veth1br pair
+  * for `networkd` backend, for `veth1-veth1br` pair
 ```
 sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
@@ -205,7 +205,7 @@ Name=veth1br
 EOT
 ```
 
-  * netplan, remaining settings for the network
+  * for `netplan` utility, remaining settings of the network
 
     **NOTE 1: adjust the IP address of veth0 in each RaPi according to you network setup.**
 
@@ -292,7 +292,7 @@ network:
 EOT
 ```
   > [!IMPORTANT]
-  > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust IP, DHCP server and DNS server addresses for your RPi (see Netplan code above).
+  > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust IP, DHCP server and DNS server addresses for your RPi (see the Netplan code above).
 
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
@@ -304,11 +304,12 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 $ sudo netplan generate
 $ sudo netplan apply
+
 (if ssh disconnects do ssh again)
 # check the connectivity
 $ ping wp.pl
+$ sudo reboot
 ```
-$ reboot
 
 ## 4. Management host preparation
 
