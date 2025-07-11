@@ -261,12 +261,12 @@ network:
         - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RAPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # Linksys dhcp server
+          - 192.168.1.1     # ADJUST to Linksys dhcp server
           - 8.8.8.8
           - 8.8.2.2
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.1.1  # Linksys router
+          via: 192.168.1.1  # ADJUST to Linksys router
     veth0br:
       dhcp4: false
       dhcp6: false
@@ -292,7 +292,7 @@ network:
 EOT
 ```
   > [!IMPORTANT]
-  > Now edit file `/etc/netplan/50-cloud-init.yaml` and set correct IP addresses for your RPi.
+  > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust IP, DHCP server and DNS server addresses for your RPi (see Netplan code above).
 
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
