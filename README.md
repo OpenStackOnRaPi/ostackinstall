@@ -592,7 +592,7 @@ kolla-ansible deploy -i multinode
 
 ### Postdeployment and first instance
 
-1. Postdeployment
+**1. Postdeployment**
 
   * Install `python-openstackclient` to access OpenStack commands in console
     ```bash
@@ -613,7 +613,7 @@ kolla-ansible deploy -i multinode
     cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
-2. First checks - create first instance
+**2. First checks - create first instance**
 
    Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line using openstack command line client (similar to creating pods in Kubernetes using kubctl).
 
@@ -660,11 +660,11 @@ kolla-ansible deploy -i multinode
 
 ## Managing your cluster 
 
-### Stop the cluster and start it again
+### Shut down the cluster and start it again
 
-**1. Switch-off**
+**1. Shut down the cluster**
 
-This stops kolla containers and the virtual machines (so stops OpenStack), but does not destroy anything. Raspberry PIs can then be powered-off (and powered-on at a later time to resume OpenStack operation).
+This will stop the entire cluster (finally the RPis are powered off), but will not destroy anything. Raspberry PIs can then powered-on at a later time to resume OpenStack operation.
 
   * Stop containers
     ```
@@ -684,17 +684,19 @@ This stops kolla containers and the virtual machines (so stops OpenStack), but d
     ```
     
  **2. Start the cluster**
+
+This will restart the entire cluster and resume OpenStack operation after the cluster has been shut down.
  
   * Power on RPis
 
-  * Management host: activate the virtual environment of your Kolla-Ansible installation and run:
+  * Management host: activate the virtual environment of your Kolla-Ansible installation and resume OpenStack operation by executing:
     ```
     kolla-ansible deploy-containers -i multinode 
     ```
 
 ### Destroy your cluster
 
-To reinstall your cluster in case of failure, first destroy current installation. To this end, it's best to stop or delete all running VM instances in the cluster and then run
+To reinstall your cluster in case of failure, first destroy current installation (this cleans RPis from all Kolla-Ansible/OpenStack artifacts). To this end, it's best to stop or delete all running VM instances in the cluster first and then run the command:
 ```
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
