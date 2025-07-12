@@ -689,7 +689,7 @@ This will restart the entire cluster and resume OpenStack operation after the cl
  
   * Power on RPis
 
-  * Management host: activate the virtual environment of your Kolla-Ansible installation and resume OpenStack operation by executing:
+  * On the management host: activate the virtual environment of your Kolla-Ansible installation and resume OpenStack operation by executing:
     ```
     kolla-ansible deploy-containers -i multinode 
     ```
