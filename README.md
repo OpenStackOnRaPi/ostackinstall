@@ -518,16 +518,18 @@ $ ansible -i multinode all -m ping
 
   * file globals.yml is in ```/etc/kolla/globals.yml```
 
-    Take care of adjusting the attributes listed below. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
-
-    **NOTE 1: The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
-    
-    Note 2: Enabling ```enable_neutron_provider_networks``` is not required in this case as we will use only flat provider network (we do not configure VLANs in our example setup). But you can enable this feature to mark where the setting resides should you want to introduce VLAN provider networks in the future.
+> [!IMPORTANT]
+> Take care of adjusting the attributes listed below. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **DO NOT TOUCH the field ```#openstack_release: "some-identifier"```**.
+>
+>  The value of ```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
+>    
+>  Enabling ```enable_neutron_provider_networks``` is not required in this case as we will use only flat provider network (we do not configure VLANs in our example setup). But you can enable this feature to mark where the setting resides should you want to introduce VLAN provider networks in the future.
+>
+> kolla_internal_vip_address` MUST be anassigned unused (free) IP address in your network (in particular it will be different from the address assigned to veth0).
 
     **Attributes to update**
 
-    **Warning: kolla_internal_vip_address MUST be anassigned (unused) IP address in your network (in particular different from the address assigned to veth0)**
-    
+    You can copy-paste the following at the beginning of `globals.yml` (and of cource adjust `kolla_internal_vip_address`).
 ```
 $ sudo nano /etc/kolla/globals.yml
 ---
