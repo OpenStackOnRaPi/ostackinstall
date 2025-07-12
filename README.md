@@ -665,14 +665,17 @@ kolla-ansible deploy -i multinode
 
 ### Stop the cluster and start it again
 
-1. Switch-off
+**1. Switch-off**
+
+This stops kolla containers and the virtual machines (so stops OpenStack), but does not destroy anything. Raspberry PIs can then be powered-off (and powered-on at a later time to resume OpenStack operation).
+
   * Stop containers
     ```
     kolla-ansible stop -i multinode --yes-i-really-really-mean-it
     ```
     Note: if there is a notification about certain hosts being ureachable, run the stop command again.
     
-  * Switch off RbPis
+  * Power off RbPis
     - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command)
     ```bash
     #!/bin/bash
@@ -683,16 +686,18 @@ kolla-ansible deploy -i multinode
     ansible all -i $CLUSTER_INVENTORY_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
     ```
     
- 2. Start the cluster
-  * Power on
-  * Management host: activate virtual environment of your installation and run
+ **2. Start the cluster**
+ 
+  * Power on RPis
+
+  * Management host: activate the virtual environment of your Kolla-Ansible installation and run:
     ```
     kolla-ansible deploy-containers -i multinode 
     ```
 
 ### Destroy your cluster
 
-To reinstall your cluster in case of failure, first destroy currnet installation. To this end, stop or delete all running instances in the cluster and then run
+To reinstall your cluster in case of failure, first destroy current installation. To this end, it's best to stop or delete all running VM instances in the cluster and then run
 ```
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
