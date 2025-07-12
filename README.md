@@ -328,7 +328,7 @@ $ sudo reboot
 
 #### Assumption: the management host is implemented as Ubuntu 22.04 desktop in VirtualBox. Other solutions will work too after appropriate adaptations.
 
-1. Basic configs
+#### VM creation and configs
 
   * Create the VM as desktop machine. There are not high requirements for the resources (4GB RAM, 20GB disk, 2vCPU should be sufficient)
   * Configure the network card of the VM in VirtualBox as ```Bridged```. This is well suited for Ansible as it may not work well running behind NAT.
