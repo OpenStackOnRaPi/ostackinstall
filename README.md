@@ -390,7 +390,7 @@ _**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the 
 
 ### Kolla-Ansible installation
 
-The overall installatiuon procedure is the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project withoud updating the status name in the original Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes in respective instructions are commented in the following.
+The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below where appropriate. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
 
   * Install Python packages, create and activate virtual environment
 ```
