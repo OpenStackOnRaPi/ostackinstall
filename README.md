@@ -525,7 +525,7 @@ $ ansible -i multinode all -m ping
 >    
 >  Enabling **```enable_neutron_provider_networks```** is not required in our case as we will use only flat provider network (we do not configure VLANs in our example setup). But you can have this feature enabled should you decide to introduce VLAN provider networks in the future.
 >
-> **```kolla_internal_vip_address```** MUST be anassigned unused (free) IP address in your network (so in particular it will be different from the address assigned to veth0).
+> **```kolla_internal_vip_address```** MUST be anassigned (unused - free) IP address in your network (so, in particular, it will be different from the address assigned to veth0).
 
     **Attributes to update**
 
