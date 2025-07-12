@@ -23,7 +23,7 @@ As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenS
    4. [Deploy OpenStack instance](#deploy-openstack-instance)
    5. [Postdeployment and first instance](#postdeployment-and-first-instance)
 6. [Managing your cluster](#managing-your-cluster)
-   1. [Stop the cluster and start again](#stopstart-the-cluster-switch-off-not-destroy--and-start-again)
+   1. [Stop the cluster and start it again](#stop-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#destroy-your-cluster)
 
 
@@ -547,7 +547,7 @@ enable_neutron_provider_networks: "yes"
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
   * prepare file `/etc/kolla/conf/nova/nova-compute.conf`
-    Here, we actually only request that created virtual machines should be automatically brought to their previous state (e.g., ACTIVE) when the host is booted. This is convenient when we stop OpenStack (e.g., to shut down the cluster for some time) and start it again afterwards. The latter is described in section [Stop the cluster and start again](#stopstart-the-cluster-switch-off-not-destroy--and-start-again).
+    Here, we actually only request that created virtual machines should be automatically brought to their previous state (e.g., ACTIVE) when the host is booted. This is convenient when we stop OpenStack (e.g., to shut down the cluster for some time) and start it again afterwards. The latter is described in section [Stop the cluster and start it again](#stop-the-cluster-and-start-it-again).
 
 > [!NOTE]
 > File /etc/kolla/config/nova/nova-compute.conf can overwrite the settings given in file `/etc/kolla/globals.yml`. In particular, we can set non-default virtualization type and cmu mode and type in the ```[libvirt]``` section of file ```nova-compute.conf```. Below, such a customization for Raspberry Pi 4 is shown, but commented out. It actually works for RPi4, but as of this writing (July 2025) it has not counter part for Raspberry Pi 5 (libvirt seems not to support ```cortex-a76``` cpu model, applicable to RPi 5). So basically KVM is preferred in our case. Luckily, KVM is the default choice in Kolla-Ansible when CPU architecture of hosts (declared by ```openstack_tag_suffix``` in ```globals.yml```) is ```aarch64```. In such a case (```aarch64```) libvirt driver in ```nova-compute``` imposes ```host-passthrough``` CPU mode (see [here](https://review.opendev.org/c/openstack/nova/+/530965) for more on that). All in all, we use KVM for both Raspberry Pi 4 and 5 for which it is sufficient not to change default settings in ```globals.yml``` (KVM is default) and not to specify ```[libvirt]``` section in ```nova-compute.conf``` at all.
@@ -663,7 +663,7 @@ kolla-ansible deploy -i multinode
 
 ## Managing your cluster 
 
-### Stop/start the cluster (switch off, not destroy / and start again)
+### Stop the cluster and start it again
 
 1. Switch-off
   * Stop containers
