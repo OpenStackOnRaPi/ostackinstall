@@ -323,12 +323,9 @@ $ sudo reboot
 1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud.
 2. This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
 3. Basically, this guide instructs how to _**install**_ OpenStack cloud with Kolla-Ansible. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
+4. **Assumption: the management host is implemented as Ubuntu 22.04 desktop in VirtualBox.** Other solutions will work too after appropriate adaptations.
 
-### Management host system configuration
-
-#### Assumption: the management host is implemented as Ubuntu 22.04 desktop in VirtualBox. Other solutions will work too after appropriate adaptations.
-
-#### VM creation and configs
+### VM creation and basic configs
 
   * Create the VM as desktop machine. There are not high requirements for the resources (4GB RAM, 20GB disk, 2vCPU should be sufficient)
   * Configure the network card of the VM in VirtualBox as ```Bridged```. This is well suited for Ansible as it may not work well running behind NAT.
@@ -355,7 +352,7 @@ $ sudo apt update && sudo apt upgrade
 $ sudo apt install sshpass
   ```
 
-#### Docker installation
+### Docker installation
 
 _**Note: docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.**_
 
