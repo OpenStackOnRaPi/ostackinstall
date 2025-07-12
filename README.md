@@ -643,7 +643,7 @@ kolla-ansible deploy -i multinode
     ```
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net cirros1
     ```
-    - the following is only for our record, do not run it
+    - the following is only for our record, do not run it unless you have other images prepared by yourself
       ```bash
       ./init-runonce.2023.1.alpine
       openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine1
