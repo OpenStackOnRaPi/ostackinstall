@@ -492,6 +492,7 @@ $ sudo nano /etc/kolla/passwords.yml
 > Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts and specify role allocation in inventory file. Our experiments have shown that the roles ```compute``` and ```network``` MUST be separated (i.e., allocated to different hosts) in RPi 8GB RAM clusters. Otherwise the cluster becomes very unstable. In all-in-one installation (one RPi in the cluster) the node runs close to out of memory very soon after creating the first CirrOS VM and OpenStack tends to crush. With more than one VM instance such cluster crushes immediately. Even if one can login to the hosts after rebooting and some Kolla-Ansible containers run in healthy state, OpenStack as a whole is not functional anymore. Moreover, even in multinode cluster, when control and network functions run on the same host and compute function runs elswhere, the compute/network host still reaches close to out of memory state after creating second CirrOS VM. So, even in Raspberry Pi multinode configuration the merging of ```compute``` and ```network``` should be avoided. These conclusions are reflected below in the example fragment of inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
 
   * file ```multinode``` is in the working directory
+  * 
 ```
 $ sudo nano multinode
 
@@ -514,6 +515,7 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 # check if ansible can reach target hosts (our RaPis):
 $ ansible -i multinode all -m ping
 ```
+
 **Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis, you probably have to delete file ~/.ssh/known_hosts. 
 
   * file globals.yml is in ```/etc/kolla/globals.yml```
@@ -521,11 +523,12 @@ $ ansible -i multinode all -m ping
 > [!IMPORTANT]
 > Take care of adjusting the attributes listed below. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **do not touch the field ```#openstack_release: "some-identifier"```**.
 >
->  The value of **```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
->    
->  Enabling **```enable_neutron_provider_networks```** is not required in our case as we will use only flat provider network (we do not configure VLANs in our example setup). But you can have this feature enabled should you decide to introduce VLAN provider networks in the future.
+> The value of **```kolla_internal_vip_address```** should be adjusted according to your environment. It must be an unused address in your network, and among others it will serve for accessing Horizon (OpenStack dashboard) to manage the OpenStack by the admin and to manage user stacks by the users (tenants).
+>
+> Enabling **```enable_neutron_provider_networks```** is not required in our case as we will use only flat provider network (we do not configure VLANs in our example setup). But you can have this feature enabled should you decide to introduce VLAN provider networks in the future.
 >
 > **```kolla_internal_vip_address```** MUST be anassigned (unused - free) IP address in your network (so, in particular, it will be different from the address assigned to veth0).
+
 
     **Attributes to update**
 
