@@ -532,7 +532,7 @@ $ ansible -i multinode all -m ping
 
    **Attributes to update**
 
-   You can copy-paste the following at the beginning of `globals.yml` (and of cource adjust `kolla_internal_vip_address`).
+   You can copy-paste the following at the beginning of `globals.yml` (remembering to adjust `kolla_internal_vip_address`).
 ```
 $ sudo nano /etc/kolla/globals.yml
 ---
