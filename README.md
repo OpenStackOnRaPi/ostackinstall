@@ -658,7 +658,7 @@ kolla-ansible deploy -i multinode
     openstack server list
     ```
 
-  * you now can ssh to the instance; onour cirros instance both password and key authentication work; the user is `cirros` and the passowrd is `gocubsgo`
+  * now you can ssh to the instance; for our cirros instance both password and key authentication work; the user is `cirros` and the passowrd is `gocubsgo`
 
 ## Managing your cluster 
 
