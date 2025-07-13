@@ -9,7 +9,7 @@ As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenS
 ## Table of contents
 
 1. [Introduction](#1-introduction)
-2. [Assumptions](#2-assumptions)
+2. [Components](#2-components)
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RaPi system configuration](#rapi-system-configuration)
    2. [RaPi network configuration](#rapi-network-configuration)
@@ -35,7 +35,7 @@ This guide covers several steps leading to the instantiation of your first VM in
 > [!NOTE]
 > It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3s configuration, which works perfectly for the Raspberry Pi.
 
-## 2. Assumptions
+## 2. Components
 
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
