@@ -30,11 +30,12 @@ As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenS
 
 The scope of application of our clusters is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack, some of them being hard or impossible to show using AIO or virtualized OpenStack setups. Many of such features are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack and Kolla-Ansible config files. Considering that the time needed to practice and learn even basic things is non negigible, a decent amount of resources is needed to serve a dozen or more student teams in limited time. Our approach allows one achieve these goals without the need to allocate dozens of servers each worth thousands of $.
 
-Currently, Raspberry Pi 4 is assumed as more reliable HW base that Raspberry Pi 5. It is expected that extensions (if any) needed for Raspberry Pi 5 will be added to this guide once we test RaPi 5 setup sufficiently well.
-
-Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s which is perfect for Raspbbery Pi.
+Currently, Raspberry Pi 4 is assumed as more reliable HW base than Raspberry Pi 5. It is expected that extensions (if any) needed for Raspberry Pi 5 will be added to this guide once we test RaPi 5 setup sufficiently well.
 
 This guide covers several steps leading to the instantiation of your first VM in RPi OpenStack cluster. This includes: **system configuration on the Raspberries** (OS installation, setting needed permissions, configuring network settings that are required by Kolla-Ansible, etc.), **configuration of the management host** (this will be a separate host where we will run Kolla-Ansible installation commands and later access OpenStack using command line tool), **installation and customization of Kolla-Ansible** and its configuration files on the management host as needed by our deployment, **actual deploymnet of OpenStack** using Kolla-Ansible, then **creation of basic elements of virtualized infrastructure** (VM image of CirrOS, external and tenant networks, public and private routers, security groups, etc.) and finally **creation of the first VM instance** in our cloud. These steps are detailed in the remainder of this document.
+
+> [!NOTE]
+> It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3 configuration, which works perfectly for the Raspberry Pi.
 
 ## 2. Assumptions
 
