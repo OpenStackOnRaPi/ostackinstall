@@ -23,7 +23,7 @@ As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenS
    4. [Deploy OpenStack instance](#deploy-openstack-instance)
    5. [Postdeployment and first instance](#postdeployment-and-first-instance)
 6. [Managing your cluster](#managing-your-cluster)
-   1. [Stop the cluster and start it again](#stop-the-cluster-and-start-it-again)
+   1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#destroy-your-cluster)
 
 
