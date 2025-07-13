@@ -697,7 +697,8 @@ This will restart the entire cluster and resume OpenStack operation after the cl
 
 ### Destroy your cluster
 
-To reinstall your cluster in case of failure, first destroy current installation (this cleans RPis from all Kolla-Ansible/OpenStack artifacts). To this end, it's best to first stop or delete all running VM instances in the cluster, and only then then run the command:
+To reinstall your cluster in case of failure, first destroy current installation (this cleans RPis from all Kolla-Ansible/OpenStack artifacts). To do this, it is best to first stop or remove all running virtual machine instances in the cluster and only then run the command:
+
 ```
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
