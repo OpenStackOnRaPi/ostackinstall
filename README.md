@@ -589,7 +589,7 @@ kolla-ansible prechecks -i multinode
 kolla-ansible deploy -i multinode
 ```
 
-We consider a good practice to monitor the utilization of memory on the hosts (htop does the job well), especially on the control node. Memory usage crossing 7GB tells that OpenStack may crush. You can try recocile that by stopping not needed workload (VMs). What may work if there is no such spare workload is stopping OpenStack using `kolla-ansible stop-containers` command and resume the cloud with `kolla-ansible deploy-containers` command (refer to [this section[(#shut-down-the-cluster-and-start-it-again) for more details). 
+We consider a good practice to monitor the utilization of memory on the hosts (htop does the job well), especially on the control node. Memory usage crossing 7GB tells that OpenStack may crush. You can try recocile that by stopping not needed workload (VMs). What may work if there is no such spare workload is stopping OpenStack using `kolla-ansible stop-containers` command and resume the cloud with `kolla-ansible deploy-containers` command (refer to [this section](#shut-down-the-cluster-and-start-it-again) for more details). 
 
 ### Postdeployment and first instance
 
