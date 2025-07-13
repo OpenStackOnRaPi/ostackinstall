@@ -133,7 +133,9 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 
 #### Configuration description
 
-Network devices on our RaPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration. This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces of OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
+Network devices on our RaPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration.
+
+This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces in production OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
   ```
 network_interface                 neutron_external_interface 
@@ -144,7 +146,7 @@ static IP 192.168.1.6x/24         no IP addr assigned (Kolla-Ansible requires th
     +---------+                     +---------+
          |                               |           HOST NETWORK domain ("host-internal" - under Nova/Neutron governance)
     - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
-         | <-------- veth pairs -------> |           DATA CENTRE NETWORK domain ("physical" - under DC admin governance)
+         | <-------- veth pairs -------> |           DATA CENTER NETWORK domain ("physical" - under DC admin governance)
     +---------+                     +---------+ 
     | veth0br |                     | veth1br |      tagged VLANs have to be configured by the admin between eth0 and veth1
     +---------+                     +---------+        in case of using provider VLAN networks
@@ -156,7 +158,7 @@ static IP 192.168.1.6x/24         no IP addr assigned (Kolla-Ansible requires th
                      +---------+      have to be configured in case of using provider VLAN networks
   ```
 
-To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan complements the definitions with the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible using netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
+To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code provides the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
 #### Configuration implementation
 
