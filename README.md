@@ -2,9 +2,9 @@
 
 ## What it is about
 
-In this repo, we describe how to install OpenStack on Raspberry Pi cluster using Kolla-Ansible. Although there are several guides out there on this topic, they either use old versions of OpenStack or do not document sufficiently well various nitty-gritty details needed for OpenStack cluster to work sufficiently reliably on Rapberryy Pi platform.
+In this repo, we describe how to install OpenStack on Raspberry Pi cluster using Kolla-Ansible. Although there are several guides out there on this topic, they either use old versions of OpenStack or do not document sufficiently well various nitty-gritty details needed for OpenStack cluster to work sufficiently reliably on Rapberry Pi platform.
 
-As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenStack release 2023.1, and both Raspberry Pi 4B and Raspberry Pi 5 have been tested successfully. For each SW/HW configuration mentioned, OpenStack has been tested in two variants: with QEMU emulation and with KVM enabled. Both variants work well on RPi4/5 and release 2023.1 of Kolla-Ansible/OpenStack, with KVM being the prefered choice. Newer releases of Kolla-Ansible/OpenStack may work but we can not recommend any of them at present. Therefore, even if some parts of this guide mention releases other than 2023.1, they are currently for illustrative purposes only and not for practical use. We will update this guide once newer releases pass our tests.
+As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenStack release 2023.1, and both Raspberry Pi 4B and Raspberry Pi 5 as the HW platforms have been tested. For each SW/HW configuration mentioned, OpenStack was used in two variants: with QEMU emulation and with KVM enabled. Both variants work well on RPi4 and release 2023.1 of Kolla-Ansible/OpenStack, with KVM being the prefered choice. Newer releases of Kolla-Ansible/OpenStack may work but they need more testing. Therefore, even if some parts of this guide mention releases other than 2023.1, they are currently for illustrative purposes only and not for practical use. Raspberry Pi 5 with KVM virtualization is promosing (qemu does not work for CPU model incompatibility), but we observed some instabilities leading to sporadic cluster crashes that required reinstalling OpenStack. We currently attribute this to high memory usage on the control node, but this also requires further testing. We will update this guide if newer configurations are ready to be recommended.
 
 ## Table of contents
 
@@ -25,14 +25,12 @@ As of mid July 2025, SW/HW cluster configurations containing Kolla-Ansible OpenS
 6. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#destroy-your-cluster)
-
-
    
 ## 1. Introduction
 
 The scope of application of our clusters is education. A cluster of this type allows us to present/explain various features/concepts of OpenStack, some of them being hard or impossible to show using AIO or virtualized OpenStack setups. Many of such features are related to the administration of OpenStack data centre - a domain of activity that is hidden from regular users in "normal" DCs. For example, the management of provider networks where the admin needs to configure VLANs in the physical network of the data centre and declare them in OpenStack and Kolla-Ansible config files. Considering that the time needed to practice and learn even basic things is non negigible, a decent amount of resources is needed to serve a dozen or more student teams in limited time. Our approach allows one achieve these goals without the need to allocate dozens of servers each worth thousands of $.
 
-Currently, Raspberry Pi 4 is assumed as the HW base. It is expected that extensions (if any) needed for Raspberry Pi 5 will be added to this guide once we test RaPi 5 setup sufficiently well.
+Currently, Raspberry Pi 4 is assumed as more reliable HW base that Raspberry Pi 5. It is expected that extensions (if any) needed for Raspberry Pi 5 will be added to this guide once we test RaPi 5 setup sufficiently well.
 
 Worth of noting is also that our clusters are a perfect base for experimenting with Kubernetes. In our lab, we use bare-metal setup of K3s which is perfect for Raspbbery Pi.
 
