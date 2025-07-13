@@ -33,7 +33,7 @@ The scope of application of our clusters is education. A cluster of this type al
 This guide covers several steps leading to the instantiation of your first VM in RPi OpenStack cluster. This includes: **system configuration on the Raspberries** (OS installation, setting needed permissions, configuring network settings that are required by Kolla-Ansible, etc.), **configuration of the management host** (this will be a separate host where we will run Kolla-Ansible installation commands and later access OpenStack using command line tool), **installation and customization of Kolla-Ansible** and customization of its configuration files on the management host to meet the needs of our deployment, **actual deploymnet of OpenStack** using Kolla-Ansible, then **creation of basic elements of virtualized infrastructure** (VM image of CirrOS, external and tenant networks, public and private routers, security groups, etc.) and finally **creation of the first VM instance** in our cloud. These steps are detailed in the remainder of this document.
 
 > [!NOTE]
-> It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3 configuration, which works perfectly for the Raspberry Pi.
+> It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3s configuration, which works perfectly for the Raspberry Pi.
 
 ## 2. Assumptions
 
