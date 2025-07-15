@@ -134,19 +134,16 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 > [!IMPORTANT]
 > This configuration only concerns the host that will become the `control` node in your OpenStack. In this repo, the host with name `ost04` in the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
 
-```
-swapon --show               # see what swap files you have active
-sudo swapoff /var/swap      # disable /swapfile
-# Create a new 4 GiB swap file in its place (could lock up 
-# your computer for a few minutes, so be patient)
-# (Ex: Jul 14 2025, this took 2m6.697s on RaspberryPi 4 8GBRAM
-# microSD SanDisk model Extreme 32 GB V30 A1 )
-time sudo dd if=/dev/zero of=/var/swap count=4 bs=1G
-sudo mkswap /var/swap       # turn this new file into swap space
-sudo chmod 0600 /var/swap   # only let root read from/write to it, for security (actually, already set on RPi)
-sudo swapon /var/swap       # enable it
-swapon --show               # ensure it is now active
-```
+  * follow the instructions from [this guide](#https://itsfoss.com/pi-swap-increase/). Set the size to `**4096**`
+  ```
+sudo dphys-swapfile swapoff
+sudo nano /etc/dphys-swapfile
+CONF_SWAPSIZE=4096   # <=== desired size, save
+sudo dphys-swapfile setup
+sudo dphys-swapfile swapon
+sudo reboot
+  ```
+    
 
 ### RaPi network configuration
 
