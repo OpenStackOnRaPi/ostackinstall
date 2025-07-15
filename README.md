@@ -129,8 +129,11 @@ $ sudo sysctl -p
 $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
   ```    
 
-8. Increase swap size - ONLY on the host that will be `control` in OpenStack
+8. Increase swap size - ONLY on the host that will be `control` node in OpenStack
 
+   * Note: in this repo, it is host with index 1. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign the role in Kolla-Ansible inventory file `multinode`.
+
+```
 swapon --show               # see what swap files you have active
 sudo swapoff /var/swap      # disable /swapfile
 # Create a new 4 GiB swap file in its place (could lock up 
@@ -142,7 +145,7 @@ sudo mkswap /var/swap       # turn this new file into swap space
 sudo chmod 0600 /var/swap   # only let root read from/write to it, for security (actually, already set on RPi)
 sudo swapon /var/swap       # enable it
 swapon --show               # ensure it is now active
-
+```
 
 ### RaPi network configuration
 
