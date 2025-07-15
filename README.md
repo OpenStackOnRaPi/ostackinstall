@@ -132,7 +132,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap size on the `control` node
 
 > [!IMPORTANT]
-> This configuration only concerns the host that will become the `control` node in your OpenStack. In this repo, it assign index 1 to that host. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign the role in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
+> This configuration only concerns the host that will become the `control` node in your OpenStack. In this repo, the host with name `ost04` in the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
 
 ```
 swapon --show               # see what swap files you have active
