@@ -330,7 +330,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 $ sudo netplan generate
 $ sudo netplan apply
 
-(if ssh disconnects do ssh again)
+(ssh disconnects so reconnect)
 # check the connectivity
 $ ping wp.pl
 $ sudo reboot
