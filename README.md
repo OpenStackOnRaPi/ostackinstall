@@ -186,7 +186,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 **_1. Stop NetworkManager, and and start systemd-networkd_**
 
-We use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different from the one used by networkd).
+We use networkd to have persistent configuration of network devices in our RPis. One can use NetworkManager for this, but it will be necessary to convert the code from networkd notation to NetworkManager notation (both notations differ one from the other).
 
   ```
 $ sudo systemctl stop NetworkManager && sudo systemctl disable NetworkManager
@@ -377,7 +377,8 @@ $ sudo apt install sshpass
 
 ### Docker installation
 
-_**Note: docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.**_
+> [Note]
+> Docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.
 
   * Add Docker's official GPG key:
   ```
@@ -409,7 +410,8 @@ $ docker run hello-world
 
 ## 5. Kolla-Ansible and OpenStack installation
 
-_**Note: in the following, we assume ```ubuntu@labs:~/labs/ostack$``` to be the working (current) directory. When copy-pasting, adjust the commands according to your environment.**_
+> [!Note]
+> In the following, we assume `ubuntu@labs:~/labs/ostack$` to be the working (current) directory. When copy-pasting, adjust the commands according to your environment.
 
 ### Kolla-Ansible installation
 
@@ -429,7 +431,8 @@ $ deactivate
 $ rm -r <venv-root-folder-name->
 ```
 
-**Note: from now on, we work in virtual environment kolla-2023.1. The versions of all conponents installed are compatible with kolla-2023.1 and should be changed appropriately for other releases of kolla-ansible (follow respective Kolla-Ansible Quickstart section for each release https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)**
+> [!Note]
+> From now on, we work in virtual environment kolla-2023.1. The versions of all conponents installed are compatible with kolla-2023.1 and should be changed appropriately for other releases of kolla-ansible (follow respective Kolla-Ansible Quickstart section for each release: [quickstart](https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)).
 
   * Install Kolla-Ansible in the active venv
 ```
@@ -497,6 +500,7 @@ $ cat /etc/hosts
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 
     **Note:** In case of `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions after that.
+
 ```
 $ kolla-genpwd
 ```
