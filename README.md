@@ -183,7 +183,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 **Note: steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu**
 
-1. Stop NetworkManager, and and start systemd-networkd
+**_1. Stop NetworkManager, and and start systemd-networkd_**
 
    _Note: for some historical reasons, we use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different form the one used by networkd)._
 
@@ -193,13 +193,13 @@ $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-network
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
   ```
 
-2. Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+**_2. Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
   ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-3. Main host network configurations
+**_3. Main host network configurations_**
 
 > [!NOTE]
 > This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, please contact me for more info.
@@ -235,7 +235,8 @@ EOT
 
     **NOTE 2:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
-    **Warning:** this part sometimes does not copy-paste correctly. If command `sudo netplan generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by adding missing spaces. 
+> [!Warning]
+> This part sometimes does not copy-paste correctly. If command `sudo netplan generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by inserting missing spaces. 
 
 ```
 sudo tee /etc/netplan/50-cloud-init.yaml << EOT
