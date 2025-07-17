@@ -695,7 +695,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     ```
     kolla-ansible stop -i multinode --yes-i-really-really-mean-it
     ```
-> [!Note]
+> [!Important]
 > If Ansible issues a notification as below informing about certain hosts being ureachable, run the **`stop`** command again.
 > ```
 > TASK [Gather facts] **************************************************************************************************
