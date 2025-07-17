@@ -68,6 +68,8 @@ The following has to be done for each Rasppbery Pi in your cluster. The instruct
 
 ### RaPi system configuration
 
+Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
+
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
    * it is recommended to set the value of host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
@@ -336,15 +338,17 @@ $ sudo reboot
 
 ### General notes
 
-1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud.
+1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud. 
 2. This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
 3. The main goal of this guide is to instruct how to _**install**_ OpenStack cloud with Kolla-Ansible on Raspberry Pi cluster. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
 4. **Assumption: for Kolla-Ansible 2023.1, the management host is implemented as Ubuntu 22.04 desktop in VirtualBox.** Other OS may work too after appropriate adaptations. However, there are also dependencies between releases. For example, Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host.
 
 ### VM creation and basic configs
 
-  * Create the VM as desktop machine. There are not high requirements for the resources (4GB RAM, 20GB disk, 2vCPU should be sufficient)
-  * Configure the network card of the VM in VirtualBox as ```Bridged```. This is well suited for Ansible as it may not work well running behind NAT.
+Here, we assume using a virtual machine, but things do not change if the management host is a physical machine.
+
+  * Create `Ubuntu 22.04 LTS` VM as a desktop machine. We are using `Ubuntu 22.04 LTS` for Kolla-Ansible 2023.1 as the highest distribution supported by Kolla-Ansible 2023.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1; but it becomes mandatory for Kolla-Ansible 25.1_). We have not tested other Linux distributions. There are not high requirements for the resources of ther VM (4GB RAM, 20GB disk, 2vCPU should be sufficient).
+  * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy some files from the RPis to the management host). It is generally simpler when all components (cluster, management host, our physical host) work in the same subnetwork.
   * Your host should work in the same network as the cluster (in our lab setup, attach it to the Linksys router)
   * After launching the VM, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the next steps.
   * Disable the automatic upgrade option; in desktop search for this in Options
