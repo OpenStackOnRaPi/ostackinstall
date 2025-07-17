@@ -377,7 +377,7 @@ $ sudo apt install sshpass
 
 ### Docker installation
 
-> [Note]
+> [!Note]
 > Docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.
 
   * Add Docker's official GPG key:
@@ -499,7 +499,8 @@ $ cat /etc/hosts
 
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 
-    **Note:** In case of `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions after that.
+> [!Warning]
+> In case of `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions after that.
 
 ```
 $ kolla-genpwd
@@ -540,7 +541,8 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 $ ansible -i multinode all -m ping
 ```
 
-**Warning:** in case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resoultion data. If you reinstalled the OS on the RPis, you probably have to delete file ~/.ssh/known_hosts. 
+> [!Warning]
+> In case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resolution data. If you reinstalled the OS on the RPis, deleting file ~/.ssh/known_hosts should solve the problem. 
 
   * file globals.yml is in ```/etc/kolla/globals.yml```
 
@@ -609,7 +611,7 @@ EOT
 
 ### Deploy OpenStack instance
 
-**Warning:** In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
+In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
 
 ```
 kolla-ansible bootstrap-servers -i multinode 
