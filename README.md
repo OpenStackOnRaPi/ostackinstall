@@ -689,7 +689,7 @@ kolla-ansible deploy -i multinode
 
 **1. Shut down the cluster**
 
-This will stop the entire cluster (eventually, the RPi will be powered down) without damaging anything. You'll be able to power on the RPi and resume OpenStack later.
+This will stop the entire cluster (to eventually power off the RPis) without damaging anything. You'll be able to power on the RPis and resume OpenStack later.
 
   * Stop containers
     ```
