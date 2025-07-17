@@ -186,7 +186,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 
 **_1. Stop NetworkManager, and and start systemd-networkd_**
 
-   _Note: we use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different from the one used by networkd)._
+We use networkd to have persistent configuration of network devices on our RaPis; one can use NetworkManager for this, but it will be necessary to convert respective network constructs from networkd to NetworkManager notation (NetworkManager notation is different from the one used by networkd).
 
   ```
 $ sudo systemctl stop NetworkManager && sudo systemctl disable NetworkManager
