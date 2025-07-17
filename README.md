@@ -654,7 +654,8 @@ kolla-ansible deploy -i multinode
       ```bash
       ./init-runonce.2023.1.cirros
       ```
-    Note: script init-runonce illustrates the use of several openstack client commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only once and subsequent runs will generate errors for all constructs having already been created. In such a case experimenting with it should better depend on only echo-ing openstack commands (as ready-to-run strings) but at the same time suppressing in the script their execution.
+> [!Note]
+> Script `init-runonce` illustrates the use of several `openstack client  ` commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only **once** and subsequent runs will generate errors because of all constructs having already been created. In such a case free experimenting with it should depend on only echo-ing openstack commands (to display them as ready-to-run strings) and at the same time suppressing in the script their execution in OpenStack.
 
     After running `./init-runonce.20xy.z` the external and tenant networks, VM image, VM flavors and the default security group settings are all ready. The first instance can now be created in the following two steps:
 
