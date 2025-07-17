@@ -697,12 +697,13 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     ```
 > [!Note]
 > If Ansible issues a notification as below informing about certain hosts being ureachable, run the **`stop`** command again.
-```
-TASK [Gather facts] ************************************************************************************************************************
-[WARNING]: Unhandled error in Python interpreter discovery for host rapi3: Failed to connect to the host via ssh: ssh: connect to host
-rapi3 port 22: Connection refused
-fatal: [rapi3]: UNREACHABLE! => {"changed": false, "msg": "Data could not be sent to remote host \"rapi3\". Make sure this host can be reached over ssh: ssh: connect to host rapi3 port 22: Connection refused\r\n", "unreachable": true}
-```
+> ```
+> TASK [Gather facts] ************************************************************************************************************************
+> [WARNING]: Unhandled error in Python interpreter discovery for host rapi3: Failed to connect to the host via ssh: ssh: connect to host
+> rapi3 port 22: Connection refused
+> fatal: [rapi3]: UNREACHABLE! => {"changed": false, "msg": "Data could not be sent to remote host \"rapi3\". Make sure this host can be
+> reached over ssh: ssh: connect to host rapi3 port 22: Connection refused\r\n", "unreachable": true}
+> ```
     
   * Power off RbPis
     - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command)
