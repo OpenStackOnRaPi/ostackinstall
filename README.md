@@ -136,7 +136,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 > [!IMPORTANT]
 > This configuration only concerns the host that will become the `control` node in your OpenStack. In this repo, the host with name `ost04` in the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
 
-  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). Size **`4096`** is safe.
+  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). Size **`4096`** is safe in our case.
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
