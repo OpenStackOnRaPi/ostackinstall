@@ -76,7 +76,7 @@ Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://
   
 2. Reserve a set of IP addresses in the subnetwork where your OpenStack instance will be run. They must not be managed by local DHCP server. They will serve as fixed addresses of your RPi hosts, addresses of selected OpenStack services and so-called `floating IP addresses` used to expose instances (virtual machines) to the outside of OpenStack cloud. A continuous set of fifteen addresses is sufficient for teaching purposes.
   
-3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network configuration on each RPi host.
+3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host.
 
 **Execute steps 3-9 for each RPi**
 
