@@ -74,7 +74,7 @@ Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
    * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
   
-2. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-timers - they will be later overwritten by fixed addresses when we will configure network setup on each RPi host.
+2. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network configuration on each RPi host.
 
 **Execute steps 3-9 for each RPi**
 
