@@ -72,11 +72,13 @@ Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://
 
 1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
-   * it is recommended to set the value of host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
+   * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
   
-2. After switching on the RaPi, find its IP address. In our setup, check the ```Device list``` panel in the Linksys router GUI (access on, e.g., 192.168.1.1, login as root, pwd admin). SSH to the RaPi using the credentials from step 1 above.
+2. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Theit IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI).
 
-3. Assuming your user name on the RaPi is ubuntu (otherwise, adapt the following) run
+**Execute the steps 3-9 for each RPi**
+
+3. Add your user to the `sudo` group (adapt user name according to your setup):
 
    ```$ sudo usermod -aG sudo ubuntu```
 
@@ -146,7 +148,6 @@ sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
 sudo reboot
   ```
-    
 
 ### RaPi network configuration
 
