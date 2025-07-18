@@ -335,7 +335,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 $ sudo netplan generate      <=== neglect a WARNING about too open permissions
 $ sudo netplan apply         <=== neglect five WARNINGS about too open permissions
 
-(ssh disconnects so reconnect)
+ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
 # check the connectivity
 $ ping wp.pl
 $ sudo reboot
