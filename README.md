@@ -504,7 +504,7 @@ $ cat /etc/hosts
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 
 > [!Warning]
-> In case of `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions after that.
+> In case of getting `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions: `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions of `passwords.yml` after that.
 
 ```
 $ kolla-genpwd
