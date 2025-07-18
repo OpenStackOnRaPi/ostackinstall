@@ -36,6 +36,7 @@ This guide covers several steps leading to the instantiation of your first VM in
 
 > [!NOTE]
 > It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3s configuration, which works perfectly for the Raspberry Pi.
+> 
 > Many other minikomputer platforms are available on the market that may seem attractive, to mention Turing Pi 2 / 2.5 and DeskPi Super6C. However, they support Raspberry Pi CM4 modules and not CM5 (Turing 2.5 supports also other, more powerfull modules, but not Raspberry Pi CM5), and result in higher budget requirements for the same educational result. Moreover, they are not so easily available in various countries so one may prefer to adhere to "safer" solutions. 
 
 ## 2. Platform components
