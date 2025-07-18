@@ -544,7 +544,11 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
 [storage]
 #storage01
+```
 
+> [!Important]
+> Below, you will check cluster connctivity for Ansible. If previous OpenStack installation failed, and you have reinstalled the OS on your RPis, first delete file `~/.ssh/known_hosts`.
+```
 # check if ansible can reach target hosts (our RaPis):
 $ ansible -i multinode all -m ping
 ```
