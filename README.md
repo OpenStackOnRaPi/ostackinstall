@@ -76,7 +76,7 @@ Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://
   
 2. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Theit IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI).
 
-**Execute the steps 3-9 for each RPi**
+**Execute steps 3-9 for each RPi**
 
 3. Add your user to the `sudo` group (adapt user name according to your setup):
 
