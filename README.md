@@ -332,7 +332,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
     Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
 
 ```
-$ sudo netplan generate
+$ sudo netplan generate      <=== neglect a WARNING about too open permissions
 $ sudo netplan apply
 
 (ssh disconnects so reconnect)
