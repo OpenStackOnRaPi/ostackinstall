@@ -547,14 +547,13 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 ```
 
 > [!Important]
-> Below, you will check cluster connctivity for Ansible. If previous OpenStack installation failed, and you have reinstalled the OS on your RPis, first delete file `~/.ssh/known_hosts`.
+> Below, you will check cluster connctivity for Ansible. If Ansible can not reach your RPis _via_ ssh with messages `UNREACHABLE! => {
+    "changed": false, "msg": "Failed to connect to the host via ssh...` then check file `/etc/hosts` for the presence of the resolution data. If previous installation of OpenStack failed and you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` should solve the problem. 
+
 ```
 # check if ansible can reach target hosts (our RaPis):
 $ ansible -i multinode all -m ping
 ```
-
-> [!Warning]
-> If Ansible can not reach your RPis _via_ ssh then check file `/etc/hosts` for the presence of the resolution data. If you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` should solve the problem. 
 
   * file globals.yml is in `/etc/kolla/globals.yml`
 
