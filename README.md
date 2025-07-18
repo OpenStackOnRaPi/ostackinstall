@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-In this repo, we describe how to install OpenStack on Raspberry Pi cluster using Kolla-Ansible. We believe the main application of such clusters is teaching. Although there are other guides out there on this topic, they either use old version of OpenStack or do not document several nitty-gritty details needed for OpenStack cluster to work sufficiently reliably on the Rapberry Pi platform.
+In this repo, we describe how to install OpenStack on Raspberry Pi cluster using Kolla-Ansible. Although there are other guides out there on this topic, they either use old version of OpenStack or do not document several nitty-gritty details needed for OpenStack cluster to work sufficiently reliably on the Rapberry Pi platform. We believe the main application of such clusters is instructional tools for teaching.
 
 As of mid July 2025, cluster configurations have been tested assuming Kolla-Ansible OpenStack release `2023.1` and for Raspberry Pi 4B and Raspberry Pi 5 as the hardware platform. For each SW/HW configuration mentioned, OpenStack was tested in two variants: with QEMU emulation and with KVM enabled. Both variants work well on RPi4 and release 2023.1 of Kolla-Ansible/OpenStack, with KVM being the prefered choice. We are currently testing a setup containing three RPi host, and it seems to work stably; we have only increased the swap size on the control node of OpenStack from the default value 512MB (in Raspberry Pi OS) to much safer capacity 4GB. Thus, Raspberry Pi 5 with KVM virtualization on Kolla-Ansible 2023.1 is promising, but setting qemu does not work for CPU model incompatibility. We hope newer releases of Kolla-Ansible/OpenStack may work well too, but they need more testing. Therefore, even if some parts of this guide mention releases other than 2023.1, they are currently for illustrative purposes only and not for practical use.
 
@@ -37,7 +37,7 @@ This guide covers several steps leading to the instantiation of your first VM in
 > [!NOTE]
 > It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we use a bare-metal K3s configuration, which works perfectly for the Raspberry Pi.
 > 
-> Many other minikomputer platforms are available on the market that may seem attractive, to mention Turing Pi 2 / 2.5 and DeskPi Super6C. However, they support Raspberry Pi CM4 modules and not CM5 (Turing 2.5 supports also other, more powerfull modules, but not Raspberry Pi CM5), and result in higher budget requirements for the same educational result. Moreover, they are not so easily available in various countries so one may prefer to adhere to more popular and "safer" solutions. 
+> Many other minikomputer platforms are available on the market that may seem attractive, to mention Turing Pi 2 / 2.5 and DeskPi Super6C. However, they support Raspberry Pi CM4 modules and not CM5 (Turing 2.5 supports also other, more powerfull modules, but not Raspberry Pi CM5), and result in higher budget requirements for the same educational result. Moreover, they are not so easily available in various countries so one may prefer to adhere to more conservative but "safer" derivatives of [Raspberry Pi Dramble](https://www.pidramble.com/) :-). 
 
 ## 2. Platform components
 
