@@ -138,9 +138,9 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap size on the `control` node
 
 > [!IMPORTANT]
-> This configuration only concerns the host that will become the `control` node in your OpenStack. In this repo, the host with name `ost04` in the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
+> This configuration only concerns the host that will host both `control node` and `network node` functions in your OpenStack. We assume host with name `ost04` to be the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings. Of course, one can separate `control` and `network` functions by assigning other host in Ansible inventory to be the `network node`. While this reduces maximal memory occupancy of the nodes, it does not relieve you of the responsibility to monitor resource usage on the control hosts.
 
-  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). Size **`4096`** is safe in our case (both `control` and `network` nodes hosted together on one server), but you can double it if you want.
+  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap that we have observed so far is 1.7GB. We set swap size to **`4096`** which seems to provide a safe margin in our case, but you can double it if you want.
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
