@@ -546,9 +546,9 @@ $ ansible -i multinode all -m ping
 ```
 
 > [!Warning]
-> In case of Ansible having problems with ssh to reach your RPis check /etc/hosts for presence of the resolution data. If you reinstalled the OS on the RPis, deleting file ~/.ssh/known_hosts should solve the problem. 
+> If Ansible can not reach your RPis _via_ ssh then check file `/etc/hosts` for the presence of the resolution data. If you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` should solve the problem. 
 
-  * file globals.yml is in ```/etc/kolla/globals.yml```
+  * file globals.yml is in `/etc/kolla/globals.yml`
 
 > [!IMPORTANT]
 > Take care of adjusting the attributes listed below. Activating an attribute requires uncommenting respective line (deleting the '#' sign opening the line). **do not touch the field ```#openstack_release: "some-identifier"```**.
