@@ -718,7 +718,7 @@ After running `./init-runonce.20xy.z`, the external and tenant networks, VM imag
     openstack server list
     ```
 
-  * now you can ssh to the instance; for our cirros instance both password and key authentication work; the user is `cirros` and the passowrd is `gocubsgo`
+  * now you can ssh to the instance; both password and key authentication work for ther cirros (the key was installed in the `openstack create` command you run above); the user is `cirros` and the passoword is `gocubsgo`
 
 ## Managing your cluster 
 
