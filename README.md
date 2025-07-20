@@ -423,7 +423,9 @@ $ docker run hello-world
 
 ### Kolla-Ansible installation
 
-The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below where appropriate. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
+The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html) or [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). A couple of exceptions are a direct consequence of changing the status of this release to "unmaintained" by the Kolla-Ansible project without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below where appropriate. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
+
+At the moment, the instructions below cover installation instructions for release 2023.1. Installation of 2025.1 is very similar, however there are small differences between both releases (e.g., in 2023.1 one installs Ansible running a separate command while this step is hidden in kolla-ansible installation in 2025.1). Therefore, when installing 2025.1 you are advised to refer to the original document to consult details.
 
   * Install Python packages, create and activate virtual environment
 ```
