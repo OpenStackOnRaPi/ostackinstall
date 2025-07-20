@@ -44,11 +44,11 @@ This guide covers several steps leading to the instantiation of your first VM in
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
 1. Raspberry Pi 4 and Raspberry 5
-   * recommended set: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster
-     * at least [1x4GB RAM + 1x8GB RAM] (minimal cluster, sufficient for instantiating single CirrOS VM)
-     * control node should run on 8GB RPi host; network node must run on another RPi host
+   * tested options: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster (uniform 8GB RAM clusters are better)
+     * mimimal possible: [1x4GB RAM + 1x8GB RAM] (a minimal cluster, enough to create a single CirrOS virtual machine and nothing more)
+     * control/netowerk node should run on 8GB RPi host; network node must run on another RPi host (control / network nodes can be split between different hosts, nevertheless this results in a very limited decrease of host peak RAM utilization in the cluster)
    * all Pi are equipped with 32GB SD disk
-   * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is able to host OpenStack in minimal configuration. In such a cluster, one can successfully create a single CirrOS instance with 512MB memory. However, we have seen even so simple setup crush. And all-in-one OpenStack immediately crushes due to out of memory when second similar CirrOS instance is created.
+   * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is able to host OpenStack in absolutely minimal configuration. In such a cluster, one can create a single CirrOS instance with 512MB memory, but the cloud becomes unstable. We have seen many times that even such a simple configuration ends in failure. And all-in-one OpenStack immediately crushes due to out of memory when a second similar CirrOS instance is created. That is the reason why we consider the dual-host configuration to be the minimum possible.
 2. SW
    * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktopp environment).
    * Kolla-Ansible 2023.1 or 2025.1. 
