@@ -726,7 +726,7 @@ After running `./init-runonce.20xy.z`, the external and tenant networks, VM imag
 
 **1. Shut down the cluster**
 
-This will stop the entire cluster (to eventually power off the RPis) without damaging anything. You'll be able to power on the RPis and resume OpenStack later.
+This will stop the entire cluster (to eventually power off the RPis) without damaging anything. After that it will be possible to power on the RPis and resume complete OpenStack recovering also the state of all your instances.
 
   * Stop containers
     ```
@@ -755,7 +755,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     
  **2. Start the cluster**
 
-This will restart the entire cluster and resume OpenStack operation after the cluster has been shut down.
+This will restart the entire cluster after it has been stopped and resume OpenStack recovering also the state of all instances.
  
   * Power on RPis
 
