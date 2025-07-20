@@ -43,32 +43,32 @@ This guide covers several steps leading to the instantiation of your first VM in
 
 All procedures described in this guide assume HW and SW setup of the cluster as specified below:
 
-1. Raspberry Pi 4
+1. Raspberry Pi 4 and Raspberry 5
    * recommended set: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster
      * at least [1x4GB RAM + 1x8GB RAM] (minimal cluster, sufficient for instantiating single CirrOS VM)
      * control node should run on 8GB RPi host; network node must run on another RPi host
    * all Pi are equipped with 32GB SD disk
    * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is able to host OpenStack in minimal configuration. In such a cluster, one can successfully create a single CirrOS instance with 512MB memory. However, we have seen even so simple setup crush. And all-in-one OpenStack immediately crushes due to out of memory when second similar CirrOS instance is created.
 2. SW
-   * OS: Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment
-   * Kolla-Ansible 2023.1; respective environment components according to 
-   * Note: newer releases of Kolla-Ansible will be tried in the future (2023.1 has got status "unmaintained") and we'll update this guide accordingly after completing the tests 
+   * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktopp environment).
+   * Kolla-Ansible 2023.1 or 2025.1. 
+   * Note: Kolla-Ansible release 2025.1 is currently being tested on RPi without any visible malfunctions (2023.1 has got status "unmaintained"). We hope it will be possible to recommend release 2025.1 in the near future and we'll update this guide accordingly after completing the tests.
 3. Network:
    * the Pis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
    * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of local network infrastructure
    * **reserve a pool of IP addresses for the use by OpenStack** on your local router; 20 addresses will be sufficient for our purposes. They **MUST NOT** be managed by the DHCP server. Four of them (two in case of two-board cluster)) will be assigned by you to the RbPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
 4. Virtualization
-   * Currently, we use qemu emulation for instances as we have not managed to get KVM working on Raspberry Pi under Kolla-Ansible OpenStack. This may change in the future.
+   * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work on Raspberry Pi 5 with standard Kolla-Ansible installation).
 5. Notes
-   * other PoE HATs for Raspberry Pi 4 and other PoE switches should work, too
+   * there are various PoE HATs for Raspberry Pi 4/5 and various PoE switches that should work; one should only take care of the required power budget of the switch and it is different for Raspberry Pi platform 4 and 5.
    * for general education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
    * other details that may be relevant are explained in the description that follows
    * trials with Raspberry Pi 5 are planned for the near future
   
 ## 3. Raspberry Pi preparation
 
-The following has to be done for each Rasppbery Pi in your cluster. The instructions will be given one by one, but you are free to gather them in bash scripts if you wish (sometimes a reboot is needed so you will have to prepare a couple of such scripts or you could prepare Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The configurations include two phases: system configuration (installs, upgrades, etc.) and host network configuration (networkd, netplan).
+The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
 ### RaPi system configuration
 
