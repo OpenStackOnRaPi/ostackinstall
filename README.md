@@ -685,6 +685,8 @@ kolla-ansible deploy -i multinode
       - run the script
       ```bash
       ./init-runonce.2023.1.cirros
+      # or
+      ./init-runonce.2025.1.cirros
       ```
 > [!Note]
 > Script `init-runonce` illustrates the use of several `openstack client` commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only **once** and subsequent runs will generate errors because of all constructs having already been created. In such a case free experimenting with it should depend on echo-ing openstack commands (to display them as ready-to-run strings) at the same time suppressing in the script the execution of the commands in OpenStack.
