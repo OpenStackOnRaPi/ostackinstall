@@ -631,6 +631,14 @@ kolla-ansible deploy -i multinode
 ```
 
 > [!IMPORTANT]
+> If some node fails to complete a task related to related to restarting a container this may result from conectrivity problems to quay.io container repository. In such a case run `kolla-ansible deploy` again. Below is an example of such recoverable failue.
+> ```
+> RUNNING HANDLER [neutron : Restart neutron-openvswitch-agent container] **************************************************************
+changed: [rapi1]
+fatal: [rapi2]: FAILED! => {"changed": false, "msg": "Unknown error message: dial tcp: lookup quay.io on 192.168.10.1:53: read udp 192.168.10.22:47363->192.168.10.1:53: i/o timeout"}
+changed: [rapi3]
+> ```
+>
 > We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [this section](#shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid reinstalling the cluster (and sometimes even reinstalling the operating system on failed node(s)).
 
 ### Postdeployment and first instance
