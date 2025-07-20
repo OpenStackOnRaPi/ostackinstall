@@ -144,7 +144,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 > [!IMPORTANT]
 > This configuration only concerns the host that will host both `control node` and `network node` functions in your OpenStack. We assume host with name `ost04` to be the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings. Of course, one can separate `control` and `network` functions by assigning other host in Ansible inventory to be the `network node`. While this reduces maximal memory occupancy of the nodes, it does not relieve you of the responsibility to monitor resource usage on the control hosts.
 
-  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap that we have observed so far is 1.7GB. We set swap size to **`4096`** which seems to provide a safe margin in our case, but you can double it if you want.
+  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory size that we have observed so far is 2.5GB. Below we set swap size to **`4096`** which seems to provide a safe margin, but you can double it if you want greater guarantees.
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
