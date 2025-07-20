@@ -656,7 +656,12 @@ kolla-ansible deploy -i multinode
   * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed by install-runonce stript in a while to create your first instance): 
 
     ```
+    # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
     kolla-ansible post-deploy
+
+    # for 2025.1 (inventory forlder /etc/kolla/ansible/inventory introduced in 2025.1, but we can point to inventory file located elsewhere
+    kolla-ansible post-deploy -i multinode-2025.1
+    
     sudo mkdir ~/.config 
     mkdir ~/.config/openstack
     #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
