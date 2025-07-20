@@ -41,7 +41,7 @@ This guide covers several steps leading to the instantiation of your first VM in
 
 ## 2. Platform components
 
-All procedures described in this guide assume HW and SW setup of the cluster as specified below:
+All procedures described in this guide assume compliance with the setup options for HW and SW in the cluster as specified below:
 
 1. Raspberry Pi 4 and Raspberry 5
    * tested options: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster (uniform 8GB RAM clusters are better)
