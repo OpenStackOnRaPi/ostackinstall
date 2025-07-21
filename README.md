@@ -140,12 +140,12 @@ $ sudo sysctl -p
 $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
   ```    
 
-9. Increase swap size on the `control` node
+9. Increase swap memory size on the `control` node
 
 > [!IMPORTANT]
-> This configuration only concerns the host that will host both `control node` and `network node` functions in your OpenStack. We assume host with name `ost04` to be the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings. Of course, one can separate `control` and `network` functions by assigning other host in Ansible inventory to be the `network node`. While this reduces maximal memory occupancy of the nodes, it does not relieve you of the responsibility to monitor resource usage on the control hosts.
+> This configuration only concerns the host that will host both `control node` and `network node` functions in your OpenStack. We assume host with name `ost04` to be the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings. Of course, one can separate `control` and `network` functions by assigning other host in Ansible inventory to be the `network node`. While this slightly reduces the maximal memory occupancy of the nodes, it does not relieve you of the responsibility to monitor resource usage on the control hosts.
 
-  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory size that we have observed so far is 2.5GB. Below we set swap size to **`4096`** which seems to provide a safe margin, but you can double it if you want greater guarantees.
+  * follow the instructions from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory that we have observed so far is 2.5GB. Below we set the size to **`4096`** which should provide a safe margin, but you can double it if you want greater guarantees.
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
