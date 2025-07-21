@@ -142,9 +142,9 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap memory size on the `control` node
 
 > [!IMPORTANT]
-> This configuration only concerns the host that will host both `control node` and `network node` functions in your OpenStack. We assume host with name `ost04` to be the `control` node. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
+> This configuration only concerns the host that will play the role of `control node` and `network node` in your OpenStack. In this guide, we assume this role will be assigned to host with name `ost04`. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Other hosts can have default swap settings.
 >
-> Kolla-Ansible allows one to separate `control` and `network` functions by assigning them to different hosts in Ansible inventory. While this slightly reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` host. Of course, if you are curious, you can give it a try (see the inventory setup in this document for details).
+> Kolla-Ansible allows one to separate `control` and `network` functions by assigning them to different hosts in Ansible inventory. While this slightly reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network' hosts. Of course, if you are curious, you can give it a try.
 
   * follow the instructions below; they are drawn from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory that we have observed so far is 2.5GB. Below we set the size to **`4096`** which should provide a safe margin, but you can double it if you want greater guarantees.
   ```
