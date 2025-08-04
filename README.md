@@ -13,8 +13,8 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 1. [Introduction](#1-introduction)
 2. [Platform components](#2-platform-components)
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
-   1. [RaPi system configuration](#rapi-system-configuration)
-   2. [RaPi network configuration](#rapi-network-configuration)
+   1. [RPi system configuration](#rapi-system-configuration)
+   2. [RPi network configuration](#rapi-network-configuration)
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [Management host system configuration](#management-host-system-configuration)
@@ -62,7 +62,7 @@ All procedures described in this guide assume compliance with the setup options 
    * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work on Raspberry Pi 5 with standard Kolla-Ansible installation).
 5. Notes
    * there are various PoE HATs for Raspberry Pi 4/5 and various PoE switches that should work; one should only take care of the required power budget of the switch and it is different for Raspberry Pi platform 4 and 5.
-   * for general education purposes, we use setups with at least 3 RaPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
+   * for general education purposes, we use setups with at least 3 RPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
    * other details that may be relevant are explained in the description that follows
    * trials with Raspberry Pi 5 are planned for the near future
   
@@ -70,7 +70,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
-### RaPi system configuration
+### RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
@@ -103,7 +103,7 @@ $ sudo visudo    ==> change user group "sudo" permissions to:
 
 6. Install usefull tools
 
-   Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RaPi) 
+   Note: ```lm-sensors``` does not serve OpenStack purposes directly, but can be used to monitor CPU temperature (one has to ssh onto the RPi) 
 
   ```
 $ sudo apt-get install net-tools -y && sudo apt-get install lm-sensors -y
@@ -117,7 +117,7 @@ $ sensors
 while :; do sensors; sleep 30; done
 ```
 
-7. Enable packet forwarding on the RaPi
+7. Enable packet forwarding on the RPi
 
   ```
 $ sudo nano /etc/sysctl.conf
@@ -158,11 +158,11 @@ swapon --show        # ensure it is now active
 sudo reboot
   ```
 
-### RaPi network configuration
+### RPi network configuration
 
 #### Configuration description
 
-Network devices on our RaPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration.
+Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration.
 
 This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces in production OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
@@ -183,7 +183,7 @@ static IP 192.168.1.6x/24         no IP addr assigned (Kolla-Ansible requires th
     |                   brmux                 |      L2 device, IP address not needed here, tagged VLANs have to be configured here
     +---------------------┬-------------------+        (towards veth1) in case of using provider VLAN networks
                      +---------+
-                     |  eth0   |      physical interface of RaPi (taken by brmux), no IP address is needed, but tagged VLANs 
+                     |  eth0   |      physical interface of RPi (taken by brmux), no IP address is needed, but tagged VLANs 
                      +---------+      have to be configured in case of using provider VLAN networks
   ```
 
@@ -242,7 +242,7 @@ EOT
 
   * for `netplan` utility, remaining settings of the network
 
-    **NOTE 1: adjust the IP address of veth0 in each RaPi according to you network setup.**
+    **NOTE 1: adjust the IP address of veth0 in each RPi according to you network setup.**
 
     **NOTE 2:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
@@ -275,8 +275,8 @@ network:
 #  wifis:
 #    wlan0:
 #      access-points:
-#        FreshTomato06:
-#          password: klasterek
+#        someaccesspoint:
+#          password: somepassword
 #      dhcp4: true
 #      optional: true
 
@@ -294,7 +294,7 @@ network:
     # veth0-veth0br pair
     veth0:                  # network_interface for kolla-ansible
       addresses:
-        - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RAPI !!!!!!!!
+        - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
       nameservers:
         addresses:
           - 192.168.1.1     # ADJUST to Linksys dhcp server
@@ -335,7 +335,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 ```
   * deploy the changes permanently - create and configure devices
     
-    Note: you will loose connectivity to your RaPi because of the change of IP address. To continue, ssh again using the new address.
+    Note: you will loose connectivity to your RPi because of the change of IP address. To continue, ssh again using the new address.
 
 ```
 $ sudo netplan generate      <=== neglect a WARNING about too open permissions
@@ -492,7 +492,7 @@ forks=100
 EOT
 ```
 
-  * Once we have prepared networking on our RaPis we should update the file ```/etc/hosts``` (on the management host) by adding our OpenStack hosts (RaPis); this information will be used by Ansible. For example:
+  * Once we have prepared networking on our RPis we should update the file ```/etc/hosts``` (on the management host) by adding our OpenStack hosts (RPis); this information will be used by Ansible. For example:
 ```
 $ cat /etc/hosts
 127.0.0.1	localhost
@@ -555,7 +555,7 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
     "changed": false, "msg": "Failed to connect to the host via ssh...` then check file `/etc/hosts` for the presence of the resolution data. If previous installation of OpenStack failed and you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` should solve the problem. 
 
 ```
-# check if ansible can reach target hosts (our RaPis):
+# check if ansible can reach target hosts (our RPis):
 $ ansible -i multinode all -m ping
 ```
 
@@ -599,9 +599,10 @@ sudo tee /etc/kolla/config/nova/ << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
-#for RaPi 5 enable cortex-a76 <== currently lack of support of RPi5 board in qemu
-#for RaPi 4 enable cortex-a72
+#for RPi 5 enable cortex-a76 <== currently lack of support of RPi5 board in qemu
+#for RPi 4 enable cortex-a72
 #[libvirt]
+# qemu works only for RPi 4; enable all three settings that follow
 #virt_type = qemu
 #cpu_mode = custom
 #cpu_models = cortex-a72
