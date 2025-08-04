@@ -385,7 +385,7 @@ $ sudo apt update && sudo apt upgrade
   ```
 
   * Install GuestAdditions
-    refer, e.g., to [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
+    - refer, e.g., to [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
     
   * Enable passwordless sudo logging on the management host (required by Ansible) and reboot (reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt)
   ```
