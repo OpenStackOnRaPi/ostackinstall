@@ -174,7 +174,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
-= |  veth0  |= = = = = = = = = = |   veth1  |= = interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
+= |  veth0  |= = = = = = = = = = =|   veth1  |= = interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
     +----┬----+                     +----┬----+     they correspond to physical network cards (interfaces) in a production server
          |                               |
          | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
