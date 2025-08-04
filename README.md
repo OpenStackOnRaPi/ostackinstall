@@ -176,19 +176,20 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
     +---------+                     +---------+
 = = |  veth0  |= = = = = = = = = = =|   veth1 |= =  interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
     +----┬----+                     +----┬----+     they correspond to physical network cards (interfaces) in a production server
+         |                               |          tagged VLANS will be configured for veth1 in case of using VLAN provider networks
          |                               |
          | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
-    | veth0br |                     | veth1br |     tagged VLANs have to be configured by the admin between eth0 and veth1 in case
-    +----┬----+                     +----┬----+     of using provider VLAN networks
+    | veth0br |                     | veth1br |     tagged VLANs have to be configured by the admin from eth0 across veth1br to
+    +----┬----+                     +----┬----+     veth1 in caseof using VLAN provider networks
     +----┴-------------------------------┴----+
     |                   brmux                 |     L2 device, IP address not needed here, tagged VLANs have to be configured here
     +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
                           |                         - corresponds to a physical switch in data center L2 network
                      +----┴----+
                      |  eth0   |      physical interface of RPi (taken by brmux), no IP address is needed, but tagged VLANs 
-                     +---------+      have to be configured in case of using provider VLAN networks
+                     +---------+      have to be configured here in case of using VLAN provider networks
 ```
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code provides the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
