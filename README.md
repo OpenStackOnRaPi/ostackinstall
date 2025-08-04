@@ -585,13 +585,16 @@ $ ansible -i multinode all -m ping
 ```
 $ sudo nano /etc/kolla/globals.yml
 ---
-# Valid options are ['centos', 'debian', 'rocky', 'ubuntu']
+_# Valid options are ['centos', 'debian', 'rocky', 'ubuntu']_
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
 kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
+_# The following line must be uncommented for 2025.1 to disable proxysql and enable haproxy,
+# otherwise there will be page size incompatibility between Raspberry Pi OS and proxysql application._
+#enable_proxysql: "no"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
