@@ -167,6 +167,8 @@ Network devices on our RPi have to meet Kolla-Ansible requirements for network i
 This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces in production OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
 ```
+SCHEMATIC VIEW OF RPi INTERNAL NETWORK EMULATING REAL DC NETWORK ENVIRONMENT
+
 network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
 static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires that)
