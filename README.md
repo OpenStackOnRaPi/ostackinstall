@@ -162,27 +162,31 @@ sudo reboot
 
 #### Configuration description
 
-Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together in desired configuration.
+Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together to emulate deired configuration.
 
 This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces in production OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
   ```
-network_interface                 neutron_external_interface 
-(OStack svcs, tenant nets)        (provider networks, tetnant routers/floating IPs)
-static IP 192.168.1.6x/24         no IP addr assigned (Kolla-Ansible requires that)
+network_interface, veth0          neutron_external_interface, veth1
+(OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
+static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires that)
+ 
+                                                    HOST NETWORK domain ("host-internal" in production),
+                                                    - under Nova/Neutron governance
     +---------+                     +---------+
-    |  veth0  |                     |  veth1  | <=== intfcs to be declared in globals.yml, used by Kolla-Ansible and OpenStack
-    +---------+                     +---------+
-         |                               |           HOST NETWORK domain ("host-internal" - under Nova/Neutron governance)
-    - - -|- - - - - - - - - - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - - - -                      
-         | <-------- veth pairs -------> |           DATA CENTER NETWORK domain ("physical" - under DC admin governance)
-    +---------+                     +---------+ 
-    | veth0br |                     | veth1br |      tagged VLANs have to be configured by the admin between eth0 and veth1
-    +---------+                     +---------+        in case of using provider VLAN networks
+= = |  veth0  |= = = = = = = = = = =|  veth1  |= = =interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
+    +----┬----+                     +----┬----+     they correspond to physical network cards (interfaces) in a production server
+         |                               |
+         | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
+         |                               |          - under DC admin governance
+    +----┴----+                     +----┴----+ 
+    | veth0br |                     | veth1br |     tagged VLANs have to be configured by the admin between eth0 and veth1 in case
+    +----┬----+                     +----┬----+     of using provider VLAN networks
     +----┴-------------------------------┴----+
-    |                   brmux                 |      L2 device, IP address not needed here, tagged VLANs have to be configured here
-    +---------------------┬-------------------+        (towards veth1) in case of using provider VLAN networks
-                     +---------+
+    |                   brmux                 |     L2 device, IP address not needed here, tagged VLANs have to be configured here
+    +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
+                          |                         - corresponds to a physical switch in data center L2 network
+                     +----┴----+
                      |  eth0   |      physical interface of RPi (taken by brmux), no IP address is needed, but tagged VLANs 
                      +---------+      have to be configured in case of using provider VLAN networks
   ```
