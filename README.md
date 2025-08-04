@@ -639,9 +639,9 @@ kolla-ansible deploy -i multinode
 > If some node fails to complete a task related to restarting a container this may result from conectivity problems to `quay.io` container repository. To recover from this just run `kolla-ansible deploy` again. Below is an example of such recoverable failue. If the problem persists check `quay.io` health in [this portal](https://statusgator.com/services/quay) and if there is a clear evidence of deteriorations try to re-run `deploy` after some time. Another (more advanced) option is to build images of kolla containers on your own and keep them in a local repository according to [this guide](https://docs.openstack.org/kolla/latest/admin/image-building.html) (to this and, you will need to install and run your own repo, reserve some GB of storage for images; you will also need to adapt the commands from the linked guide to aarch64).
 > ```
 > RUNNING HANDLER [neutron : Restart neutron-openvswitch-agent container] **************************************************************
-> changed: [rapi1]
-> fatal: [rapi2]: FAILED! => {"changed": false, "msg": "Unknown error message: dial tcp: lookup quay.io on 192.168.10.1:53: read udp 192.168.10.22:47363->192.168.10.1:53: i/o timeout"}
-> changed: [rapi3]
+> changed: [ost01]
+> fatal: [ost02]: FAILED! => {"changed": false, "msg": "Unknown error message: dial tcp: lookup quay.io on 192.168.10.1:53: read udp 192.168.10.22:47363->192.168.10.1:53: i/o timeout"}
+> changed: [ost03]
 > ```
 >
 > We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [this section](#shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid reinstalling the cluster (and sometimes even reinstalling the operating system on failed node(s)).
@@ -739,13 +739,13 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
 > If Ansible issues a notification as below informing about certain hosts being ureachable, run the **`stop`** command again.
 > ```
 > TASK [Gather facts] **************************************************************************************************
-> [WARNING]: Unhandled error in Python interpreter discovery for host rapi3: Failed to connect to the host via ssh: ssh:
-> connect to host > rapi3 port 22: Connection refused
-> fatal: [rapi3]: UNREACHABLE! => {"changed": false, "msg": "Data could not be sent to remote host \"rapi3\". Make sure
-> this host can be > reached over ssh: ssh: connect to host rapi3 port 22: Connection refused\r\n", "unreachable": true}
+> [WARNING]: Unhandled error in Python interpreter discovery for host ost03: Failed to connect to the host via ssh: ssh:
+> connect to host > ost03 port 22: Connection refused
+> fatal: [ost03]: UNREACHABLE! => {"changed": false, "msg": "Data could not be sent to remote host \"ost03\". Make sure
+> this host can be > reached over ssh: ssh: connect to host ost03 port 22: Connection refused\r\n", "unreachable": true}
 > ```
     
-  * Power off RbPis
+  * Power off RPis
     - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command)
     ```bash
     #!/bin/bash
