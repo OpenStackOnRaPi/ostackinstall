@@ -166,7 +166,7 @@ Network devices on our RPi have to meet Kolla-Ansible requirements for network i
 
 This is depicted in the figure below where also the role of respective interfaces is shown. In our setup, interfaces ```veth0``` and ```veth1``` correspond to physical interfaces in production OpenStack host. They will be configured by Kolla-Ansible according to Kolla-Ansible/OpenStack networking principles and we assume that ```veth0``` and ```veth1``` will serve as Kolla-Ansible ```network_interface``` and ```neutron_external_interface```, respectively. For more information on Kolla-Ansible networking for OpenStack, please refer to respective [documentation](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
-  ```
+```
 network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
 static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires that)
@@ -174,7 +174,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
-= |  veth0  |= = = = = = = = = = =|   veth1  |= = interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
+= |  veth0  |= = = = = = = = = = =|   veth1   |= = interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
     +----┬----+                     +----┬----+     they correspond to physical network cards (interfaces) in a production server
          |                               |
          | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
@@ -189,7 +189,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
                      +----┴----+
                      |  eth0   |      physical interface of RPi (taken by brmux), no IP address is needed, but tagged VLANs 
                      +---------+      have to be configured in case of using provider VLAN networks
-  ```
+```
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` files to define our network setup. Basically, networkd files allow to define tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code provides the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to configure tagged VLANs solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (including tagged VLANs on eth0, brmux, veth0br and veth1br) are possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
