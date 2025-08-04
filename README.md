@@ -374,17 +374,12 @@ Here, we assume using a virtual machine, but things do not change if the managem
   * After launching the VM in VirtualBox, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the steps that follow.
   * Disable the automatic upgrade option in the VM; in the desktop, search for this setting in `Options`.
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
-  * Assign sudo privileges to your user (we assume username `ubuntu`):
+  * Assign sudo privileges to your user (we assume username `ubuntu`)
   ```
 $ sudo usermod -aG sudo $USER
   ```
 
-   * Reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt
-  ```
-$ reboot
-  ```
-
-  * Run
+   * Update/upgrade
   ```
 $ sudo apt update && sudo apt upgrade
   ```
@@ -392,9 +387,10 @@ $ sudo apt update && sudo apt upgrade
   * Install GuestAdditions
     refer, e.g., to [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
     
-  * Enable passwordless sudo logging on the management host (required by Ansible)
+  * Enable passwordless sudo logging on the management host (required by Ansible) and reboot (reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt)
   ```
 $ sudo apt install sshpass
+$ sudo reboot
   ```
 
 ### Docker installation
@@ -421,9 +417,9 @@ $ echo \
 $sudo apt update
 $sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-$ sudo groupadd docker   <=== to dla pewności
+$ sudo groupadd docker   <=== for any case
 $ sudo usermod -aG docker $USER
-$ newgrp docker          <=== dodaje usera do grupy w bieżącej powłoce (bez reboot)
+$ newgrp docker          <=== adds the user to group docker in current shell without rebooting
   ```
   * Verify if docker works (check if you can run docker without sudo - should be possible)
   ```
