@@ -434,7 +434,7 @@ $ docker run hello-world
 
 The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html) (and very similar, but not identical, to ). A couple of exceptions are a direct consequence of changing the status of 2023.1 release to "unmaintained" without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
 
-At the moment, the instructions below cover installation instructions for release 2023.1. The installation of 2025.1 is very similar (see [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html)), however there are small differences between both releases (e.g., in 2023.1 one installs Ansible explicitly running a separate command while this step is included in Kolla-Ansible script in 2025.1). Therefore, when installing 2025.1 you are advised to refer to the original guide to consult all details.
+At the moment, the instructions below cover installation instructions for release 2023.1. The installation of 2025.1 is very similar (see [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html)), however there are small differences between both releases (e.g., in 2023.1 one installs Ansible explicitly by running a separate command while in 2025.1 this step is included in the Kolla-Ansible script). Therefore, when installing 2025.1 you are advised to refer to the original guide to consult all details.
 
   * Install Python packages, create and activate virtual environment
 ```
@@ -456,16 +456,18 @@ $ rm -r <venv-root-folder-name->
   * Install Kolla-Ansible in the active venv
 ```
 $ pip install -U pip
-$ pip install 'ansible>=6,<8'     ==>   for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
-                                        for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
-                                        for 2025.1: installing ansible is included in kolla-ansible installation so we skip this step for 2025.1
+$ pip install 'ansible>=6,<8'     ==>   for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
+                                        for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
+                                        for 2025.1: installing Ansible is done by Kolla-Ansible script so we skip this step for 2025.1
 $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
       ==> for 2024.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.1
           for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
+          for 2025.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2025.1
 ```
 
 > [!WARNING]
 > If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your release is currently stored and where you will find its current name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1```. In case of using other release than 2023.1 similar procedure will apply.
+> If a given release becomes `unmaintained` in the future the modifications similar to those we use for 2023.1 should work as well. 
 
 ### Prepare configuration files for Kolla-Ansible
 
