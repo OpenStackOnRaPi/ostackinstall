@@ -585,24 +585,24 @@ $ ansible -i multinode all -m ping
 ```
 $ sudo nano /etc/kolla/globals.yml
 ---
-_# Valid options are ['centos', 'debian', 'rocky', 'ubuntu']_
+# Valid options are ['centos', 'debian', 'rocky', 'ubuntu']
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
 kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
-_# The following line must be uncommented for 2025.1 to disable proxysql and enable haproxy,
-# otherwise there will be page size incompatibility between Raspberry Pi OS and proxysql application._
+# The following line must be uncommented for 2025.1 to disable proxysql and enable haproxy,
+# otherwise there will be page size incompatibility between Raspberry Pi OS and proxysql application.
 #enable_proxysql: "no"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
   * prepare file `/etc/kolla/conf/nova/nova-compute.conf`
-    Here, we actually only request that created virtual machines should be automatically brought to their previous state (e.g., ACTIVE) when the host is booted. This is convenient when we stop OpenStack (e.g., to shut down the cluster for some time) and start it again afterwards. The latter is described in section [Stop the cluster and start it again](#stop-the-cluster-and-start-it-again).
+    Here, we actually only request that the virtual machines that had been created before stopping the OpenStack are automatically brought to their previous state (e.g., ACTIVE) when OpenStack is restarted. This is convenient when we stop OpenStack (e.g., to shut down the cluster for some time) and start it again afterwards. The latter is described in section [Stop the cluster and start it again](#stop-the-cluster-and-start-it-again).
 
 > [!NOTE]
-> File /etc/kolla/config/nova/nova-compute.conf can overwrite the settings given in file `/etc/kolla/globals.yml`. In particular, we can set non-default virtualization type and cpu mode and type in the ```[libvirt]``` section of file ```nova-compute.conf``` shown for Raspberry Pi 4 below, but commented out. It does works for RPi4, but as of this writing (July 2025) similar setting for Raspberry Pi 5 do not (it seems that libvirt does not currently support cpu model `cortex-a76` implemented by RPi 5). So basically KVM is preferred in our case. Luckily, KVM is the default choice in Kolla-Ansible when CPU architecture of hosts (declared by ```openstack_tag_suffix``` in ```globals.yml```) is ```aarch64```. In such a case (```aarch64```) libvirt driver in ```nova-compute``` imposes ```host-passthrough``` CPU mode (see [here](https://review.opendev.org/c/openstack/nova/+/530965) for more on that). All in all, we use KVM for both Raspberry Pi 4 and 5 for which it is sufficient not to change default settings in ```globals.yml``` (KVM is default) and not to specify ```[libvirt]``` section in ```nova-compute.conf``` at all.
+> File /etc/kolla/config/nova/nova-compute.conf can overwrite the settings given in file `/etc/kolla/globals.yml`. In particular, we can set non-default virtualization type and cpu mode and type in the ```[libvirt]``` section of file ```nova-compute.conf``` shown for Raspberry Pi 4 below, but commented out. It does works for RPi4, but as of this writing (July 2025) similar setting for Raspberry Pi 5 do not (it seems that libvirt does not currently support cpu model `cortex-a76` implemented by RPi 5). So basically KVM is preferred in our case. Luckily, KVM is the default choice in Kolla-Ansible when CPU architecture of hosts (declared by ```openstack_tag_suffix``` in ```globals.yml```) is ```aarch64```. In such a case (```aarch64```) libvirt driver in ```nova-compute``` imposes ```host-passthrough``` CPU mode (see [here](https://review.opendev.org/c/openstack/nova/+/530965) for more on that). All in all, we use KVM for both Raspberry Pi 4 and 5, and in this case it is enough not to change the default settings in ```globals.yml``` (KVM is default) and not to specify ```[libvirt]``` section in ```nova-compute.conf``` at all.
 
 <pre>
 sudo mkdir -p /etc/kolla/config/nova
