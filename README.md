@@ -74,13 +74,13 @@ The following has to be done for each Rasppbery Pi host in your cluster and the 
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
-1. Flash the OS (Raspberry Pi OS Lite (64bit), a port of Debian 12 (Bookworm) with no desktopp environment) onto microSD card. We recommend using Raspberry Pi imager.
-   * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method)
-   * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set Raspbbery Pi host name.
+1. Flash the Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktop environment) onto microSD card. We use Raspberry Pi Imager for that, but other tools can be used as well.
+   * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method); this allows one to avoid the use of authentication keys in Ansible (not recommended for production, but simpler)
+   * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set the host name of our RPis.
   
-2. Reserve a set of IP addresses in the subnetwork where your OpenStack instance will be run. They must not be managed by local DHCP server. They will serve as fixed addresses of your RPi hosts, addresses of selected OpenStack services and so-called `floating IP addresses` used to expose instances (virtual machines) to the outside of OpenStack cloud. A continuous set of fifteen addresses is sufficient for teaching purposes.
+2. Reserve a set of IP addresses in the subnetwork where your OpenStack instance will be run. They MUST NOT be managed by your local DHCP server. They will serve as fixed IP addresses of your RPi hosts, addresses of selected OpenStack services and so-called `floating IP addresses` used to expose instances (virtual machines) to the outside of the OpenStack cloud. A continuous set of fifteen addresses will be sufficient for our purposes.
   
-3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host.
+3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved in step 2 above).
 
 **Execute steps 3-9 for each RPi**
 
@@ -142,7 +142,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap memory size on the `control` node
 
 > [!IMPORTANT]
-> This configuration is only for the host that will combine the roles of "control node" and "network node" in your OpenStack. In this guide, we assume these roles will be assigned to host with name `ost04`. Go to [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) to check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can have default swap memory size settings.
+> This configuration is only for the host that will combine OpenStack roles of "control node" and "network node" in your OpenStack cluster. In this guide, we assume these roles will be assigned to the host with name `ost04`. In [this section](#configure-kolla-ansible-files-for-specific-openstack-depolyment) you check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can have default swap memory size settings (512MB in the Raspberry Pi OS).
 >
 > Kolla-Ansible allows one to separate `control` and `network` functions by assigning them to different hosts in Ansible inventory. While this slightly reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network' hosts. Of course, if you are curious, you can give it a try.
 
