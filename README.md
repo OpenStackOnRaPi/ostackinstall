@@ -367,16 +367,20 @@ $ sudo reboot
 
 Here, we assume using a virtual machine, but things do not change if the management host is a physical machine.
 
-  * Create `Ubuntu 22.04 LTS` VM as a desktop machine. We are using `Ubuntu 22.04 LTS` for Kolla-Ansible 2023.1 as the highest distribution supported by Kolla-Ansible 2023.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1; but it becomes mandatory for Kolla-Ansible 25.1_). We have not tested other Linux distributions. There are not high requirements for the resources of ther VM (4GB RAM, 20GB disk, 2vCPU should be sufficient).
-  * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy some files from the RPis to the management host). It is generally simpler when all components (cluster, management host, our physical host) work in the same subnetwork.
-  * Your host should work in the same network as the cluster (in our lab setup, attach it to the Linksys router)
-  * After launching the VM, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the next steps.
-  * Disable the automatic upgrade option; in desktop search for this in Options
+  * Create `Ubuntu 22.04 LTS` VM as a desktop machine. We are using `Ubuntu 22.04 LTS` for Kolla-Ansible 2023.1 as the highest distribution supported by Kolla-Ansible 2023.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1; but it becomes mandatory for Kolla-Ansible 25.1_). We have not tested other Linux distributions. Resource requirements of the VM are moderate (4GB RAM, 20GB disk, 1vCPU should be sufficient).
+  * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in a basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy some files from the RPis to the management host). It is generally simpler when all components (cluster, management host, our physical host) work in the same subnetwork.
+  * It's best when your physical host is connected in the same L2 network segment as the OpenStack cluster (in our lab setup, attach it to the Linksys router).
+  * After launching the VM in VirtualBox, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the steps that follow.
+  * Disable the automatic upgrade option in the VM; in the desktop, search for this setting in `Options`.
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
-  * If your user (we assume username ```ubuntu``` in the following) has not sudo privileges
+  * Assign sudo privileges to your user (we assume username `ubuntu`):
   ```
 $ sudo usermod -aG sudo $USER
-$ reboot    <= reboot is necessary if you make all the installation in one attempt for guaranteeing Ansible permissions
+  ```
+
+   * Reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt
+  ```
+$ reboot
   ```
 
   * Run
