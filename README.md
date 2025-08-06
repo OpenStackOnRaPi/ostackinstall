@@ -301,6 +301,7 @@ network:
       dhcp6: false
 
     # veth0-veth0br pair
+    # note thet the veth pair device has to be defined in networkd file, not here
     veth0:                  # network_interface for kolla-ansible
       addresses:
         - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
@@ -317,6 +318,7 @@ network:
       dhcp6: false
 
     # veth1-veth1br pair
+    # note thet the veth pair device has to be defined in networkd file, not here
     veth1:                  # neutron_external_interface for kolla-ansible
       dhcp4: false
       dhcp6: false
