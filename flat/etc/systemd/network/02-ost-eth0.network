@@ -1,1 +1,8 @@
+# Attach eth0 to brmux
 
+[Match]
+Name=eth0
+#Type=ether
+
+[Network]
+Bridge=brmux
