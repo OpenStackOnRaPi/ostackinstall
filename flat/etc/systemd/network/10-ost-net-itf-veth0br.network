@@ -1,1 +1,11 @@
+# veth0 will become network-interface in kolla-ansible
+# (an interface serving the management network incl. dashboard access, and
+# tenant overlay natworks).
+# Here, we attach the other side of the pair to brmux.
 
+
+[Match]
+Name=veth0br
+
+[Network]
+Bridge=brmux
