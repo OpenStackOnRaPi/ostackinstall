@@ -1,5 +1,5 @@
 # veth1 will become network-external-interface in kolla-ansible.
-# Here, we attach the other side of veth pair to data center bridge.
+# Here, we attach the other side of veth pair to brmux.
 
 [Match]
 Name=veth1br
