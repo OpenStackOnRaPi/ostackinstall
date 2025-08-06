@@ -1,6 +1,6 @@
-# define device veth pair veth1br-veth1
+# Define device veth pair veth1br-veth1
+# It will become neutron_external_interface in globals kolla-ansible
 
-#neutron_external_interface w globals kolla-ansible
 [NetDev]
 Name=veth1br
 Kind=veth
