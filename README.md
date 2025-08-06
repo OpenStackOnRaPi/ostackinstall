@@ -14,7 +14,8 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 2. [Platform components](#2-platform-components)
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#rpi-system-configuration)
-   2. [RPi network configuration](#rpi-network-configuration)
+   2. [RPi network configuration - pure flat provider networks](#rpi-network-configuration-pure-flat-provider-networks)
+   3. [Network configuration - VLAN provider networks](#network-configuration-vlan-provider-networks)
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [VM creation and basic configs](#vm-creation-and-basic-configs)
@@ -159,7 +160,7 @@ swapon --show        # ensure it is now active
 sudo reboot
   ```
 
-### RPi network configuration
+### RPi network configuration - pure flat provider networks
 
 #### Configuration description
 
@@ -218,7 +219,7 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-**_3. Host network configuration - basic flat provider network_**
+**_3. Host network configuration (for flat provider network)_**
 
 > [!NOTE]
 > This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this section and go to XXXXX.
@@ -355,9 +356,13 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-#### Host network configuration - VLAN provider networks
+### Network configuration - VLAN provider networks
 
 In this section, we describe how to configure OpenStack to allow for VLAN-based provider networks. Actually, we will set a flat (untagged) provider network that will support OpenStack management, external and tenant overlay networks (so similarly to the configuration described in the previous subsection). Additionally, we will configure a set of VLANs allowing the admin to create more tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access), depending on the actual needs of the admin and tenants.
+
+#### Configuration implementation
+
+Steps 1 and 2 from the previous section apply 
 
 **_1. Host network configuration - VLAN provider networks_**
 
