@@ -1,0 +1,9 @@
+# Define veth pair veth0br-veth0
+# veth0 will be network_interface in globals kolla-ansible
+
+[NetDev]
+Name=veth0br
+Kind=veth
+
+[Peer]
+Name=veth0
