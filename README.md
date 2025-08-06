@@ -222,7 +222,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 **_3. Host network configuration (for flat provider network)_**
 
 > [!NOTE]
-> This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this section and go to XXXXX.
+> This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this section and go to [Using VLAN provider networks](#using-vlan-provider-networks).
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
