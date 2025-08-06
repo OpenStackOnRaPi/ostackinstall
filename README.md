@@ -23,7 +23,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
    1. [Koll-Ansible installation](#kolla-ansible-installation)
    2. [Generate configuration files for Kolla-Ansible (default templates)](#generate-configuration-files-for-kolla-ansible-default-templates))
    3. [Configure Kolla-Ansible files for specific OpenStack depolyment](#configure-kolla-ansible-files-for-specific-openstack-depolyment)
-   4. [Deploy OpenStack instance](#deploy-openstack-instance)
+   4. [Deploy OpenStack](#deploy-openstack)
    5. [Postdeployment and first instance](#postdeployment-and-first-instance)
 6. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
@@ -637,7 +637,7 @@ flat_networks = physnet1
 EOT
 </pre>
 
-### Deploy OpenStack instance
+### Deploy OpenStack
 
 In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
 
