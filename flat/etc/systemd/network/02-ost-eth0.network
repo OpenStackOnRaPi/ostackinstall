@@ -1,4 +1,4 @@
-# Attach eth0 to brmux
+# Attach eth0 to brmux (eth0 is defined in netplan 50-cloud-init.yaml file)
 
 [Match]
 Name=eth0
