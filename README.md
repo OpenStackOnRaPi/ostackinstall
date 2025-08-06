@@ -218,7 +218,6 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-##### Host network configuration - basic flat provider network
 **_3. Host network configuration - basic flat provider network_**
 
 > [!NOTE]
@@ -356,7 +355,11 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-**_4. Host network configuration - VLAN provider networks_**
+#### Host network configuration - VLAN provider networks
+
+In this section, we describe how to configure OpenStack to allow for VLAN-based provider networks. Actually, we will set a flat (untagged) provider network that will support OpenStack management, external and tenant overlay networks (so similarly to the configuration described in the previous subsection). Additionally, we will configure a set of VLANs allowing the admin to create more tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access), depending on the actual needs of the admin and tenants.
+
+**_1. Host network configuration - VLAN provider networks_**
 
 ## 4. Management host preparation
 
