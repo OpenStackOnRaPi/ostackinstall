@@ -46,6 +46,22 @@ network:
       dhcp4: false
       dhcp6: false
 
+# In the following, only veth0 and veth1 are necessary. The rest is incorrect when using systemd-networkd.
+# It has been left for educational/comparative purposes. However, if only flat network were to be used in
+# our OpenStack then one could uncomment the below definitions and not use systemd-networkd files at all.
+#
+# EXPLANATION: We must use systemd-networkd for persistent network constructs because some settings we need
+# to set VLANs for provider networks are not possible to declare in netplan (at least at the time of this
+# writing). At the same time, the rule for using netplan and systemd-networkd simultaneously is that a
+# definition of a given network related construct must not appear in both the netplan file and the networkd file.
+#
+# For example, uncommenting the bridge "brmux" with interfaces "veth0br" and "veth1br" will result in
+# incorrect VLAN configuration for those interfaces (they will be completely ignored) - see also the
+# files in the /etc/systemd/network/ directory. In contrast, the DHCP declaration for eth0, and the
+# addressing/DNS and IP routing settings for veth0 are correct, because they supplement the
+# definitions of eth0 and veth0 with new elements (addressing and routing) - these elements
+# are not present in the definitions provided in the /etc/systemd/network/ directory.
+
     # veth0-veth0br pair
     veth0:                  # network_interface for kolla-ansible
       addresses:
@@ -58,25 +74,25 @@ network:
       routes:
         - to: 0.0.0.0/0
           via: 192.168.1.1  # ADJUST to Linksys router
-    veth0br:
-      dhcp4: false
-      dhcp6: false
+#    veth0br:
+#      dhcp4: false
+#      dhcp6: false
 
     # veth1-veth1br pair
     veth1:                  # neutron_external_interface for kolla-ansible
       dhcp4: false
       dhcp6: false
-    veth1br:
-      dhcp4: false
-      dhcp6: false
+#    veth1br:
+#      dhcp4: false
+#      dhcp6: false
 
 # Bridge brmux 
 # logically, this is a switch belonging to the physical infrastructure of the
 # data centre provider network (normally, physical network)
 
-  bridges:
-    brmux:
-      interfaces:
-        - eth0
-        - veth0br
-        - veth1br
+#  bridges:
+#    brmux:
+#      interfaces:
+#        - eth0
+#        - veth0br
+#        - veth1br
