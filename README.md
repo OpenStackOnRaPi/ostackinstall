@@ -218,10 +218,11 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-**_3. Main host network configurations_**
+##### Host network configuration - basic flat provider network
+**_3. Host network configuration - basic flat provider network_**
 
 > [!NOTE]
-> This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, please contact me for more info.
+> This setup is prepared for flat provider network only in your OpenStack DC. To allow for VLAN provider networks, additional configurations are needed for ```eth0```, ```brmux``` and ```veth1br``` to set VLANs that should be served by those devices. Respective configurations of VLANs should also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this section and go to XXXXX.
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
@@ -354,6 +355,8 @@ ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-c
 $ ping wp.pl
 $ sudo reboot
 ```
+
+**_4. Host network configuration - VLAN provider networks_**
 
 ## 4. Management host preparation
 
