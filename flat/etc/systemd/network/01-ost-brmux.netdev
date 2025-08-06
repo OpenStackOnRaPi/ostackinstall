@@ -2,7 +2,7 @@
 # to be set in netplan). As a result, definining brmux is no longer needed in the netplan file
 # (indeed, defining brmux there would result in incorrect network configuration - see the description
 # in the netplan/50-cloud-init.yaml file).
-# - This definition only ycreates the brmux device, but it remains inactive (Down). We set it up in the
+# - This definition only creates the brmux device, but it remains inactive (Down). We bring it up in the
 # brmux.network file.
 
 [NetDev]
