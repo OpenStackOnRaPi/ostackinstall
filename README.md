@@ -793,7 +793,7 @@ In this section, we describe how to configure our environment to allow for VLAN-
 
 There's no single generic configuration of provider networks in OpenStack. In our case, we will set a flat (untagged) provider network that will support OpenStack management, external and tenant overlay networks (so similarly to the configuration described in the previous subsection). Additionally, we will configure a set of VLANs allowing the admin to create more tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access), depending on the actual needs of the admin and tenants.
 
-Tthe creation of VLANs
+We propose a two-step approach. First, we will create flat-provider network setup known from section 3.2. However, this time most of the network configurations will be defined in systemd-networkd files (in section 3.2, we used a minimal set of systemd-networkd constructs). As a result we will achieve OpenStack setup functionally identical to that form section 3. In the second step, we will change certain files to create tagged VLANs and enable VLAN provider networks in our cluster.
 
 #### Configuration implementation
 
