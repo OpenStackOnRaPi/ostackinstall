@@ -190,8 +190,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
     |                   brmux                 |     L2 device, IP address not needed here, tagged VLANs have to be configured here
     +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
                           |                         - corresponds to a physical switch in data center L2 network
-    Raspberry Pi          |
-                     +----┴----+
+   Raspberry Pi      +----┴----+
    xxxxxxxxxxxxxxxxx |  eth0   | xxxxxxxxxxxxxx     physical interface of RPi (taken by brmux), no IP address is needed, but 
                      +---------+                    tagged VLAN have to be configured here in case of using VLAN provider networks
 ```
