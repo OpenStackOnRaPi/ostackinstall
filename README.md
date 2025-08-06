@@ -15,7 +15,6 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#rpi-system-configuration)
    2. [RPi network configuration - pure flat provider networks](#rpi-network-configuration---pure-flat-provider-networks)
-   3. [Network configuration - VLAN provider networks](#network-configuration---vlan-provider-networks)
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [VM creation and basic configs](#vm-creation-and-basic-configs)
@@ -29,6 +28,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 6. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#destroy-your-cluster)
+7. [Using VLAN provider networks](#using-vlan-provider-networks)
    
 ## 1. Introduction
 
@@ -355,16 +355,6 @@ ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-c
 $ ping wp.pl
 $ sudo reboot
 ```
-
-### Network configuration - VLAN provider networks
-
-In this section, we describe how to configure OpenStack to allow for VLAN-based provider networks. Actually, we will set a flat (untagged) provider network that will support OpenStack management, external and tenant overlay networks (so similarly to the configuration described in the previous subsection). Additionally, we will configure a set of VLANs allowing the admin to create more tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access), depending on the actual needs of the admin and tenants.
-
-#### Configuration implementation
-
-Steps 1 and 2 from the previous section apply 
-
-**_1. Host network configuration - VLAN provider networks_**
 
 ## 4. Management host preparation
 
@@ -797,3 +787,16 @@ To reinstall your cluster in case of failure, first destroy current installation
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
+# Configuring VLAN provider networks
+
+In this section, we describe how to configure our environment to allow for VLAN-based provider networks in OpenStack.
+
+There's no single generic configuration of provider networks in OpenStack. In our case, we will set a flat (untagged) provider network that will support OpenStack management, external and tenant overlay networks (so similarly to the configuration described in the previous subsection). Additionally, we will configure a set of VLANs allowing the admin to create more tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access), depending on the actual needs of the admin and tenants.
+
+Tthe creation of VLANs
+
+#### Configuration implementation
+
+First, execute steps 1 and 2 from the previous section (stop NetworkManager and install netplan).
+
+**_1. Host network configuration - VLAN provider networks_**
