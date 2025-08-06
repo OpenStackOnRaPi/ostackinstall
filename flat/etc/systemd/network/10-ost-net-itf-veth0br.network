@@ -3,7 +3,6 @@
 # tenant overlay natworks).
 # Here, we attach the other side of the pair to brmux.
 
-
 [Match]
 Name=veth0br
 
