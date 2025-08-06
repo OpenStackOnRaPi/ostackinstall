@@ -787,7 +787,7 @@ To reinstall your cluster in case of failure, first destroy current installation
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
-# Configuring VLAN provider networks
+# Using VLAN provider networks
 
 In this section, we describe how to configure our environment to allow for VLAN-based provider networks in OpenStack.
 
