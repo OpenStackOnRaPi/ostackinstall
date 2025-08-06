@@ -61,6 +61,9 @@ network:
 # addressing/DNS and IP routing settings for veth0 are correct, because they supplement the
 # definitions of eth0 and veth0 with new elements (addressing and routing) - these elements
 # are not present in the definitions provided in the /etc/systemd/network/ directory.
+#
+# Note: if netplan allows to define tagged VLANS for bridge interfaces that using systemd-networkd files
+# will not be necessary and all configurations we need will be possible to define in this file.
 
     # veth0-veth0br pair
     veth0:                  # network_interface for kolla-ansible
