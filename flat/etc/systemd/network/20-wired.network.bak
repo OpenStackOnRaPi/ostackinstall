@@ -1,0 +1,7 @@
+# just a backup for any case
+
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
