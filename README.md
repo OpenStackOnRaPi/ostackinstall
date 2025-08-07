@@ -810,14 +810,16 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 ## VLAN provider networks - part 2 (enabling and using VLAN provider networks)
 
-In this section, we describe how to configure our environment to allow for VLAN-based provider networks in OpenStack.
+In this section, we describe how to enable VLAN provider networks using the setup fron section and show how they can be used.
 
-There's no single generic configuration of provider networks in OpenStack. We will set mix of flat and tagged provider networks. A flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.2). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs in a given data center.
+### Configuration implementation
 
-We propose a two-step approach. First, we will create a flat provider network setup already known from section 3.2. However, this time most of the network configurations will be defined in systemd-networkd files (in section 3.2, we used only a minimal required set of systemd-networkd constructs). As a result we will achieve OpenStack setup functionally identical to that from section 3. In the second, crucial step, we will change certain systemd-networkd configuration files to create tagged VLANs and enable VLAN provider networks in our cluster.
+#### 1. Host network configuration - VLAN provider networks
 
-#### Configuration implementation
+#### 2. Configuring VLANs in the physical network (the TP-Link switch)
 
-First, execute steps 1 and 2 from the previous section (stop NetworkManager and install netplan).
+### Creating and using VLAN provider networks
 
-**_1. Host network configuration - VLAN provider networks_**
+#### Provider network dedicated to a tenant
+
+#### External network using VLAN provider network
