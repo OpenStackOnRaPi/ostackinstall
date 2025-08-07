@@ -15,6 +15,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#rpi-system-configuration)
    2. [RPi network configuration - pure flat provider networks](#rpi-network-configuration---pure-flat-provider-networks)
+   3. [Using VLAN provider networks - part 1 (RPi network configuration)](#)
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [VM creation and basic configs](#vm-creation-and-basic-configs)
@@ -72,7 +73,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
-### RPi system configuration
+### 3.1 RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
@@ -162,6 +163,10 @@ sudo reboot
 
 ### RPi network configuration - pure flat provider networks
 
+In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices). If you are interested in setting VLAN provider networks in your cluster, skip this section and go to [Using VLAN provider networks](#using-vlan-provider-networks).
+
+If you are not interested in deploying VLAN provider networks, follow the remainder of this section and then continue with sections [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [Managing your cluster](#managing-your-cluster). If you want to try VLAN provider networks follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_). Then skip to section [5 Using VLAN provider networks - part 1 (flat network)]()
+
 #### Configuration description
 
 Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together to emulate desired configuration.
@@ -196,7 +201,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
                      +---------+                    tagged VLAN have to be configured here in case of using VLAN provider networks
 ```
 
-To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` configuration files to define our network setup. Basically, networkd files allow to define veth pair devices and tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code contains the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to define all details solely in netplan. This may have changed since then and it may happen that with newer releases of netplan all needed configurations (veth pairs and tagged VLANs on eth0, brmux, veth0br and veth1br) are possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
+To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` configuration files to define our network setup. Basically, networkd files allow to define veth pair devices and tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code contains the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to define all details solely in netplan. It cannot be ruled out that with newer releases of netplan all needed configurations (veth pairs and tagged VLANs on eth0, brmux, veth0br and veth1br) will be possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
 #### Configuration implementation
 
@@ -357,6 +362,10 @@ ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-c
 $ ping wp.pl
 $ sudo reboot
 ```
+
+### Using VLAN provider networks - part 1 (RPi network configuration)
+
+
 
 ## 4. Management host preparation
 
