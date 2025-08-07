@@ -15,7 +15,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#31-rpi-system-configuration)
    2. [RPi network configuration - pure flat provider networks](#rpi-network-configuration---pure-flat-provider-networks)
-   3. [Using VLAN provider networks - part 1 (RPi network configuration)](#)
+   3. [Using VLAN provider networks - part 1 (RPi network configuration)](#using-vlan-provider-networks---part-1-rpi-network-configuration)
 5. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [VM creation and basic configs](#vm-creation-and-basic-configs)
