@@ -812,11 +812,11 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
-### Configuration implementation
+### Setting VLANs in the cluster
 
-#### 1. Host network configuration - VLAN provider networks
+#### 1. Setting VLANs in the RPi hosts
 
-#### 2. Configuring VLANs in the physical network (the TP-Link switch)
+#### 2. Setting VLANs in the physical network (the TP-Link switch)
 
 ### Creating and using VLAN provider networks
 
