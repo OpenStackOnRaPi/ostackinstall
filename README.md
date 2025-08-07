@@ -15,7 +15,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#31-rpi-system-configuration)
    2. [RPi network configuration - pure flat provider networks](#rpi-network-configuration---pure-flat-provider-networks)
-   3. [Using VLAN provider networks - part 1 (RPi network configuration)](#using-vlan-provider-networks---part-1-rpi-network-configuration)
+   3. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
 5. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#general-notes)
    2. [VM creation and basic configs](#vm-creation-and-basic-configs)
@@ -29,7 +29,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 7. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#destroy-your-cluster)
-8. [Using VLAN provider networks](#using-vlan-provider-networks)
+8. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#using-vlan-provider-networks)
    
 ## 1. Introduction
 
@@ -73,7 +73,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
-### 3.1 RPi system configuration
+### RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
@@ -363,9 +363,19 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-### Using VLAN provider networks - part 1 (RPi network configuration)
+### Using VLAN provider networks - part 1 (RPi network configuration for flat network)
 
+We propose a two-step approach. First, we will create a flat provider network setup already known from section 3.ii. However, this time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). As a result we will achieve OpenStack setup functionally identical to that from section 3 (so, it will allow you to carry the same experiments with OpenStack as the setup from 3.ii). This setup will be well suited for converting it to enable VLAN provider networks. Accordingly, in the second, crucial step, we will change certain networkd configuration files to create tagged VLANs and enable VLAN provider networks in our cluster.
 
+There's no single generic configuration of provider networks in OpenStack. We will set a combination of single flat and several VLAN (tagged) provider networks. A flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.ii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs in a given data center.
+
+Current section describes the first step of the two just mentioned (flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [Using VLAN provider networks - part 2 (enabling and using VLAN provider networks)].
+
+#### Configuration implementation
+
+First, execute steps 1 and 2 from the previous section (stop NetworkManager and install netplan).
+
+**_1. Host network configuration - VLAN provider networks_**
 
 ## 4. Management host preparation
 
@@ -798,7 +808,7 @@ To reinstall your cluster in case of failure, first destroy current installation
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
-# Using VLAN provider networks
+## VLAN provider networks - part 2 (enabling and using VLAN provider networks)
 
 In this section, we describe how to configure our environment to allow for VLAN-based provider networks in OpenStack.
 
