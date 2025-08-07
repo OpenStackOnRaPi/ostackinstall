@@ -810,7 +810,7 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 ## VLAN provider networks - part 2 (enabling and using VLAN provider networks)
 
-In this section, we describe how to enable VLAN provider networks using the setup fron section and show how they can be used.
+In this section, we describe how to enable VLAN provider networks by modifying the setup from section [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
 ### Configuration implementation
 
