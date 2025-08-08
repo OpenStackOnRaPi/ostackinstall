@@ -173,7 +173,7 @@ In this section, we describe how to configure networking in our OpenStack provid
 
 If you are not interested in deploying VLAN provider networks, follow the remainder of this section and then continue with sections [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [Managing your cluster](#managing-your-cluster). If you want to try VLAN provider networks follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_). Then skip to section [5 Using VLAN provider networks - part 1 (flat network)]()
 
-#### Configuration description
+#### Network configuration description
 
 Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement. We will create veth pairs and a linux bridge, and we will put them together to emulate desired configuration.
 
