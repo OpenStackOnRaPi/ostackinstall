@@ -31,7 +31,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
    2. [Destroy your cluster](#6ii-destroy-your-cluster)
 7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    1. [Setting VLANs in the cluster](#7i-setting-vlans-in-the-cluster)
-      1. [Setting VLANS in the RPi hosts](#1-setting-vlans-in-the-rpi-hosts)
+      1. [Setting VLANS in the RPi hosts](#7ia-setting-vlans-in-the-rpi-hosts)
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
    
 ## 1. Introduction
