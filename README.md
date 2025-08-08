@@ -19,7 +19,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#4i-general-notes)
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
-   3. [Docker installation](#d4iii-docker-installation)
+   3. [Docker installation](#4iii-docker-installation)
 5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Koll-Ansible installation](#5i-kolla-ansible-installation)
    2. [Generate configuration files for Kolla-Ansible (default templates)](#5ii-generate-configuration-files-for-kolla-ansible-default-templates))
