@@ -280,9 +280,17 @@ network:
   renderer: networkd
 
 #-----------------------------------------#
-# WiFi configurations (as the last-resort)#
-#   (uncomment the operations if needed)  #
+# WiFi configurations (optional)          #
+# (uncomment if needed)                   #
 #-----------------------------------------#
+# WiFi can be hepful during configurations when we will teporarily loose connectivity to
+# RPis from the fixed (cable) network used by OpenStack). RPis (but not OpenStack) will
+# then be accessible via WiFi.
+# WiFi should be configured as isolated subnetwork - distinct form the fixed (cable)
+# network used to access OpenStack (provider external network/management network).
+# E.g., on Linksys, you should dedicate a separate bridge (e.g., br1) to WiFi with
+# distinct IP address range for this subnetwork. You will also have to enable routing
+# between WiFi subnetwork and the fixed subnetwork used to access OpenStack.
 
 ## wlan0 interface will receive IP address from the Linksys DHCP.
 #  adjust access point SSID and password according to your environment
@@ -343,6 +351,7 @@ network:
         - veth1br
 EOT
 ```
+
   > [!IMPORTANT]
   > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust IP, DHCP server and DNS server addresses for your RPi (see the Netplan code above).
 
