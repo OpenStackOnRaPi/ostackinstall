@@ -14,22 +14,22 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 2. [Platform components](#2-platform-components)
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
    1. [RPi system configuration](#3i-rpi-system-configuration)
-   2. [RPi network configuration - pure flat provider network](#rpi-network-configuration---pure-flat-provider-network)
-   3. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
-5. [Management host preparation](#4-management-host-preparation)
-   1. [General notes](#general-notes)
-   2. [VM creation and basic configs](#vm-creation-and-basic-configs)
-   3. [Docker installation](#docker-installation)
-6. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
-   1. [Koll-Ansible installation](#kolla-ansible-installation)
-   2. [Generate configuration files for Kolla-Ansible (default templates)](#generate-configuration-files-for-kolla-ansible-default-templates))
-   3. [Configure Kolla-Ansible files for specific OpenStack depolyment](#configure-kolla-ansible-files-for-specific-openstack-depolyment)
-   4. [Deploy OpenStack](#deploy-openstack)
-   5. [Postdeployment and first instance](#postdeployment-and-first-instance)
-7. [Managing your cluster](#managing-your-cluster)
-   1. [Shut down the cluster and start it again](#shut-down-the-cluster-and-start-it-again)
-   2. [Destroy your cluster](#destroy-your-cluster)
-8. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
+   2. [RPi network configuration - pure flat provider network](#3ii-rpi-network-configuration---pure-flat-provider-network)
+   3. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
+4. [Management host preparation](#4-management-host-preparation)
+   1. [General notes](#4i-general-notes)
+   2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
+   3. [Docker installation](#d4iii-docker-installation)
+5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
+   1. [Koll-Ansible installation](#5i-kolla-ansible-installation)
+   2. [Generate configuration files for Kolla-Ansible (default templates)](#5ii-generate-configuration-files-for-kolla-ansible-default-templates))
+   3. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
+   4. [Deploy OpenStack](#5iv-deploy-openstack)
+   5. [Postdeployment and first instance](#5v-postdeployment-and-first-instance)
+6. [Managing your cluster](#managing-your-cluster)
+   1. [Shut down the cluster and start it again](#6i-shut-down-the-cluster-and-start-it-again)
+   2. [Destroy your cluster](#6ii-destroy-your-cluster)
+7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    
 ## 1. Introduction
 
@@ -73,7 +73,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
-### 3.i. RPi system configuration
+### 3.i RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
@@ -161,7 +161,7 @@ swapon --show        # ensure it is now active
 sudo reboot
   ```
 
-### RPi network configuration - pure flat provider network
+### 3.ii RPi network configuration - pure flat provider network
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices). If you are interested in setting VLAN provider networks in your cluster, skip this section and go to [Using VLAN provider networks](#using-vlan-provider-networks).
 
@@ -372,7 +372,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-### VLAN provider networks - part 1 (RPi network configuration for flat network)
+### 3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)
 
 #### General
 
@@ -393,14 +393,14 @@ Your network configuration is now the same as that from section 3.ii. You can co
 
 ## 4. Management host preparation
 
-### General notes
+### 4.i General notes
 
 1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud. 
 2. This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
 3. The main goal of this guide is to instruct how to _**install**_ OpenStack cloud with Kolla-Ansible on Raspberry Pi cluster. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
 4. **Assumption: for Kolla-Ansible 2023.1, the management host is implemented as Ubuntu 22.04 desktop in VirtualBox.** Other OS may work too after appropriate adaptations. However, there are also dependencies between releases. For example, Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host.
 
-### VM creation and basic configs
+### 4.ii VM creation and basic configs
 
 Here, we assume using a virtual machine, but things do not change if the management host is a physical machine.
 
@@ -428,7 +428,7 @@ $ sudo apt install sshpass
 $ sudo reboot
   ```
 
-### Docker installation
+### 4.iii Docker installation
 
 > [!Note]
 > Docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.
@@ -466,7 +466,7 @@ $ docker run hello-world
 > [!Note]
 > In the following, we assume `ubuntu@labs:~/labs/ostack$` to be the working (current) directory. When copy-pasting, adjust the commands according to your environment.
 
-### Kolla-Ansible installation
+### 5.i Kolla-Ansible installation
 
 The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html) (and very similar, but not identical, to ). A couple of exceptions are a direct consequence of changing the status of 2023.1 release to "unmaintained" without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
 
@@ -504,7 +504,7 @@ $ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.
 > [!WARNING]
 > If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your specific release is currently stored and where you will find its current branch name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1``` (of course, remember to use the name of the release you are dealing with).
 
-### Prepare configuration files for Kolla-Ansible
+### 5.ii Prepare configuration files for Kolla-Ansible
 
 Now, generated by Kolla-Ansible there are several configuraton files with default settings. We have to customize them (and even add new files) to make the configuration appropriate for our cluster.
 
@@ -549,7 +549,7 @@ $ cat /etc/hosts
 ...
 ```
 
-### Configure Kolla-Ansible files for specific OpenStack depolyment
+### 5.iii Configure Kolla-Ansible files for specific OpenStack depolyment
 
 1. Prepare passwords.yml file
 
@@ -672,7 +672,7 @@ flat_networks = physnet1
 EOT
 </pre>
 
-### Deploy OpenStack
+### 5.iv Deploy OpenStack
 
 In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
 
@@ -693,7 +693,7 @@ kolla-ansible deploy -i multinode
 >
 > We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [this section](#shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid reinstalling the cluster (and sometimes even reinstalling the operating system on failed node(s)).
 
-### Postdeployment and first instance
+### 5.v Postdeployment and first instance
 
 **1. Postdeployment**
 
@@ -770,9 +770,9 @@ After running `./init-runonce.20xy.z`, the external and tenant networks, VM imag
 
   * now you can ssh to the instance; both password and key authentication work for ther cirros (the key was installed in the `openstack create` command you run above); the user is `cirros` and the passoword is `gocubsgo`
 
-## Managing your cluster 
+## 6. Managing your cluster 
 
-### Shut down the cluster and start it again
+### 6.i Shut down the cluster and start it again
 
 **1. Shut down the cluster**
 
@@ -814,7 +814,7 @@ This will restart the entire cluster after it has been stopped and resume OpenSt
     kolla-ansible deploy-containers -i multinode 
     ```
 
-### Destroy your cluster
+### 6.ii Destroy your cluster
 
 To reinstall your cluster in case of failure, first destroy current installation (this cleans RPis from all Kolla-Ansible/OpenStack artifacts). To do this, it is best to first stop or remove all running virtual machine instances in the cluster and only then run the command:
 
@@ -822,17 +822,17 @@ To reinstall your cluster in case of failure, first destroy current installation
 kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
-## VLAN provider networks - part 2 (enabling and using VLAN provider networks)
+## 7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
-### Setting VLANs in the cluster
+### 7.i Setting VLANs in the cluster
 
 #### 1. Setting VLANs in the RPi hosts
 
 #### 2. Setting VLANs in the physical network (the TP-Link switch)
 
-### Creating and using VLAN provider networks
+### 7.ii Creating and using VLAN provider networks
 
 #### Provider network dedicated to a tenant
 
