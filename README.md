@@ -369,7 +369,7 @@ There's no single generic configuration of provider networks in OpenStack. In th
 
 We propose a two-step approach. In the first step, we will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack configuration that is functionally identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, it will be better suited for conversion to deploy VLAN provider networks. In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs and enable VLAN provider networks in our cluster.
 
-This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [VLAN provider networks - part 2]#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks].
+This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [VLAN provider networks - part 2](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Configuration
 
