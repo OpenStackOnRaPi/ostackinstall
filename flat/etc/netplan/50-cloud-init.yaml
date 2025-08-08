@@ -62,8 +62,8 @@ network:
 # definitions of eth0 and veth0 with new elements (addressing and routing) - these elements
 # are not present in the definitions provided in the /etc/systemd/network/ directory.
 #
-# Note: If netplan ever allows defining tagged VLANs for bridge interfaces, using systemd-networkd
-# files will no longer be necessary, and all the configurations we nned can be defined in the current file.
+# NOTE: If netplan ever allows defining tagged VLANs for bridge interfaces, using systemd-networkd
+# files will no longer be necessary, and all the configurations we need can be defined in the current file.
 
     # veth0-veth0br pair
     veth0:                  # network_interface for kolla-ansible
@@ -71,12 +71,12 @@ network:
         - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # ADJUST to your Linksys dhcp server
+          - 192.168.1.1     # ADJUST to match your Linksys dhcp server
           - 8.8.8.8
           - 8.8.2.2
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.1.1  # ADJUST to your Linksys router
+          via: 192.168.1.1  # ADJUST to match your Linksys router
 #    veth0br:
 #      dhcp4: false
 #      dhcp6: false
@@ -90,8 +90,8 @@ network:
 #      dhcp6: false
 
 # Bridge brmux 
-# logically, this is a switch belonging to the physical infrastructure of the
-# data centre provider network (normally, physical network)
+# logically, this is a switch belonging to the local network of the
+# data centre provider network (normally, L2 segment of a physical network)
 
 #  bridges:
 #    brmux:
