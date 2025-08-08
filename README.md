@@ -374,6 +374,8 @@ $ sudo reboot
 
 ### VLAN provider networks - part 1 (RPi network configuration for flat network)
 
+#### General
+
 There's no single generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of single flat and several VLAN (tagged) provider networks. A flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.ii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs in a given data center.
 
 We propose a two-step approach. In the first step, we will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack configuration that is functionally identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, it will be better suited for conversion to deploy VLAN provider networks. In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs and enable VLAN provider networks in our cluster.
@@ -382,13 +384,12 @@ This section describes the first of the two steps mentioned (setting flat provid
 
 #### Configuration
 
-* First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
+  * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
+  * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
+  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same ad DHCP server address). 
+  * Then, simply restart the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file.
 
-* Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
-
-* On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same ad DHCP server address). 
-
-* Then, simply restart the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file.
+Your network configuration is now the same as that from section 3.ii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
 
 ## 4. Management host preparation
 
