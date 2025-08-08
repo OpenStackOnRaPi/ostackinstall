@@ -31,7 +31,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
    2. [Destroy your cluster](#6ii-destroy-your-cluster)
 7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    1. [Setting VLANs in the cluster](#7i-setting-vlans-in-the-cluster)
-      1. [ddd](#1-setting-vlans-in-the-rpi-hosts)
+      1. [Setting VLANS in the RPi hosts](#1-setting-vlans-in-the-rpi-hosts)
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
    
 ## 1. Introduction
@@ -829,14 +829,14 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
-### 7.i Setting VLANs in the cluster
+### 7.i. Setting VLANs in the cluster
 
-#### 1. Setting VLANs in the RPi hosts
+#### 7.i.a. Setting VLANs in the RPi hosts
 
-#### 2. Setting VLANs in the physical network (the TP-Link switch)
+#### 7.i.b. Setting VLANs in the physical network (the TP-Link switch)
 
-### 7.ii Creating and using VLAN provider networks
+### 7.ii. Creating and using VLAN provider networks
 
-#### Provider network dedicated to a tenant
+#### 7.ii.a. Provider network dedicated to a tenant
 
-#### External network using VLAN provider network
+#### 7.ii.b External network using VLAN provider network
