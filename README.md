@@ -22,7 +22,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
    3. [Docker installation](#4iii-docker-installation)
 5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Koll-Ansible installation](#5i-kolla-ansible-installation)
-   2. [Generate configuration files for Kolla-Ansible (default templates)](#5ii-prepare-configuration-files-for-kolla-ansible)
+   2. [Prepare configuration files for Kolla-Ansible](#5ii-prepare-configuration-files-for-kolla-ansible)
    4. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
    5. [Deploy OpenStack](#5iv-deploy-openstack)
    6. [Postdeployment and first instance](#5v-postdeployment-and-first-instance)
