@@ -203,7 +203,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` configuration files to define our network setup. Basically, networkd files allow to define veth pair devices and tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code contains the rest of needed information. In fact, the use of both levels (networkd and netplan files) was necessary a time ago when it was not possible to define all details solely in netplan. It cannot be ruled out that with newer releases of netplan all needed configurations (veth pairs and tagged VLANs on eth0, brmux, veth0br and veth1br) will be possible entirely in netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
-#### Configuration
+#### Configuring the network (flat)
 
 > [!Note]
 > Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu.
@@ -382,7 +382,7 @@ We propose a two-step approach. In the first step, we will create a flat provide
 
 This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [VLAN provider networks - part 2](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
-#### Configuration
+#### Configuring the network (flat)
 
   * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
   * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
