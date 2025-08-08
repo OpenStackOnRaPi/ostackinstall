@@ -34,6 +34,8 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
       1. [Setting VLANS in the RPi hosts](#7ia-setting-vlans-in-the-rpi-hosts)
       2. [Setting VLANS in the physical network (the TP-Link switch)](#7ib-setting-vlans-in-the-physical-network-the-tp-link-switch)
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
+      1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
+      2. [External network using VLAN provider network](#7iib-external-network-usingvlan-provider-network)
    
 ## 1. Introduction
 
