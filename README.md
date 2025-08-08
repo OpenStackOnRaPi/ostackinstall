@@ -232,7 +232,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
   * for `networkd` backend, for `veth0-veth0br` pair
 
 ```
-sudo tee /etc/systemd/network/veth-openstack-net-itf-veth0.netdev << EOT
+sudo tee /etc/systemd/network/ost-net-itf-veth0.netdev << EOT
 #network_interface w globals kolla-ansible
 [NetDev]
 Name=veth0
@@ -244,7 +244,7 @@ EOT
 
   * for `networkd` backend, for `veth1-veth1br` pair
 ```
-sudo tee /etc/systemd/network/veth-openstack-neu-ext-veth1.netdev << EOT
+sudo tee /etc/systemd/network/ost-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
 [NetDev]
 Name=veth1
@@ -284,7 +284,7 @@ network:
 #   (uncomment the operations if needed)  #
 #-----------------------------------------#
 
-## wlan0 itf will receive IP address from the Linksys DHCP.
+## wlan0 interface will receive IP address from the Linksys DHCP.
 #  adjust access point SSID and password according to your environment
 #  wifis:
 #    wlan0:
@@ -332,8 +332,8 @@ network:
       dhcp6: false
 
 # Bridge brmux 
-# logically, this is a switch belonging to the physical infrastructure of the
-# data centre provider network (normally, physical network)
+# logically, this is a switch belonging to the local network of the
+# data centre provider network (normally, L2 segment of a physical network)
 
   bridges:
     brmux:
