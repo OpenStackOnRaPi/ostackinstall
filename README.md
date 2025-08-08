@@ -13,7 +13,7 @@ In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up sma
 1. [Introduction](#1-introduction)
 2. [Platform components](#2-platform-components)
 3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
-   1. [RPi system configuration](#31-rpi-system-configuration)
+   1. [RPi system configuration](#3i-rpi-system-configuration)
    2. [RPi network configuration - pure flat provider network](#rpi-network-configuration---pure-flat-provider-network)
    3. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
 5. [Management host preparation](#4-management-host-preparation)
@@ -73,7 +73,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
-### RPi system configuration
+### 3.i. RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
 
