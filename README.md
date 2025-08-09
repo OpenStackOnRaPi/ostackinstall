@@ -708,10 +708,11 @@ Postdeployment includes installing `python-openstackclient` - a command line too
 
   * Install `python-openstackclient` to access OpenStack commands in the console
     ```bash
-    pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2023.1
-    #other options
-      #pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
+    #for the unmaintained release 2023.1
+    pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
+    #other options (for maintained releases)
       #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
+      #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2025.1
     ```
 
   * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed by install-runonce stript in a while to create your first instance): 
@@ -720,7 +721,7 @@ Postdeployment includes installing `python-openstackclient` - a command line too
     # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
     kolla-ansible post-deploy
 
-    # for 2025.1 (inventory forlder /etc/kolla/ansible/inventory introduced in 2025.1, but we can point to inventory file located elsewhere
+    # for 2025.1 (slightly different form because inventory folder /etc/kolla/ansible/inventory has been introduced in 2025.1, but we can point to inventory file located elsewhere, e.g., in the working directory as assumed below)
     kolla-ansible post-deploy -i multinode-2025.1
     
     sudo mkdir ~/.config 
