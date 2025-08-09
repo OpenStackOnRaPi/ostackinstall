@@ -853,7 +853,17 @@ In this section, we describe how to enable VLAN provider networks by modifying t
 
 #### 7.i.a. Setting VLANs in the RPi hosts
 
+Now replace some files in the `/etc/systemd/network` folder with versions from the `vlanned/etc/systemd/network` folder that include the VLAN configuration. After replacing them, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi restart only the networking with the following commands:
+
+```
+ip link set down brmux
+ip link del dev brmux
+systemctl restart systemd-networkd
+```
+
 #### 7.i.b. Setting VLANs in the physical network (the TP-Link switch)
+
+
 
 ### 7.ii. Creating and using VLAN provider networks
 
