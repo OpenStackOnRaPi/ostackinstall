@@ -702,9 +702,9 @@ kolla-ansible deploy -i multinode
 
 ### 5.v Postdeployment and the first instance
 
-Postdeployment includes installing `python-openstackclient` - a command line tool for managing OpenStack, and running additional `post-delopy` script and copying a couple of generated OpenStack configuration files to appropriate locations.
+#### 5.v.a Postdeployment
 
-**1. Postdeployment**
+Postdeployment includes installing OpenStack CLI tool, running additional `post-delopy` script to generate configuration file `clouds.yaml` containing credentials to use OpenStack CLI tool, and copying `clouds.yaml` to appropriate locations.
 
   * Install `python-openstackclient` to access OpenStack commands in the console
     ```bash
@@ -721,7 +721,7 @@ Postdeployment includes installing `python-openstackclient` - a command line too
     # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
     kolla-ansible post-deploy
 
-    # for 2025.1 (slightly different form because inventory folder /etc/kolla/ansible/inventory has been introduced in 2025.1, but we can point to inventory file located elsewhere, e.g., in the working directory as assumed below)
+    # for 2025.1 (slightly different form because inventory folder /etc/kolla/ansible/inventory has been introduced in 2025.1 and script post-deploy requires this inventory as command parapeter, but this change has not be reflected in the original Kolla-Ansible guide); we can point to inventory file located elsewhere, e.g., in the working directory as assumed below
     kolla-ansible post-deploy -i multinode-2025.1
     
     sudo mkdir ~/.config 
@@ -731,7 +731,7 @@ Postdeployment includes installing `python-openstackclient` - a command line too
     cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
-**2. First checks - create the first instance**
+#### 5.v.b First checks - create the first instance
 
    Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line using openstack command line client (similar to creating pods in Kubernetes using kubctl).
 
@@ -784,7 +784,7 @@ After running `./init-runonce.20xy.z`, the external and tenant networks, VM imag
 
 ### 6.i Shut down the cluster and start it again
 
-**1. Shut down the cluster**
+#### 6.i.a Shut down the cluster
 
 This will stop the entire cluster (to eventually power off the RPis) without damaging anything. After that it will be possible to power on the RPis and resume complete OpenStack recovering also the state of all your instances.
 
@@ -813,7 +813,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     ansible all -i $CLUSTER_INVENTORY_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
     ```
     
- **2. Start the cluster**
+ #### 6.i.b Start the cluster
 
 This will restart the entire cluster after it has been stopped and resume OpenStack recovering also the state of all instances.
  
