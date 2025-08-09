@@ -702,9 +702,11 @@ kolla-ansible deploy -i multinode
 
 ### 5.v Postdeployment and the first instance
 
+Postdeployment includes installing `python-openstackclient` - a command line tool for managing OpenStack, and running additional `post-delopy` script and copying a couple of generated OpenStack configuration files to appropriate locations.
+
 **1. Postdeployment**
 
-  * Install `python-openstackclient` to access OpenStack commands in console
+  * Install `python-openstackclient` to access OpenStack commands in the console
     ```bash
     pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2023.1
     #other options
@@ -728,7 +730,7 @@ kolla-ansible deploy -i multinode
     cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
-**2. First checks - create first instance**
+**2. First checks - create the first instance**
 
    Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line using openstack command line client (similar to creating pods in Kubernetes using kubctl).
 
