@@ -25,7 +25,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    2. [Prepare configuration files for Kolla-Ansible](#5ii-prepare-configuration-files-for-kolla-ansible)
    4. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
    5. [Deploy OpenStack](#5iv-deploy-openstack)
-   6. [Postdeployment and first instance](#5v-postdeployment-and-first-instance)
+   6. [Postdeployment and the first instance](#5v-postdeployment-and-the-first-instance)
 6. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#6i-shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#6ii-destroy-your-cluster)
@@ -700,7 +700,7 @@ kolla-ansible deploy -i multinode
 >
 > We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush soon. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [section 6.i](#6i-shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid installing the cluster from scrach (and sometimes even reinstalling the operating system on the failed node(s)).
 
-### 5.v Postdeployment and first instance
+### 5.v Postdeployment and the first instance
 
 **1. Postdeployment**
 
