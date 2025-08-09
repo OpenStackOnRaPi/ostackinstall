@@ -361,7 +361,7 @@ EOT
 ```
 
   > [!IMPORTANT]
-  > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust IP, DHCP server and DNS server addresses for your RPi (see the Netplan code above).
+  > Now edit file `/etc/netplan/50-cloud-init.yaml` and adjust static IP address, DHCP server and DNS server addresses for your RPi (see the Netplan code above). In the future, each RPi will be accessible on the static IP address just configured.
 
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
@@ -375,7 +375,7 @@ $ sudo netplan generate      <=== neglect a WARNING about too open permissions
 $ sudo netplan apply         <=== neglect five WARNINGS about too open permissions
 
 ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
-# check the connectivity
+check the connectivity
 $ ping wp.pl
 $ sudo reboot
 ```
@@ -386,16 +386,29 @@ $ sudo reboot
 
 There's no single generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of single flat and several VLAN (tagged) provider networks. A flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.ii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs in a given data center.
 
-We propose a two-step incremental approach. In the first step, we will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack configuration that is functionally identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, it will be better suited for conversion to enable VLAN provider networks. In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs and enable VLAN provider networks in our cluster.
+We adopt a two-step incremental approach. This section describes the first step. We will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack network configuration that is identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, the current set of files will be better suited for conversion to enable VLAN provider networks.
 
-This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [7. VLAN provider networks - part 2](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
+In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs, enable VLAN provider networks and use them in our cluster. That is covered in section [7. VLAN provider networks - part 2](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Configuring the network (flat)
 
   * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
   * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
-  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router). 
-  * Then, simply restart the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file.
+  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router).
+```
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+  * Then, if you are sure all files hav been prepared correctly simply reboot the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file. If you want to first check for correctness, do the following:
+
+```
+$ sudo netplan generate      <=== neglect a WARNING about too open permissions
+$ sudo netplan apply         <=== neglect five WARNINGS about too open permissions
+
+ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
+check the connectivity
+$ ping wp.pl
+$ sudo reboot
+```
 
 Your network configuration is now the same as that from section 3.ii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
 
