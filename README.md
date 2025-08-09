@@ -81,12 +81,9 @@ The following has to be done for each Rasppbery Pi host in your cluster and the 
 
 You will access the devices in the cluster (RPis, TP-Link) using ssh. Thet IP addresses to use can be checked in Linksys panel `Status->Device List`:
 
-<center>
+<p align="center">
  <img src=images/device-list-linksys.png width='70%' />
-</center>
-
-
-"![](images/device-list-linksys.png)"
+</p>
 
 Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the back side of the switch for a couple of seconds. It is important that there are no VLANS set in the VLAN->802.1Q VLAN tab, i.e. the following is correct (otherwise the VLANs should be deleted):
 
