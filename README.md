@@ -6,7 +6,7 @@ In this repo, we describe how to install OpenStack on Raspberry Pi cluster using
 
 As of mid July 2025, a number of cluster configurations have been tested thoroughly. Each configuration was determined by Raspberry Pi board type (4B and 5), Kolla-Ansible OpenStack release (2023.1 and 2025.1), virtualization type (Qemu emulation and KVM). In all cases, the RPis run under Raspberry Pi OS (Debian 12). We confirm that KVM virtualization works excellent on RPi 4 and RPi 5 for both tested releases of Kolla-Ansible/OpenStack (2023.1, 2025.1). Qemu only works well on RPi 4, and the VMs are more than twice as slow compared to when host-passthrough KVM is used. Qemu doesn't work on RPi 5 because there is no support for the Cortex-A76 processor model in the libvirt package installed by Kolla-Ansible (we base this conclusion on our analysis of libvirtd logs). Moreover, in all cases tested we had to increase the swap memory size on the OpenStack control node from 512 MB (being the default value in the Raspberry Pi OS) to a much safer capacity of 4 GB.
 
-In summary, both the Raspberry Pi 4 and 5 are great platforms for setting up small and cheap, bare metal OpenStack clusters for education purposes. To achieve uniformity of this description, we will ultimately strive to refer to only one installer version – Kolla-Ansible 2025.1. However, the current (July 20, 2025) version of this guide still refers to release 2023.1 of Kolla-Ansible, which should be taken into account when working with the 2025.1 release. This will be revised soon, and further updates will be added as new results or recommendations emerge.
+In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and cheap, bare metal OpenStack clusters for education purposes. To achieve uniformity of this description, we will ultimately strive to refer to only one installer version – Kolla-Ansible 2025.1. However, the current (July 20, 2025) version of this guide still refers to release 2023.1 of Kolla-Ansible, which should be taken into account when working with the 2025.1 release. This will be revised soon, and further updates will be added as new results or recommendations emerge.
 
 ## Table of contents
 
@@ -66,7 +66,7 @@ All procedures described in this guide assume compliance with the setup options 
    * the RPis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
    * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of local network infrastructure
-   * **reserve a pool of IP addresses for the use by OpenStack** on your local router; 20 addresses will be sufficient for our purposes. They **must not** be managed by the DHCP server. Four of them (two in case of two-board cluster)) will be assigned by you to the RPis using netplan (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](https://github.com/OpenStackOnRaPi/OStackInstallRaPi/blob/main/README.md#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
+   * **reserve a pool of IP addresses for the use by OpenStack** on your local router; 20 addresses will be sufficient for our purposes. They **must not** be managed by the DHCP server. Four of them (two in case of two-board cluster)) will be assigned by you to the RPis using netplan (see [here](#configuration-description)), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [here](#configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as ```floating IP addresses``` for accessing created instances from the outside of your cloud.
 4. Virtualization
    * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work on Raspberry Pi 5 with standard Kolla-Ansible installation).
 5. Notes
@@ -169,9 +169,11 @@ sudo reboot
 
 ### 3.ii RPi network configuration - pure flat provider network
 
-In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices). If you are interested in setting VLAN provider networks in your cluster, skip this section and go to [Using VLAN provider networks](#using-vlan-provider-networks).
+In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
 
-If you are not interested in deploying VLAN provider networks, follow the remainder of this section and then continue with sections [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [Managing your cluster](#managing-your-cluster). If you want to try VLAN provider networks follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_). Then skip to section [5 Using VLAN provider networks - part 1 (flat network)]()
+If you want to use flat provider networks only, follow the remainder of this subsection and then continue with sections [5. Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [6. Managing your cluster](#managing-your-cluster).
+
+If you are determined to use VLAN provider networks in your cluster, follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_), and then proceed to [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Note that in this case we use a two-step approach. In subsection 3.iii only a flat provider network will be set in the cluster, while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Network configuration description
 
@@ -233,7 +235,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 **_3. Host network configuration (for flat provider network)_**
 
 > [!NOTE]
-> This setup is prepared for flat provider network only in your OpenStack DC. Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this section and go to [Using VLAN provider networks](#using-vlan-provider-networks).
+> This step is prepared for flat provider network only in your OpenStack DC. Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this step and go to [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
@@ -386,13 +388,13 @@ There's no single generic configuration of provider networks in OpenStack. In th
 
 We propose a two-step incremental approach. In the first step, we will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack configuration that is functionally identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, it will be better suited for conversion to enable VLAN provider networks. In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs and enable VLAN provider networks in our cluster.
 
-This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [VLAN provider networks - part 2](#vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
+This section describes the first of the two steps mentioned (setting flat provider network). The second step (actually enabling and using VLAN provider networks) is covered in section [7. VLAN provider networks - part 2](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Configuring the network (flat)
 
   * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
   * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
-  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same ad DHCP server address). 
+  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router). 
   * Then, simply restart the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file.
 
 Your network configuration is now the same as that from section 3.ii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
@@ -437,7 +439,7 @@ $ sudo reboot
 ### 4.iii Docker installation
 
 > [!Note]
-> Docker can be installed according to [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) original guide. You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.
+> Docker can be installed according to [this original guide](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository). You can safely refer to that document. Below, we replicate it only for sake of completeness of this guide.
 
   * Add Docker's official GPG key:
   ```
@@ -697,7 +699,7 @@ kolla-ansible deploy -i multinode
 > changed: [ost03]
 > ```
 >
-> We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [this section](#shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid reinstalling the cluster (and sometimes even reinstalling the operating system on failed node(s)).
+> We believe it is good practice to monitor memory usage on hosts (remote terminal and `htop` command does a good job of this), especially on the control node. Memory usage crossing 7GB suggests that OpenStack may crush. You can try to remedy this by stopping unnecessary workload (VMs). What may work if there is no such spare workload is stopping OpenStack using command `kolla-ansible stop-containers` and resuming the cloud with command `kolla-ansible deploy-containers` (refer to [this section](#6i-shut-down-the-cluster-and-start-it-again) for more details). This latter method (stopping/starting) takes quite a bit of time (say, 30 minutes in total), but it's worth it because it gives you a chance to avoid reinstalling the cluster (and sometimes even reinstalling the operating system on failed node(s)).
 
 ### 5.v Postdeployment and first instance
 
