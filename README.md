@@ -866,7 +866,7 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [VLAN provider networks - part 1 (RPi network configuration for flat network)](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
-Notice that we are reconfiguring a running instance of OpenStack. However, all the fllowing configurations could equally well be done before running Kolla-Ansible commands - in section [3.iii VLAN provider networks - part 1](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
+Note that in this subsection, we'll be reconfiguring a running OpenStack instance. However, all of the configurations below can be performed just as easily before running the Kolla-Ansible commands in section [3.iii VLAN provider networks - part 1](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
 
 ### 7.i. Setting VLANs in the cluster
 
