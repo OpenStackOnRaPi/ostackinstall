@@ -80,7 +80,13 @@ All procedures described in this guide assume compliance with the setup options 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
 You will access the devices in the cluster (RPis, TP-Link) using ssh. Thet IP addresses to use can be checked in Linksys panel `Status->Device List`:
-![](images/device-list-linksys.png)
+
+<center>
+ <img src=images/device-list-linksys.png width='70%' />
+</center>
+
+
+"![](images/device-list-linksys.png)"
 
 Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the back side of the switch for a couple of seconds. It is important that there are no VLANS set in the VLAN->802.1Q VLAN tab, i.e. the following is correct (otherwise the VLANs should be deleted):
 
