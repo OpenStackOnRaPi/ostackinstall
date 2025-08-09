@@ -79,6 +79,15 @@ All procedures described in this guide assume compliance with the setup options 
 
 The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan).
 
+Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press for a couple of secondsa a button in a small hole on the back side of the switch. It is important that there are no VLANS set in the VLAN->802.1Q VLAN tab, i.e. the following is correct (otherwise the VLANs should be deleted):
+
+
+
+> [!Note]
+> In our TP-Link routers, after restoring factory settings, we log in as user=admin, passwd=admin and the password change is forced upon first login.
+
+Now you can proceed to the next subsection.
+
 ### 3.i RPi system configuration
 
 Basically, we follow the guidlines from [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
