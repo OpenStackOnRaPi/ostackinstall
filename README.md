@@ -702,12 +702,28 @@ type_drivers = flat,vlan,vxlan
 tenant_network_types = vxlan
 
 [ml2_type_vlan]
-network_vlan_ranges = physnet1:100:200
+network_vlan_ranges = physnet1:101:200
 
 [ml2_type_flat]
 flat_networks = physnet1
 EOT
 </pre>
+
+> [!Note]
+> This note is students interested in what's going on above in the ml2_conf.ini file. Remember that in our case, we use OVS as a layer-2 agent in OpenStack (it's THE default SETTING in globals.yml).
+>
+> 1) Attribute `network_vlan_ranges = physnet1:101:200` will be included in the controller (network node) configuration file `/etc/neutron/plugins/ml2/ml2_conf.ini`. This is the allowed range of VLANS to be used by VLAN provider networks in our OpenStack ([see here](https://docs.openstack.org/neutron/queens/configuration/ml2-conf.html))
+> 2) Based on the above, knowledge of established Neutron operating rules, and configuration we have provided in globals.yml for physical port `neutron_external_interface: "veth1"`, Kolla-Ansible will configure the following bindings:
+> - in the ovs-vsctl database, binding of `veth1` to `br-ex` with a command like: `ovs-vsctl add-port br-ex veth1`
+> - in the `/etc/neutron/plugins/ml2/openvswitch_agent.ini` file, the binding of the above-mentioned external bridges (br-ex, br-ex1, ...) to the physical networks: `bridge_mappings = physnet1:br-ex,physnet2:br-ex2` (in our case, there's no `physnet2:br-ex2` - we'd need another "physical" port, e.g., `veth2`, for that.
+> (Neutron assumes interface names in the form and order `br-ex`, `br-ex2`, `br-ex3`, ..., and Kolla-Ansible associates them with the names `physnet1`, `physnet2`, ... based on the order of their appearance in the list define by attribute `network_vlan_ranges = ...`. For example, if we did additionally use `physnet2` in our cluster,`network_vlan_ranges` could look like this: `network_vlan_ranges = physnet1:101:200,physnet2:201:300`, [see here](https://docs.openstack.org/ocata/config-reference/networking/samples/openvswitch_agent.ini.html))
+> 3) We will use the name physnet1 (and optionally physnet2, etc.) from the admin level when creating a provider network. The command specifies the physical network (i.e., indirectly, a specific bridge -> physical port) on which the declared provider network will be created (we will use the VLAN ID from its pool).
+> 4) Note: Binding physical interfaces (veth0, 1,,, in our case, or eth0, 1,... "normally") to internal OpenStack bridges is the responsibility of the OpenStack installer, in our case Kolla-Ansible, but it could be human. Therefore, we have specify the roles of the individual interfaces in our installation in the globals.yml file so that Kolla-Ansible can bind them correctly.
+>
+> About bridge mapping:
+> https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#maintaining_bridge_mappings
+> https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#bridge-mappings
+> https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html#openvswitch-ml2-ovs
 
 ### 5.iv Deploy OpenStack
 
@@ -868,9 +884,16 @@ In this section, we describe how to enable VLAN provider networks by modifying t
 
 Note that we'll be reconfiguring a running OpenStack instance. However, all of the configurations below can be performed just as easily in section [3.iii VLAN provider networks - part 1](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network) so before running the Kolla-Ansible commands.
 
-### 7.i. Setting VLANs for provider networks
+### 7.i Setting VLANs for provider networks
 
-#### 7.i.a. Setting VLANs in the RPi hosts
+#### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
+
+We configure VLANs in the TP-Link switch panel in two tabs.
+
+First, in the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the ports.
+
+
+#### 7.i.b Setting VLANs in the RPi hosts
 
 Replace some files in the `/etc/systemd/network` folder with versions from the `vlanned/etc/systemd/network` folder that include the VLAN configuration. After replacing them, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi restart only the networking with the following commands:
 
@@ -880,12 +903,9 @@ ip link del dev brmux
 systemctl restart systemd-networkd
 ```
 
-#### 7.i.b. Setting VLANs in the physical network (the TP-Link switch)
 
+### 7.ii Creating and using VLAN provider networks
 
-
-### 7.ii. Creating and using VLAN provider networks
-
-#### 7.ii.a. Provider network dedicated to a tenant
+#### 7.ii.a Provider network dedicated to a tenant
 
 #### 7.ii.b External network using VLAN provider network
