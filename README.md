@@ -888,8 +888,6 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 #### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
 
-We configure VLANs in the TP-Link switch panel in two tabs.
-
 First, in the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the ports.
 
 
@@ -903,6 +901,9 @@ ip link del dev brmux
 systemctl restart systemd-networkd
 ```
 
+#### 7.i.c Setting additional VLAN for flat network
+
+pierwsze ze studenta
 
 ### 7.ii Creating and using VLAN provider networks
 
