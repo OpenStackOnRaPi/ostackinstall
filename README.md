@@ -710,7 +710,7 @@ EOT
 </pre>
 
 > [!Note]
-> This note is students interested in what's going on above in the ml2_conf.ini file. Remember that in our case, we use OVS as a layer-2 agent in OpenStack (it's THE default SETTING in globals.yml).
+> This note is for students interested in what's going on above in the `ml2_conf.ini` file. Remember that in our case, we use OVS as a layer-2 agent in OpenStack (it's THE default SETTING in globals.yml).
 >
 > 1) Attribute `network_vlan_ranges = physnet1:101:200` will be included in the controller (network node) configuration file `/etc/neutron/plugins/ml2/ml2_conf.ini`. This is the allowed range of VLANS to be used by VLAN provider networks in our OpenStack ([see here](https://docs.openstack.org/neutron/queens/configuration/ml2-conf.html))
 > 2) Based on the above, knowledge of established Neutron operating rules, and configuration we have provided in globals.yml for physical port `neutron_external_interface: "veth1"`, Kolla-Ansible will configure the following bindings:
@@ -718,7 +718,7 @@ EOT
 > - in the `/etc/neutron/plugins/ml2/openvswitch_agent.ini` file, the binding of the above-mentioned external bridges (br-ex, br-ex1, ...) to the physical networks: `bridge_mappings = physnet1:br-ex,physnet2:br-ex2` (in our case, there's no `physnet2:br-ex2` - we'd need another "physical" port, e.g., `veth2`, for that.
 > (Neutron assumes interface names in the form and order `br-ex`, `br-ex2`, `br-ex3`, ..., and Kolla-Ansible associates them with the names `physnet1`, `physnet2`, ... based on the order of their appearance in the list define by attribute `network_vlan_ranges = ...`. For example, if we did additionally use `physnet2` in our cluster,`network_vlan_ranges` could look like this: `network_vlan_ranges = physnet1:101:200,physnet2:201:300`, [see here](https://docs.openstack.org/ocata/config-reference/networking/samples/openvswitch_agent.ini.html))
 > 3) We will use the name physnet1 (and optionally physnet2, etc.) from the admin level when creating a provider network. The command specifies the physical network (i.e., indirectly, a specific bridge -> physical port) on which the declared provider network will be created (we will use the VLAN ID from its pool).
-> 4) Note: Binding physical interfaces (veth0, 1,,, in our case, or eth0, 1,... "normally") to internal OpenStack bridges is the responsibility of the OpenStack installer, in our case Kolla-Ansible, but it could be human. Therefore, we have specify the roles of the individual interfaces in our installation in the globals.yml file so that Kolla-Ansible can bind them correctly.
+> 4) Note: Binding physical interfaces (`veth0, veth1,...` in our case, but could be `eth0, eth1,...` in physical infrastructure) to internal OpenStack bridges is the responsibility of the OpenStack installer, in our case Kolla-Ansible, but it could be human. Therefore, we have specify the roles of the individual interfaces in our installation in the globals.yml file so that Kolla-Ansible can bind them correctly.
 >
 > About bridge mapping:
 > https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#maintaining_bridge_mappings
