@@ -720,9 +720,12 @@ EOT
 > 3) We will use the name physnet1 (and optionally physnet2, etc.) from the admin level when creating a provider network. Respective command specifies the physical network (thus indirectly references a specific bridge, `br_ex`, and thus a physical interface, `vlan1`) on which the declared provider network (flat or VLAN) is to be created (you will have to use VLAN IDs from the pool associated with `physnet1`, etc.).
 > 4) Note: Binding physical interfaces (`veth0, veth1,...` in our case, but could be `eth0, eth1,...` in physical infrastructure) to internal OpenStack bridges is the responsibility of the OpenStack installer, in our case Kolla-Ansible, but it could be human. That is why we have to specify the roles of the individual interfaces in our installation in the globals.yml file so that Kolla-Ansible knows how to bind them correctly. Important to note that all those configurations are done by OpenStack admin and are hidden from regular users (tenants).
 >
-> About bridge mapping:
+> More about bridge mapping in OpenStack:
+> 
 > https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#maintaining_bridge_mappings
+> 
 > https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#bridge-mappings
+> 
 > https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html#openvswitch-ml2-ovs
 
 ### 5.iv Deploy OpenStack
