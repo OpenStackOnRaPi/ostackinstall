@@ -554,7 +554,7 @@ $ sudo chown $USER:$USER /etc/kolla
 
   * Copy globals.yml and passwords.yml to /etc/kolla directory, and kolla-ansible inventory file to our working directory. We will customize these file for our deployment soon.
 
-    We remind ```~/labs/ostack``` is current working directory.
+    We remind ```~/labs/ostack``` is the working directory.
     
 ```
 $ sudo cp -r kolla-2023.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
@@ -889,7 +889,9 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 #### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
 
-First, in the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the ports.
+First, in the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example, we create one VLAN with VLANID 101, enabling it on the switch ports that connect our RPis. Thus, VLAN 101 will be present on the control, network and compute hosts in the cluster and respective provider network will have similar coverage.
+
+
 
 
 #### 7.i.b Setting VLANs in the RPi hosts
