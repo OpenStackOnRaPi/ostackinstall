@@ -891,8 +891,9 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 First, in the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example, we create one VLAN with VLANID 101, enabling it on the switch ports that connect our RPis. Thus, VLAN 101 will be present on the control, network and compute hosts in the cluster and respective provider network will have similar coverage.
 
-
-
+<p align="center">
+ <img src=images/tplink-vlan101.png width='65%' />
+</p>
 
 #### 7.i.b Setting VLANs in the RPi hosts
 
