@@ -887,6 +887,9 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 ### 7.i Setting VLANs for provider networks
 
+> [Warning]
+> Wgraj pliki vlanowe vlanned.
+
 #### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
 
 In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example, we create one VLAN with VLAN ID 101, enabling it on the switch ports that connect our RPis (note that port 5 in TP-Links switvh is the prot connecting to your router (Linksys or TOTO-Link in our case). Thus, VLAN 101 will be present on the control, network and compute hosts in the cluster and when created corresponding provider network will have similar coverage.
