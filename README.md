@@ -883,7 +883,7 @@ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [3.iii VLAN provider networks - part 1](#using-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Then we show how such networks can be used.
 
-Note that we'll be reconfiguring a running OpenStack instance. However, all of the configurations below can be performed just as easily in section [3.iii VLAN provider networks - part 1](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network) so before running the Kolla-Ansible commands.
+Note that we'll be reconfiguring a running OpenStack instance. However, all of the configurations below can be performed just as easily in section [3.iii VLAN provider networks - part 1](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network) so before running the Kolla-Ansible commands. Please note also that all VLAN IDs used here are examples only.
 
 ### 7.i Setting VLANs for provider networks
 
@@ -892,7 +892,7 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 #### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
 
-In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example below, we create a VLAN with VLAN ID 101, enabling it on the switch ports that connect our RPis (note that port 5 in TP-Links switch is the "WAN" port and it connects to your router (Linksys or TOTO-Link in our case). This way, VLAN 101 will be present on the control, network and compute hosts in the cluster, and once it is created, the corresponding provider network will have a similar coverage. Repeat this operation for remaining VLANs we want to have in the cluster. The set of VLANs configured on the TP-Link switch should be consistent with VLAN declarations in the files to be replaced in the next section (actually, we define three VLANS there with VLAN IDs 101, 102, 103).
+In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example below, we create a VLAN with VLAN ID 101, enabling it on the switch ports that connect our RPis (note that port 5 in TP-Links switch is the "WAN" port and it connects to your router (Linksys or TOTO-Link in our case). This way, VLAN 101 will be present on the control, network and compute hosts in the cluster, and once it is created, the corresponding provider network will have a similar coverage. Repeat this operation for the remaining VLANs we want to have in the cluster. The set of VLANs configured on the TP-Link switch should be consistent with VLAN declarations in the replacement files in the next section (actually, we define three VLANS there with VLAN IDs 101, 102, 103).
 
 <p align="center">
  <img src=images/tplink-vlan101.png width='65%' />
