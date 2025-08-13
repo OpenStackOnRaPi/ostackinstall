@@ -33,7 +33,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    1. [Setting VLANs for provider networks](#7i-setting-vlans-for-provider-networks)
       1. [Setting VLANS in the physical network (the TP-Link switch)](#7ia-setting-vlans-in-the-physical-network-the-tp-link-switch)
       2. [Setting VLANS in the RPi hosts](#7ib-setting-vlans-in-the-rpi-hosts)
-      3. [Setting additional VLAN for flat network](#7ic-setting-additional-vlan-for-flat-network)
+      3. [Separating the flat network using VLAN](#7ic-separating-the-flat-network-using-a-VLAN
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
       2. [External network using VLAN provider network](#7iib-external-network-using-vlan-provider-network)
@@ -910,7 +910,7 @@ systemctl restart systemd-networkd
 
 After completing the above steps, VLANs 101, 102 and 103 will be activated in the OpenStack infrastructure, ready for VLAN provider networks to be built on top of them.
 
-#### 7.i.c Setting additional VLAN for flat network
+#### 7.i.c Separating the flat network using a VLAN
 
 pierwsze ze studenta
 
