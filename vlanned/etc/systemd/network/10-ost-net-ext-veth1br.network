@@ -1,0 +1,32 @@
+# Definicje tagowanych sieci VLAN
+# - korzystamy z plików systemd, bo obecnie VLANów tagowanych nie da się
+# ustawic w netplan (moze kiedys to sie zmieni)
+# - definicje na potrzeby network-external-interface wg kolla-ansible
+
+[Match]
+Name=veth1br
+
+[Network]
+Bridge=brmux
+
+# - dolaczenie do interfejsu veth1 sieci o statusie flat provider network z adresacja IP z
+# zakresu rutowalnego w Linksys na potrzeby "external network" OpenStack'a; 
+# - z tagowanego segmentu VLAN=2 do veth1 bedzie zatem dostarczona siec nietagowana (z domyslnym VLAN=1);
+# - uwaga: analogicznie jest dla w veth0br i veth0 na potrzeby network-interface;
+# - ponizej, PVID=2 powoduje dodanie znacznika VLAN=2 do każdej nietagowanej rami przychodzącej tym
+# interfejsem, a EgressUntagged=2 wymusza, że każda ramka tagowana z VLAN=2 mająca w switchu wyjsc
+# tym interfejsem ma zdejmowany tag i wychodzi na zewnatrz przez veth1 jako nietagowana (kierunek
+# przesyłu ramki przychodząca/wychodząca zawsze określamy patrzac z perspektywy switcha/bridgea)
+# - uwaga: w istocie można by w ogle nie uzywac VLAN=2 i wykorzystac zwykly eth nietagowany, ale my
+# wprowadzamy VLAN=2 w celach edukacyjnych, aby na jego tle lepiej wyeksponowac sieci dostawcow
+# realizowane jako VLAN tagowane
+[BridgeVLAN]
+PVID=2
+EgressUntagged=2
+
+# - na potrzeby wewnetrznych sieci OpenStack typu VLAN provider network realizowanych
+# jako VLANy tagowane (i ew. na potrzeby sieci tenanckich VLAN - o ile beda dozwolone w 
+# pliku ml.2 - por. konfiguracje dla kolla-ansible)
+# - ponizsze VLANy beda dostarczone (beda dochodzić) do veth1 na potrzeby Neutrona
+[BridgeVLAN]
+VLAN=101-103
