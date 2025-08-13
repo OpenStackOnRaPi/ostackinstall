@@ -905,7 +905,7 @@ ip link del dev brmux
 systemctl restart systemd-networkd
 ```
 
-After completing the above steps, VLANs 101, 102 and 103 will be activated in the OpenStack infrastructure, ready for VLAN provider networks to be built on top of them.
+After completing the above steps, VLANs 101, 102 and 103 will be activated in the OpenStack infrastructure, ready for building VLAN provider networks on top of them.
 
 #### 7.i.c Separating the flat network using a VLAN
 
