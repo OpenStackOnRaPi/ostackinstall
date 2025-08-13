@@ -20,6 +20,7 @@ Bridge=brmux
 # - note: in fact, It would be possible to not use VLAN=2 at all and use the standard, untagged eth,
 # but we introduce VLAN=2 for educational purposes to compare it with vendor VLANs and thus better
 # illustrate the latter.
+
 [BridgeVLAN]
 PVID=2
 EgressUntagged=2
@@ -29,5 +30,6 @@ EgressUntagged=2
 # see the configuration for kolla-ansible)
 # - the following VLANs will cross veth1br to be available at (will reach) veth1
 # for the Neutron's needs
+
 [BridgeVLAN]
 VLAN=101-103
