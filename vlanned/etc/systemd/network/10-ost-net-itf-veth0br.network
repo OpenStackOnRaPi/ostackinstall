@@ -21,20 +21,12 @@ Bridge=brmux
 # interface, and EgressUntagged=2 forces each frame tagged with VLAN=2 and leaving the switch via this
 # interface to be sent untagged (the direction of incoming/outgoing frame transmission is always
 # determined from the switch/bridge perspective)
-# - note: in fact, you could not use VLAN=2 at all and use a standard untagged eth, but we
-# are introducing VLAN=2 for educational purposes to better highlight the provider networks
-# against it implemented as tagged VLANs
+# - note: in fact, VLAN 2 can be omitted at all and a standard untagged ethernet can be used, but we
+# are introducing it for educational purposes to better highlight the VLAN provider networks.
+
 [BridgeVLAN]
 PVID=2
 EgressUntagged=2
 
-# UWAGA: ponizsze NIE jest potrzebne dla network-interface veth0, zostawiono tylko dla 
-# celow dydaktycznych - porownawczych, aby zobaczyć, że VLANy dostawcow (providerskie)
-# sa realizowane tylko na veth1 (bo tak jest zorganizowana sieć na poziomie OpenStack)
-
-# na potrzeby wewnetrznych sieci OpenStack typu VLAN provider network
-# (i ew. na potrzeby sieci tenanckich VLAN - o ile beda dozwolone w 
-# pliku ml.2 - por. konfiguracje dla kolla-ansible)
-# ponizsze VLANy beda dostarczone do veth1 na potrzeby Neutrona
-#[BridgeVLAN]
-#VLAN=101-103
+# NOTE: VLANs for VLAN provider networks are defined only for veth1 and not eth0. These interfaces serve
+# different functions in kolla-ansible OpenStack.
