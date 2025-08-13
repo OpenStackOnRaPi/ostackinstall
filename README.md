@@ -58,7 +58,13 @@ All procedures described in this guide assume compliance with the setup options 
      * mimimal possible: [1x4GB RAM + 1x8GB RAM] (a minimal cluster, enough to create a single CirrOS virtual machine and nothing more)
      * OpenStack control/network nodes run on the same 8GB RPi host
    * all Pi are equipped with 32GB SD disk
-   * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is barely able to host OpenStack in absolutely minimal configuration. In such a cluster, one can create a single CirrOS instance with 512MB memory, but the cloud becomes unstable. We have seen many times that even such a simple configuration ends in failure soon after instantiating the VM. And OpenStack all-in-one system immediately crashes due to lack of memory when a second similar CirrOS instance is created, unless you increase the swap memory size. This second option, however, carries the risk that everything will become very slow. That is the reason why we consider the dual-host configuration to be the minimum possible.   
+   * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is barely able to host OpenStack in absolutely minimal configuration. In such a cluster, one can create a single CirrOS instance with 512MB memory, but the cloud becomes unstable. We have seen many times that even such a simple configuration ends in failure soon after instantiating the VM. And OpenStack all-in-one system immediately crashes due to lack of memory when a second similar CirrOS instance is created, unless you increase the swap memory size. This second option, however, carries the risk that everything will become very slow. That is the reason why we consider the dual-host configuration to be the minimum possible.
+   * An illustrative diagram of the cluster is shown below
+
+<p align="center">
+<img src=images/device-list-linksys.png width='70' />
+</p>
+   
 2. SW
    * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktopp environment).
    * Kolla-Ansible 2023.1 or 2025.1. 
