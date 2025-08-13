@@ -62,7 +62,7 @@ All procedures described in this guide assume compliance with the setup options 
    * An illustrative diagram of the cluster is shown below:
 
 <p align="center">
-<img src=images/cluster.png width='50%' />
+<img src=images/cluster.jpg width='50%' />
 </p>
    
 2. SW
