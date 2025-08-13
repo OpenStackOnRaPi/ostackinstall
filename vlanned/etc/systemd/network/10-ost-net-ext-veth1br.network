@@ -1,7 +1,7 @@
-# Definicje tagowanych sieci VLAN
-# - korzystamy z plików systemd, bo obecnie VLANów tagowanych nie da się
-# ustawic w netplan (moze kiedys to sie zmieni)
-# - definicje na potrzeby network-external-interface wg kolla-ansible
+# Definitions of tagged VLANs
+# - we use systemd files because tagged VLANs cannot currently be
+# set in netplan (this may change someday)
+# - definitions for network-external-interface according to kolla-ansible
 
 [Match]
 Name=veth1br
@@ -9,24 +9,25 @@ Name=veth1br
 [Network]
 Bridge=brmux
 
-# - dolaczenie do interfejsu veth1 sieci o statusie flat provider network z adresacja IP z
-# zakresu rutowalnego w Linksys na potrzeby "external network" OpenStack'a; 
-# - z tagowanego segmentu VLAN=2 do veth1 bedzie zatem dostarczona siec nietagowana (z domyslnym VLAN=1);
-# - uwaga: analogicznie jest dla w veth0br i veth0 na potrzeby network-interface;
-# - ponizej, PVID=2 powoduje dodanie znacznika VLAN=2 do każdej nietagowanej rami przychodzącej tym
-# interfejsem, a EgressUntagged=2 wymusza, że każda ramka tagowana z VLAN=2 mająca w switchu wyjsc
-# tym interfejsem ma zdejmowany tag i wychodzi na zewnatrz przez veth1 jako nietagowana (kierunek
-# przesyłu ramki przychodząca/wychodząca zawsze określamy patrzac z perspektywy switcha/bridgea)
-# - uwaga: w istocie można by w ogle nie uzywac VLAN=2 i wykorzystac zwykly eth nietagowany, ale my
-# wprowadzamy VLAN=2 w celach edukacyjnych, aby na jego tle lepiej wyeksponowac sieci dostawcow
-# realizowane jako VLAN tagowane
+# - connecting a flat provider network to the veth1 interface with an IP address from the
+# Linksys routable range for OpenStack's "external network" purposes;
+# - from the tagged VLAN=2 segment to veth1, an untagged network (with default VLAN=1) will be provided;
+# - note: the same applies to veth0br and veth0 for network-interface purposes; # - below, PVID=2
+# causes the VLAN=2 tag to be added to every untagged frame arriving on this interface, and
+# EgressUntagged=2 forces every frame tagged with VLAN=2 that has an output on this interface to be
+# removed and exit the switch via veth1 as untagged (the direction of incoming/outgoing frame
+# transmission is always determined from the switch/bridge perspective).
+# - note: in fact, It would be possible to not use VLAN=2 at all and use the standard, untagged eth,
+# but we introduce VLAN=2 for educational purposes to compare it with vendor VLANs and thus better
+# illustrate the latter.
 [BridgeVLAN]
 PVID=2
 EgressUntagged=2
 
-# - na potrzeby wewnetrznych sieci OpenStack typu VLAN provider network realizowanych
-# jako VLANy tagowane (i ew. na potrzeby sieci tenanckich VLAN - o ile beda dozwolone w 
-# pliku ml.2 - por. konfiguracje dla kolla-ansible)
-# - ponizsze VLANy beda dostarczone (beda dochodzić) do veth1 na potrzeby Neutrona
+# - for internal OpenStack networks, such as VLAN provider networks, implemented
+# as tagged VLANs (and possibly for tenant VLANs - if allowed in the ml.2 file -
+# see the configuration for kolla-ansible)
+# - the following VLANs will cross veth1br to be available at (will reach) veth1
+# for the Neutron's needs
 [BridgeVLAN]
 VLAN=101-103
