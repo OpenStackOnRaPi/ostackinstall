@@ -887,9 +887,6 @@ Note that we'll be reconfiguring a running OpenStack instance. However, all of t
 
 ### 7.i Setting VLANs for provider networks
 
-> [Warning]
-> Wgraj pliki vlanowe vlanned.
-
 #### 7.i.a Setting VLANs in the physical network (the TP-Link switch)
 
 In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `Enable` switch at the top, and then add specific VLANs individually on the switch ports. In our example below, we create a VLAN with VLAN ID 101, enabling it on the switch ports that connect our RPis (note that port 5 in TP-Links switch is the "WAN" port and it connects to your router (Linksys or TOTO-Link in our case). This way, VLAN 101 will be present on the control, network and compute hosts in the cluster, and once it is created, the corresponding provider network will have a similar coverage. Repeat this operation for the remaining VLANs we want to have in the cluster. The set of VLANs configured on the TP-Link switch should be consistent with VLAN declarations in the replacement files in the next section (actually, we define three VLANS there with VLAN IDs 101, 102, 103).
@@ -900,7 +897,7 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
 
 #### 7.i.b Setting VLANs in the RPi hosts
 
-On each RPi, replace some of files in the `/etc/systemd/network` directory with versions from the `vlanned/etc/systemd/network` directory that include the VLAN configuration. You are encouraged to review these files to learn how to use them for defining persistent VLANs in Linux network devices. After replacing these files, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
+On each RPi, replace some of files in the `/etc/systemd/network` directory with versions from the `vlanned/etc/systemd/network` directory that include the VLAN configuration. You are encouraged to review these files to learn how persistent configuration of Linux network devices can be achieved. The files contain explanation of each construct used. After replacing these files, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
 
 ```
 ip link set down brmux
