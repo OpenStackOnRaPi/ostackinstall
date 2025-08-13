@@ -934,6 +934,12 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 ### 7.ii Creating and using VLAN provider networks
 
+TODO
+
 #### 7.ii.a Provider network dedicated to a tenant
 
+TODO
+
 #### 7.ii.b External network using VLAN provider network
+
+TODO
