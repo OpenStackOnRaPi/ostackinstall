@@ -912,7 +912,11 @@ After completing the above steps, VLANs 101, 102 and 103 will be activated in th
 
 #### 7.i.c Separating the flat network using a VLAN
 
-pierwsze ze studenta
+As additional exercise, you can isolate the flat network in the L2 segment between the TP-Link switch and the RPis using a VLAN. That is, untagged L2 traffic corresponding to the flat provider network in our cluster will be handled by dedicated VLAN between the TP-Link and the `brmux` virtual devices in the RPis. This VLAN will be distinct from the VLANs created for provider networks. Its traffic will be unatgged when leaving TP-Link via Port 5, or when leaving `brmux` via devices `veth0br` or `veth1br` (of course, untagged traffic in the opposite direction will be tagged with the VLAN ID of our additional VLAN). Effectively, OpenStack will perceive this traffic as unttaged (flat provider network), but this traffic will be isolated using a VLAN in the physical network. The practical benefit of using this encapsulation will be increased security in the physical part of the L2 segment in our OpenStack cluster (not a fundamental change, but worth mentioning). To achieve this goal follow the steps described below.
+
+
+
+
 
 ### 7.ii Creating and using VLAN provider networks
 
