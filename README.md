@@ -909,13 +909,13 @@ After completing the above steps, VLANs 101, 102 and 103 will be activated in th
 
 #### 7.i.c Separating the flat network using a VLAN
 
-As an additional exercise, you can isolate the flat network in the L2 segment between the TP-Link switch and the RPis using a VLAN. That is, we want the untagged L2 traffic corresponding to the flat provider network in our cluster to be carried in a dedicated VLAN between the TP-Link and the `brmux` virtual devices in the RPis. This VLAN will be distinct from the VLANs created for provider networks. Its traffic will be unatgged when leaving TP-Link via Port 5, or when leaving `brmux` via devices `veth0br` or `veth1br` (of course, untagged traffic in the opposite direction appearing on TP-Link and `brmux` devices will be tagged with the ID of our additional VLAN). Effectively, OpenStack will see this traffic as untagged (flat provider network), but at the same time this traffic will be isolated using VLANs on the physical network.
+As an additional exercise, you can isolate the traffic of the flat provider network in the physical part of the L2 segment (i.e., between the TP-Link switch and the RPis) using a VLAN. That is, we want the untagged traffic corresponding to the flat provider network in our cluster to be carried in a dedicated VLAN between the TP-Link switch and the `brmux` virtual devices in the RPis. Note that such a VLAN will be distinct from the VLANs created for VLAN provider networks. Its traffic will be unatgged when leaving TP-Link via Port 5, or when leaving `brmux` via devices `veth0br` or `veth1br` (of course, untagged traffic in the opposite direction appearing on TP-Link and `brmux` devices will be tagged with the ID of our additional VLAN). Effectively, OpenStack and the Linksys router will perceive the flat provider network unchanged (its traffic untagged), but at the same time this traffic will be isolated using a VLAN on the remaining part of the physical network.
 
-The practical benefit of using this extra encapsulation will be increased security in the physical part of our network infrastructure (not a fundamental change, but worth mentioning). From an educational point of view, the procedure described here allows for a better understanding of the essence of the VLAN provider network described in the previous two subsections.
+The practical benefit of using this extra encapsulation will be increased security in the physical part of our network infrastructure (not a fundamental change, but worth mentioning). From an educational point of view, the procedure described here allows for a better understanding of the essence of the VLAN provider network (described in the previous two subsections).
 
 Follow the steps described below.
 
-* Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2). As before, you do this in the `VLAN -> 802.1Q VLAN Configuration` tab.
+* Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2 but anthing different from the VLAN IDs reserved for provider networks will be fine). As before, you do this in the `VLAN -> 802.1Q VLAN Configuration` tab.
 
 <p align="center">
  <img src=images/tplink-vlan2.png width='60%' />
