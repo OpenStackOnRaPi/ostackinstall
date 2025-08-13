@@ -922,10 +922,14 @@ Follow the steps described below.
 * Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2). You do this in the `VLAN -> 802.1Q PVID Setting` tab.
 
 <p align="center">
- <img src=images/tplink-vlan101.png width='60%' />
+ <img src=images/tplink-vlan2.png width='60%' />
 </p>
 
-* 
+* In the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router to the switch, i.e., on Port 5 of the switch.
+
+<p align="center">
+ <img src=images/tplink-pvid2.png width='60%' />
+</p>
 
 
 
