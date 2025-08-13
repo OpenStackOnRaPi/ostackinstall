@@ -1,0 +1,22 @@
+# Definitions of tagged VLANs
+# We use systemd files because tagged VLANs cannot currently be set in netplan (this may change someday)
+
+[Match]
+Name=eth0
+#Type=ether
+
+[Network]
+Bridge=brmux
+
+# VLAN for a flat provider external network extending across the physical network infrastructure.
+# - this VLAN will be invisible at the OpenStack level - in brmux, it will be replaced with
+# VLAN1 (untagged) and OpenStack will receive it as "flat"
+# - in fact, it could be omitted at all and a standard untagged ethernet could be used, but we
+# are introducing it for educational purposes to better highlight the VLAN provider networks.
+[BridgeVLAN]
+VLAN=2
+
+# VLANs for VLAN provider networks (implemented as tagged VLANs)
+# for educational purposes - three VLANs are completely sufficient
+[BridgeVLAN]
+VLAN=101-103
