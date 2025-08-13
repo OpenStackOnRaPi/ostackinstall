@@ -912,12 +912,11 @@ After completing the above steps, VLANs 101, 102 and 103 will be activated in th
 
 #### 7.i.c Separating the flat network using a VLAN
 
-As additional exercise, you can isolate the flat network in the L2 segment between the TP-Link switch and the RPis using a VLAN. That is, we want the untagged L2 traffic corresponding to the flat provider network in our cluster to be carried in a dedicated VLAN between the TP-Link and the `brmux` virtual devices in the RPis. This VLAN will be distinct from the VLANs created for provider networks. Its traffic will be unatgged when leaving TP-Link via Port 5, or when leaving `brmux` via devices `veth0br` or `veth1br` (of course, untagged traffic in the opposite direction appearing on TP-Link and `brmux` devices will be tagged with the ID of our additional VLAN). Effectively, OpenStack will see this traffic as untagged (flat provider network), but at the same time this traffic will be isolated using VLANs on the physical network.
+As an additional exercise, you can isolate the flat network in the L2 segment between the TP-Link switch and the RPis using a VLAN. That is, we want the untagged L2 traffic corresponding to the flat provider network in our cluster to be carried in a dedicated VLAN between the TP-Link and the `brmux` virtual devices in the RPis. This VLAN will be distinct from the VLANs created for provider networks. Its traffic will be unatgged when leaving TP-Link via Port 5, or when leaving `brmux` via devices `veth0br` or `veth1br` (of course, untagged traffic in the opposite direction appearing on TP-Link and `brmux` devices will be tagged with the ID of our additional VLAN). Effectively, OpenStack will see this traffic as untagged (flat provider network), but at the same time this traffic will be isolated using VLANs on the physical network.
 
 The practical benefit of using this extra encapsulation will be increased security in the physical part of our network infrastructure (not a fundamental change, but worth mentioning). From an educational point of view, the procedure described here allows for a better understanding of the essence of the VLAN provider network described in the previous two subsections.
 
 Follow the steps described below.
-
 
 * Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2). You do this in the `VLAN -> 802.1Q PVID Setting` tab.
 
@@ -931,8 +930,7 @@ Follow the steps described below.
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
-
-
+Your OpenStack should be accessible using the dashboard or OpenStack CLI as before.
 
 ### 7.ii Creating and using VLAN provider networks
 
