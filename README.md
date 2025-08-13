@@ -918,7 +918,7 @@ The practical benefit of using this extra encapsulation will be increased securi
 
 Follow the steps described below.
 
-* Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2). You do this in the `VLAN -> 802.1Q PVID Setting` tab.
+* Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2). As before, you do this in the `VLAN -> 802.1Q VLAN Configuration` tab.
 
 <p align="center">
  <img src=images/tplink-vlan2.png width='60%' />
