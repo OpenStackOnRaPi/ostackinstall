@@ -924,13 +924,13 @@ Follow the steps described below.
  <img src=images/tplink-vlan2.png width='60%' />
 </p>
 
-* In the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router to the switch, i.e., on Port 5 of the switch.
+* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router (Linksys) to the switch, i.e., on Port 5 of the switch.
 
 <p align="center">
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
-Your OpenStack should be accessible using the dashboard or OpenStack CLI as before.
+As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI.
 
 ### 7.ii Creating and using VLAN provider networks
 
