@@ -1,0 +1,40 @@
+# Definitions of tagged VLANs
+# - We use systemd files because tagged VLANs cannot currently be
+# set in netplan (this may change someday)
+# - Definitions for network-interface by kolla-ansible (this is the interface with
+# addressing for the management/dashboard network and for tenant overlay networks)
+
+[Match]
+Name=veth0br
+
+[Network]
+Bridge=brmux
+
+# VLAN 2 is used to connect an untagged network with routable IP addressing from Linksys to veth0 for
+# the needs of management/dashboard networks and tenant overlay networks (e.g., VXLANs)
+# - result: using the tagged VLAN=2 in the physical part of network infrastructure, an untagged network
+# (default VLAN=1) will be delivered to veth0 allowing to access OpenStack dahboard or use OpenStack CLI.
+# - note: the same applies to veth1br, but for the needs of the flat provider network and possibly
+# tenant networks implemented using the VLAN technique (if tenant VLANs are allowed in the ml.2 file -
+# see the configuration for kolla-ansible)
+# - below, PVID=2 causes the VLAN=2 tag to be added to each untagged frame arriving on this
+# interface, and EgressUntagged=2 forces each frame tagged with VLAN=2 and leaving the switch via this
+# interface to be sent untagged (the direction of incoming/outgoing frame transmission is always
+# determined from the switch/bridge perspective)
+# - note: in fact, you could not use VLAN=2 at all and use a standard untagged eth, but we
+# are introducing VLAN=2 for educational purposes to better highlight the provider networks
+# against it implemented as tagged VLANs
+[BridgeVLAN]
+PVID=2
+EgressUntagged=2
+
+# UWAGA: ponizsze NIE jest potrzebne dla network-interface veth0, zostawiono tylko dla 
+# celow dydaktycznych - porownawczych, aby zobaczyć, że VLANy dostawcow (providerskie)
+# sa realizowane tylko na veth1 (bo tak jest zorganizowana sieć na poziomie OpenStack)
+
+# na potrzeby wewnetrznych sieci OpenStack typu VLAN provider network
+# (i ew. na potrzeby sieci tenanckich VLAN - o ile beda dozwolone w 
+# pliku ml.2 - por. konfiguracje dla kolla-ansible)
+# ponizsze VLANy beda dostarczone do veth1 na potrzeby Neutrona
+#[BridgeVLAN]
+#VLAN=101-103
