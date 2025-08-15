@@ -689,8 +689,8 @@ enable_proxysql: "no"
 > File /etc/kolla/config/nova/nova-compute.conf can overwrite the settings given in file `/etc/kolla/globals.yml`. In particular, we can set non-default virtualization type and cpu mode and type in the ```[libvirt]``` section of file ```nova-compute.conf``` shown for Raspberry Pi 4 below, but commented out. It does works for RPi4, but as of this writing (July 2025) similar setting for Raspberry Pi 5 do not (it seems that libvirt does not currently support cpu model `cortex-a76` implemented by RPi 5). So basically KVM is preferred in our case. Luckily, KVM is the default choice in Kolla-Ansible when CPU architecture of hosts (declared by ```openstack_tag_suffix``` in ```globals.yml```) is ```aarch64```. In such a case (```aarch64```) libvirt driver in ```nova-compute``` imposes ```host-passthrough``` CPU mode (see [here](https://review.opendev.org/c/openstack/nova/+/530965) for more on that). All in all, we use KVM for both Raspberry Pi 4 and 5, and in this case it is enough to accept the default setting for ```nova_compute_virt_type``` in ```globals.yml``` (KVM is default) and not to specify ```[libvirt]``` section in ```nova-compute.conf``` at all.
 
 <pre>
-sudo mkdir -p /etc/kolla/config/nova
-sudo tee /etc/kolla/config/nova/ << EOT
+$ sudo mkdir -p /etc/kolla/config/nova
+$ sudo tee /etc/kolla/config/nova/ << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
@@ -742,9 +742,9 @@ EOT
 In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
 
 ```
-kolla-ansible bootstrap-servers -i multinode 
-kolla-ansible prechecks -i multinode
-kolla-ansible deploy -i multinode
+$ kolla-ansible bootstrap-servers -i multinode 
+$ kolla-ansible prechecks -i multinode
+# kolla-ansible deploy -i multinode
 ```
 
 > [!IMPORTANT]
@@ -766,27 +766,30 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
 
   * Install `python-openstackclient` to access OpenStack commands in the console
     ```bash
-    #for the unmaintained release 2023.1
-    pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
-    #other options (for maintained releases)
-      #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2024.1
-      #pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2025.1
+    $ pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2025.1
+           ==> for the unmaintained release 2023.1: 
+               pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
     ```
 
   * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed by install-runonce stript in a while to create your first instance): 
 
     ```
-    # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
-    kolla-ansible post-deploy
 
-    # for 2025.1 (slightly different form because inventory folder /etc/kolla/ansible/inventory has been introduced in 2025.1 and script post-deploy requires this inventory as command parapeter, but this change has not be reflected in the original Kolla-Ansible guide); we can point to inventory file located elsewhere, e.g., in the working directory as assumed below
-    kolla-ansible post-deploy -i multinode-2025.1
+
+    # for 2025.1 (a form slightly different from 2023.1 because inventory folder /etc/kolla/ansible/inventory has been
+    # introduced in 2025.1 and script post-deploy requires this inventory as command parapeter, but this change has not been
+    # reflected in the original Kolla-Ansible guide); we can point to inventory file located elsewhere, e.g., in our
+    # working directory as assumed below:
+    $ kolla-ansible post-deploy -i multinode-2025.1
     
-    sudo mkdir ~/.config 
-    mkdir ~/.config/openstack
+    # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
+    $ kolla-ansible post-deploy
+    
+    $ sudo mkdir ~/.config 
+    $ mkdir ~/.config/openstack
     #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
-    sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
-    cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
+    $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
+    $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     ```
     
 #### 5.v.b First checks - create the first instance
@@ -800,40 +803,42 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
       
       **Remark 1**: the original version of init-runonce script is generated by the command `kolla-ansible post-deploy`. It is stored as /path/to/ouur/venv/share/kolla-ansible/init-runonce. We have to use slightly modified version of the script to match the requirements/limitations of our Raspberry Pi platform (e.g., we need aarch64 image, we can afford only quite small VM flavors, etc.).
       
-      **Remark 2**: currently, the tested and recommended settings are `<kolla-ansible-release>=2023.1` and `<flavor-os-name>=cirros`, so to run the recommended version use file `init-runonce.2023.1.cirros`:
+      **Remark 2**: currently, the tested and recommended settings are `<kolla-ansible-release>=2025.1` and `<flavor-os-name>=cirros`, so to run the recommended version use file `init-runonce.2023.1.cirros`:
 
       - run the script
       ```bash
-      ./init-runonce.2023.1.cirros
-      # or
-      ./init-runonce.2025.1.cirros
-      ```
+      $ ./init-runonce.2025.1.cirros
+      
+      # or (for 2023.1)
+      $ ./init-runonce.2023.1.cirros
+       ```
+      
 > [!Note]
 > Script `init-runonce` illustrates the use of several `openstack client` commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only **once** and subsequent runs will generate errors because of all constructs having already been created. In such a case free experimenting with it should depend on echo-ing openstack commands (to display them as ready-to-run strings) at the same time suppressing in the script the execution of the commands in OpenStack.
 
-After running `./init-runonce.20xy.z`, the external and tenant networks, VM image, VM flavors and the default security group settings are created and ready for use. The first server instance can now be created in the following two steps:
+After running `./init-runonce.20xy.z`, the following OpenStack objects are created and ready for use: the external and tenant networks, VM image, several VM flavors (we have adjusted their properties for Raspberry Pi) and the default security group settings. The first server instance can now be created in the following two steps:
 
   * source `admin-openrc.sh` script to enable python-openstackclient
     ``` bash
-    source /etc/kolla/admin-openrc.sh
+    $ source /etc/kolla/admin-openrc.sh
     ```
   * run the VM from openstack command line client
     ```
     openstack --os-cloud=kolla-admin server create --image cirros --flavor m1.tiny --key-name mykey --network demo-net cirros1
     ```
-    - the following is only for our record, do not run it unless you have other images prepared by yourself
+    - the following is only for our record, do not run it unless you have respective images (hou have to prepare them by yourself)
       ```bash
-      ./init-runonce.2023.1.alpine
+      $ ./init-runonce.2025.1.alpine
       openstack --os-cloud=kolla-admin server create --image alpine --flavor m1.large --key-name mykey --network demo-net alpine1
       ```
       ```bash
-      ./init-runonce.2023.1.ubuntu
+      $ ./init-runonce.2025.1.ubuntu
       openstack --os-cloud=kolla-admin server create --image ubuntu --flavor m1.medium --key-name mykey --network demo-net ubuntu1
       ```
       
   * check the status of the instance
     ```
-    openstack server list
+    $ openstack server list
     ```
 
   * now you can ssh to the instance; both password and key authentication work for ther cirros (the key was installed in the `openstack create` command you run above); the user is `cirros` and the passoword is `gocubsgo`
@@ -848,7 +853,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
 
   * Stop containers
     ```
-    kolla-ansible stop -i multinode --yes-i-really-really-mean-it
+    $ kolla-ansible stop -i multinode --yes-i-really-really-mean-it
     ```
 > [!Warning]
 > If Ansible issues a notification as below informing about certain hosts being ureachable, run **`kolla-ansible stop`** command again.
@@ -861,7 +866,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
 > ```
     
   * Power off RPis
-    - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command)
+    - write and run a bash command containing the following script (we assume $CLUSTER_INVENTORY_FILE is a parameter passed to the command; you will probably want to set it to `multinode`)
     ```bash
     #!/bin/bash
     # check the following links for the ansible command options used:
@@ -879,7 +884,7 @@ This will restart the entire cluster after it has been stopped and resume OpenSt
 
   * On the management host: activate the virtual environment of your Kolla-Ansible installation and resume OpenStack operation by executing:
     ```
-    kolla-ansible deploy-containers -i multinode 
+    $ kolla-ansible deploy-containers -i multinode 
     ```
 
 ### 6.ii Destroy your cluster
@@ -887,7 +892,7 @@ This will restart the entire cluster after it has been stopped and resume OpenSt
 To reinstall your cluster in case of failure, first destroy current installation (this cleans RPis from all Kolla-Ansible/OpenStack artifacts). To do this, it is best to first stop or remove all running virtual machine instances in the cluster and only then run the command:
 
 ```
-kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
+$ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
 ## 7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)
@@ -911,9 +916,9 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
 On each RPi, replace some of files in the `/etc/systemd/network` directory with versions from the `vlanned/etc/systemd/network` directory that include the VLAN configuration. You are encouraged to review these files to learn how persistent configuration of Linux network devices can be achieved. The files contain explanation of each construct used. After replacing these files, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
 
 ```
-ip link set down brmux
-ip link del dev brmux
-systemctl restart systemd-networkd
+$ ip link set down brmux
+$ ip link del dev brmux
+$ systemctl restart systemd-networkd
 ```
 
 After completing the above steps, VLANs 101, 102 and 103 will be activated in the OpenStack infrastructure, ready for building VLAN provider networks on top of them.
