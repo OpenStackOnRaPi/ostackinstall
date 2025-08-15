@@ -513,47 +513,49 @@ $ docker run hello-world
 
 ### 5.i Kolla-Ansible installation
 
-The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2023.1 release](https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html) (and very similar, but not identical, to ). A couple of exceptions are a direct consequence of changing the status of 2023.1 release to "unmaintained" without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions are outlined in the text below. One can use the original source and install on his own or take advantage of 100% ready-to-use commands documented below.
+The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Installation of [Kolla-Ansible 2023.1](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html) is very similar, but not identical, to 2025.1. One difference is that in 2023.1 one has to install Ansible explicitly by running a separate command while in 2025.1 this step is already included in the Kolla-Ansible script and you do nto bother with Ansible. Other differences are a direct consequence of changing the status of 2023.1 release to "unmaintained" without appropriate updates in the publicly available Kolla-Ansible guide and in one Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions for 2023.1 are outlined in the text below.
 
-At the moment, the instructions below cover installation instructions for release 2023.1. The installation of 2025.1 is very similar (see [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html)), however there are small differences between both releases (e.g., in 2023.1 one installs Ansible explicitly by running a separate command while in 2025.1 this step is included in the Kolla-Ansible script). Therefore, when installing 2025.1 you are advised to refer to the original guide to consult all details.
+One can use the original source document for 2025.1 and install on his own or take advantage of 100% ready-to-use commands documented below.
+
+**THE TEXT BELOW IS NOW BEING REVISED FOR 2025.1 as the reference release. Temporarily mistakes are possible.**
 
   * Install Python packages, create and activate virtual environment
 ```
 $ sudo apt-get update
 $ sudo apt-get install -y git python3-dev libffi-dev gcc libssl-dev python3-venv
-$ python3 -m venv kolla-2023.1
-$ source kolla-2023.1/bin/activate
+$ python3 -m venv kolla-2025.1   # you can use whatever name you want for the virtual environment
+$ source kolla-2025.1/bin/activate
+
 ```
 
-  - Note: deactivate active venv / completely delete given venv
+  - Hint: deactivate active venv / completely delete given venv:
 ```
 $ deactivate
 $ rm -r <venv-root-folder-name->
 ```
 
 > [!Note]
-> From now on, we work in virtual environment kolla-2023.1. The versions of all conponents installed are compatible with kolla-2023.1 and should be changed appropriately for other releases of kolla-ansible (follow respective Kolla-Ansible Quickstart section for each release: [quickstart](https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)).
+> From now on, we work in virtual environment kolla-2025.1. The versions of all components installed are compatible with kolla-2025.1 and should be changed appropriately if you use other release of Kolla-Ansible (follow respective Kolla-Ansible _Quick start section_ for each release: [quickstart](https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)).
 
   * Install Kolla-Ansible in the active venv
 ```
 $ pip install -U pip
-$ pip install 'ansible>=6,<8'     ==>   for 2024.1: pip install 'ansible-core>=2.15,<2.16.99'
-                                        for 2024.2: pip install 'ansible-core>=2.16,<2.17.99'
-                                        for 2025.1: installing Ansible is done by Kolla-Ansible script so we skip this step for 2025.1
-$ pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
-      ==> for 2024.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.1
-          for 2024.2: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
-          for 2025.1: pip install git+https://opendev.org/openstack/kolla-ansible@stable/2025.1
+      ==> for 2023.1 additionally run: pip install 'ansible>=6,<8'
+          installing Ansible in 2025.1 is done by the Kolla-Ansible install script below so we ommit installing Ansible in case of 2025.1
+$ pip install git+https://opendev.org/openstack/kolla-ansible@stable/2025.1
+      ==> for 2023.1: pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
+          release 2023.1 has got the "unmaintained" status and one has to use a non-standard branch name to install it (see also the Warning below)
 ```
 
 > [!WARNING]
-> If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your specific release is currently stored and where you will find its current branch name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1``` (of course, remember to use the name of the release you are dealing with).
+> If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. Your release has probably got the "unmaintained" status. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your specific release is currently stored and where you will find its current branch name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1``` (every release will eventually get the "unmaintained" status so treat the above as an example and adapt it appropriately to your particular case if needed).
 
 ### 5.ii Prepare configuration files for Kolla-Ansible
 
-Now, generated by Kolla-Ansible there are several configuraton files with default settings. We have to customize them (and even add new files) to make the configuration appropriate for our cluster.
+Now, generated by Kolla-Ansible, there are several configuraton files with default settings. We have to customize them (and even add new files) to make the configuration appropriate for our cluster.
 
 ```
+# directory with customization files expected by Kolla-Ansible
 $ sudo mkdir -p /etc/kolla
 $ sudo chown $USER:$USER /etc/kolla
 ```
@@ -563,14 +565,15 @@ $ sudo chown $USER:$USER /etc/kolla
     We remind ```~/labs/ostack``` is the working directory.
     
 ```
-$ sudo cp -r kolla-2023.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
-$ sudo cp kolla-2023.1/share/kolla-ansible/ansible/inventory/* .
+$ sudo cp -r kolla-2025.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
+$ sudo cp kolla-2025.1/share/kolla-ansible/ansible/inventory/* .
 ```
 
-  * Install Ansible Galaxy dependencies (bez sudo)
+  * Install Ansible Galaxy dependencies
 ```
 $ kolla-ansible install-deps
 ```
+
   * Update Ansible configuration file ```ansible.cfg``` (it can be kept in the working directory or in directory ```/etc/ansible/ansible.cfg```)
 ```bash
 $ tee ansible.cfg << EOT
@@ -614,7 +617,7 @@ $ sudo nano /etc/kolla/passwords.yml
 2. Prepare inventory file ```multinode``` and feature configuration file ```globals.yml```
 
 > [!IMPORTANT]
-> Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts and specify those role allocations in inventory file. Our experiments have shown that the roles ```compute``` and ```network``` MUST be separated (i.e., allocated to different hosts) in RPi 8GB RAM clusters. Otherwise the cluster becomes very unstable because of out of memory issues. In all-in-one installation (one RPi in the cluster) the node runs close to out of memory very soon after creating the first CirrOS VM and OpenStack tends to crush. With more than one VM instance such cluster crushes immediately. Then, even if one can login to the hosts after rebooting and some Kolla-Ansible containers run in a healthy state, OpenStack as a whole is not functional anymore. Moreover, even in multinode cluster, when control and network functions run on the same host and compute function runs elswhere, the compute/network host still saturates close to out of memory state after creating second CirrOS VM. So, even in Raspberry Pi multinode configuration the merging of ```compute``` and ```network``` should be avoided. These conclusions are reflected below in a sample fragment of the inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
+> Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts and specify those role allocations in inventory file. Our experiments have shown that the roles ```compute``` and ```network``` MUST be separated (i.e., allocated to different hosts) in clusters with 8GB RAM Raspberries. Otherwise the cluster becomes prone to out of memory issues which lead to severe instabilities. In all-in-one installation (one RPi in the cluster) the node runs close to out of memory very soon after creating the first CirrOS VM and OpenStack tends to crush. With more than one VM instance such cluster crushes immediately. Then, even if one can login to the hosts after rebooting and some Kolla-Ansible containers run in a healthy state, OpenStack as a whole is not functional anymore. Moreover, even in multinode cluster, when control and network functions run on the same host and compute function runs elswhere, the compute/network host saturates close to out of memory state after creating second CirrOS VM. So, even in Raspberry Pi multinode configuration the merging of ```compute``` and ```network``` should be avoided. These conclusions are reflected below in a sample fragment of the inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
 
   * file ```multinode``` is in the working directory
 
@@ -672,9 +675,10 @@ kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
-# The following line must be uncommented for 2025.1 to disable proxysql and enable haproxy,
-# otherwise there will be page size incompatibility between Raspberry Pi OS and proxysql application.
-#enable_proxysql: "no"
+# The following line must be commented out for 2023.1 where proxysql is not used at all. However,
+# it is needed for 2025.1, otherwise there will be page size incompatibility between
+# Raspberry Pi OS and the proxysql application.
+enable_proxysql: "no"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
 
@@ -690,7 +694,8 @@ sudo tee /etc/kolla/config/nova/ << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
-#for RPi 5 enable cortex-a76 <== currently lack of support of cortex-a76 in 2025.1 libvirtd
+# The following settings are not required for KVM configuration (our choice). They are provided here for informational purposes only.
+#for RPi 5 enable cortex-a76 <== maybe for the future, but currently theres a lack of support for cortex-a76 in 2023.1 and 2025.1 libvirtd
 #for RPi 4 enable cortex-a72
 #[libvirt]
 # qemu works only for RPi 4; if you really want it enable all three settings that follow
