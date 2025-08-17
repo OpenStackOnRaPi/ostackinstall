@@ -34,7 +34,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    1. [Setting VLANs for provider networks](#7i-setting-vlans-for-provider-networks)
       1. [Setting VLANS in the physical network (the TP-Link switch)](#7ia-setting-vlans-in-the-physical-network-the-tp-link-switch)
-      2. [Setting VLANS in the RPi hosts](#7ib-setting-vlans-in-the-rpi-hosts)
+      2. [Setting VLANS on the RPi hosts](#7ib-setting-vlans-on-the-rpi-hosts)
       3. [Separating the flat network using a VLAN](#7ic-separating-the-flat-network-using-a-VLAN)
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
@@ -913,7 +913,7 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
  <img src=images/tplink-vlan101.png width='60%' />
 </p>
 
-#### 7.i.b Setting VLANs in the RPi hosts
+#### 7.i.b Setting VLANs on the RPi hosts
 
 On each RPi, replace some of files in the `/etc/systemd/network` directory with versions from the `vlanned/etc/systemd/network` directory that include the VLAN configuration. You are encouraged to review these files to learn how persistent configuration of Linux network devices can be achieved. The files contain explanation of each construct used. After replacing these files, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
 
