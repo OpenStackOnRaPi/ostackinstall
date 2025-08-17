@@ -915,7 +915,7 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
 
 #### 7.i.b Setting VLANs on the RPi hosts
 
-On each RPi, replace some of files in the `/etc/systemd/network` directory with versions from the `vlanned/etc/systemd/network` directory that include the VLAN configuration. You are encouraged to review these files to learn how persistent configuration of Linux network devices can be achieved. The files contain explanation of each construct used. After replacing these files, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
+On each RPi, replace some files in the `/etc/systemd/network` directory with versions that define the VLAN configuration. New versions are available in this repository in the `vlanned/etc/systemd/network` directory - upload them to your RPis. You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
 
 ```
 $ ip link set down brmux
