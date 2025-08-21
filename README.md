@@ -106,7 +106,8 @@ Now you can proceed to the next subsection.
 
 ### 3.i RPi system configuration
 
-Basically, we follow the guidlines from the [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) in choosing the installaion environment.
+Generally, when choosing the installation environment, we follow the guidelines contained in the [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) .
+
 
 1. Flash the Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktop environment) onto microSD card. We use Raspberry Pi Imager for that, but other tools can be used as well.
    * make sure password authentication for ssh access is enabled (the instructions given below fit this authentication method); this allows one to avoid the use of authentication keys in Ansible (not recommended for production, but simpler)
