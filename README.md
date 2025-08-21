@@ -956,3 +956,11 @@ TODO
 #### 7.ii.b External network using VLAN provider network
 
 TODO
+
+## Addendum - accessing the cluster using VPN
+
+You can set your VPN to access the cluster remotely. If you use a dedicated machine for your VPN jump host, and once your local router has been configured and your Raspberry Pis are up and running with newly flashed SD cards, using this allows one to perform all remaining steps described in this guide. If you do not have a separet machine for the jump host than you can use selected Raspberry Pi board for this purpose; remember to select RPi that will be `compute node` in your OpenStack.
+
+You can use a VPN platform of your choice. In our experiments, we are using [Zero Tier](https://my.zerotier.com/) VPN solution. You can install it fllowing the original guide. Polish version of the guide (slightly customized for Raspberry Pi) is available [here](https://github.com/dbursztynowski/k3s-taskforce/blob/master/zt-manual.md#poradnik-po%C5%82%C4%85czenia-klastra-z-sieci%C4%85-zerotier-vpn).
+
+
