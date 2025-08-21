@@ -93,7 +93,7 @@ You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP add
  <img src=images/device-list-linksys.png width='62%' />
 </p>
 
-Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the back side of the switch for a couple of seconds. It is important that there are no VLANS set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to TP-Link the following is correct (otherwise all existing VLANs should be deleted):
+Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to TP-Link the following is correct (otherwise all existing VLANs should be deleted):
 
 <p align="center">
    <img src=images/tplink-factory.png width='60%' />
