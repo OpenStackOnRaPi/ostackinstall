@@ -74,7 +74,7 @@ All procedures described in this guide assume compliance with the setup options 
 3. Network:
    * the RPis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
-   * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of local network infrastructure
+   * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of the local network infrastructure
    * **reserve a pool of IP addresses for the use by OpenStack** on your local router (Linksys in the diagram shown above); 20 addresses will be sufficient for our purposes. They **must not** be managed by the DHCP server on the local router. Some of them will be assigned by you to the RPis using netplan (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.ii), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)). Remaining addresses will serve as OpenStack ```floating IP addresses``` for accessing created VMs from the outside of your cloud.
 4. Virtualization
    * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
