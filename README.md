@@ -118,7 +118,7 @@ Generally, when choosing the installation environment, we follow the guidelines 
 
    * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set the host name of our RPis.
   
-3. Reserve a set of IP addresses in the subnetwork where your OpenStack instance will be run. They MUST NOT be managed by your local DHCP server. They will serve as fixed IP addresses of your RPi hosts, addresses of selected OpenStack services and so-called `floating IP addresses` used to expose instances (virtual machines) to the outside of the OpenStack cloud. A continuous set of fifteen addresses will be sufficient for our purposes.
+3. Reserve a set of IP addresses in the subnetwork where your OpenStack instance will be run. They MUST NOT be managed by your local DHCP server (the Linksys router in a previous diagram). They will serve as fixed IP addresses of your RPi hosts, addresses of selected OpenStack services and so-called `floating IP addresses` used to expose instances (virtual machines) to the outside of the OpenStack cloud. A continuous set of fifteen addresses will be sufficient for our purposes.
   
 4. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved in step 2 above).
 
