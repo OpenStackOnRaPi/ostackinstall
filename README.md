@@ -180,7 +180,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap memory size on the `control` node
 
 > [!IMPORTANT]
-> This configuration is only for the host that will combine OpenStack roles of "control node" and "network node" in your OpenStack cluster. In this guide, we assume these roles will be assigned to the host with name `ost04`. In [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment) you check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can have default swap memory size settings (512MB in the Raspberry Pi OS).
+> This configuration is only for the host that will combine OpenStack roles of "control node" and "network node" in your OpenStack cluster. In this guide, we assume these roles will be assigned to the host with name `ost04`. In [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment) you can check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can be left with default swap memory size settings (512MB in the Raspberry Pi OS), but allocating more space will not be a mistake.
 >
 > Kolla-Ansible allows one to separate `control` and `network` functions by assigning them to different hosts in Ansible inventory. While this slightly reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network' hosts. Of course, if you are curious, you can give it a try.
 
