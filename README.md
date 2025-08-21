@@ -39,7 +39,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
       2. [External network using VLAN provider network](#7iib-external-network-using-vlan-provider-network)
-8. [ADDENDUM](#8-addendum---accessing-the-cluster-using-vpn)
+8. [ADDENDUM - accessing the cluster using VPN](#8-addendum---accessing-the-cluster-using-vpn)
    
 ## 1. Introduction
 
