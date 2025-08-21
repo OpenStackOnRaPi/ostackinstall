@@ -23,7 +23,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
    3. [Docker installation](#4iii-docker-installation)
 5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
-   1. [Koll-Ansible installation](#5i-kolla-ansible-installation)
+   1. [Kolla-Ansible installation](#5i-kolla-ansible-installation)
    2. [Prepare configuration files for Kolla-Ansible](#5ii-prepare-configuration-files-for-kolla-ansible)
    4. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
    5. [Deploy OpenStack](#5iv-deploy-openstack)
