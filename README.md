@@ -960,9 +960,13 @@ TODO
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
-You can set a VPN to access the cluster remotely. If you have a dedicated machine to perform as the VPN jump host, and once your local router has been configured and your Raspberry Pis are up and running with newly flashed SD cards, you will be able to complete all the remaining steps in this guide. If you do not have a spare machine than you can use selected OpenStack node (selected Raspberry Pi board) for this purpose; but make sure to assign a board that will be pure `compute node` in your OpenStack (do not overload OpenStack control nodes).
+You can set a VPN to access the cluster remotely.
 
 You can use a VPN platform of your choice. In our lab, we are using [Zero Tier](https://my.zerotier.com/) VPN solution. You can install it according to the original instructions. Polish version of the guide (customized for our environment) is available [here](https://github.com/dbursztynowski/k3s-taskforce/blob/master/zt-manual.md#poradnik-po%C5%82%C4%85czenia-klastra-z-sieci%C4%85-zerotier-vpn).
+
+If you have a dedicated machine to perform as the VPN jump host, and once your local router has been configured and your Raspberry Pis are up and running with newly flashed SD cards, you will be able to complete all the remaining steps in this guide.
+
+If you do not have a spare machine for the jump host than you can use selected OpenStack node (selected Raspberry Pi board) for this purpose; but make sure you have assigned a board that is pure `compute node` in your OpenStack (do not overload OpenStack control nodes). Mind also that in such a case if you shut down the cluster completely, you will have to start it again locally (powered off jump host RPi will not be accessible, too). If you plan to shut down the cluster from time to time it is thus better (and safer) to use a separate machine as the VPN jump host.
 
 Enjoy working with your OpenStack remotely :smile:.
 
