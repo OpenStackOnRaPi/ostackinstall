@@ -79,9 +79,8 @@ All procedures described in this guide assume compliance with the setup options 
    * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
 5. Notes
    * there are various types of PoE HAT for Raspberry Pi 4/5 and various PoE switches that also should work; one should only take care of the required power budget of the switch (please note that the required power budget will be different for the Raspberry Pi 4 and 5 platforms).
-   * for general education purposes, we use setups with at least 3 RPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups. But if one does not need VLAN provider networks, unmanaged switch can be used as well. Note that this guide does NOT cover configuring VLAN provider networks (we shall provide this addition in the future).
+   * for general education purposes, we use setups with at least 3 RPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups (and may be very tricky when using virtual machines as the OpenStack hosts). But if one does not need VLAN provider networks, unmanaged switch can be used as well.
    * other details that may be relevant are explained in the description that follows
-   * trials with Raspberry Pi 5 are planned for the near future
   
 ## 3. Raspberry Pi preparation
 
