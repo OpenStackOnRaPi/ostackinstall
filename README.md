@@ -118,7 +118,7 @@ Generally, when choosing the installation environment, we follow the guidelines 
 
    * it is recommended to set host name, user name and password as you will use afterwards in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set the host name of our RPis.
   
-3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (in our lab setup, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved in step 2 above).
+3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (e.g., in setups with a Linksys router, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved in step 3 in section [Platform components](#2-platform-components)).
 
 **Execute steps 3-9 for each RPi**
 
