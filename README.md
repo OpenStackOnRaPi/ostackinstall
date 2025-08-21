@@ -39,8 +39,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
       2. [External network using VLAN provider network](#7iib-external-network-using-vlan-provider-network)
-
-[ADDENDUM](#addendum---accessing-the-cluster-using-vpn)
+[8. ADDENDUM](#addendum---accessing-the-cluster-using-vpn)
    
 ## 1. Introduction
 
@@ -959,7 +958,7 @@ TODO
 
 TODO
 
-## Addendum - accessing the cluster using VPN
+## 8. Addendum - accessing the cluster using VPN
 
 You can set your VPN to access the cluster remotely. If you have a dedicated machine to perform as your VPN jump host, and once your local router has been configured and your Raspberry Pis are up and running with newly flashed SD cards, using this allows one to do all the remaining steps described in this guide. If you do not have such a spare machine than you can use selected OpenStack node (selected Raspberry Pi board) for this purpose; but make sure to select RPi that will be pure `compute node` in your OpenStack (do not overload OpenStack control nodes).
 
