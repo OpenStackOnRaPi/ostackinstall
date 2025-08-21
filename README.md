@@ -968,6 +968,6 @@ If you have a dedicated computer to host the VPN connection (jump host), your lo
 
 If you do not have a spare machine to set VPN jump host than you can assign selected OpenStack node (selected Raspberry Pi board) for this role. However, make sure you have assigned a board that will be pure `compute node` in your OpenStack (do not overload OpenStack control nodes). Mind also that in such a case if you shut down the cluster completely, your jump host RPi will become inaccessible, too. As a consequence, the only option to start the cluster again will be to perform a local restart. In contrast, using a separate machine to host the VPN connection allows one to start the cluster remotely (in either case, starting the cluster can be done by accessing the TP-Link switch dashboard and restarting the switch using the `System->Reboot` option). So if you plan to take the cluster down from time to time, it's better (and safer) to use a separate machine as the VPN jump host.
 
-Enjoy working with your OpenStack remotely :smile:.
+Enjoy working with your OpenStack remotely!
 
 
