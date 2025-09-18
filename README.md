@@ -748,7 +748,7 @@ In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNIN
 ```
 $ kolla-ansible bootstrap-servers -i multinode 
 $ kolla-ansible prechecks -i multinode
-# kolla-ansible deploy -i multinode
+$ kolla-ansible deploy -i multinode
 ```
 
 > [!IMPORTANT]
