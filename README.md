@@ -942,7 +942,7 @@ Follow the steps described below.
  <img src=images/tplink-vlan2.png width='60%' />
 </p>
 
-* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router (Linksys) to the switch, i.e., on Port 5 of the switch.
+* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router (Linksys) to the switch on Port 5 of the switch.
 
 <p align="center">
  <img src=images/tplink-pvid2.png width='60%' />
