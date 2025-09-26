@@ -58,7 +58,7 @@ All procedures described in this guide assume compliance with the setup options 
    * tested options: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster (uniform 8GB RAM clusters are better)
      * mimimal possible: [1x4GB RAM + 1x8GB RAM] (a minimal cluster, enough to create a single CirrOS virtual machine and nothing more)
      * OpenStack control/network nodes run on the same 8GB RPi host
-     * ideally, you would have one RPi 5 with 16GB of RAM in the cluster to run the OpenStack control and network node (this eliminates swap memory size issues, see step 9 later in this section)
+     * ideally, you would have one RPi 5 with 16GB of RAM in the cluster to run the OpenStack control and network node (this eliminates swap memory size issues, see step 9 in section [RPi system configuration](#3i-rpi-system-configuration))
    * all Pi are equipped with 32GB SD disk
    * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is barely able to host OpenStack in absolutely minimal configuration. In such a cluster, one can create a single CirrOS instance with 512MB memory, but the cloud becomes unstable. We have seen many times that even such a simple configuration ends in failure soon after instantiating the VM. And OpenStack all-in-one system immediately crashes due to lack of memory when a second similar CirrOS instance is created, unless you increase the swap memory size. This last option (increased swap memory), however, carries the risk that everything will become  v e r y  slow. That is the reason why we consider the dual-host configuration to be the minimum possible.
    * An illustrative diagram of the cluster with Linksys WRT54-GL as the local router is shown below:
