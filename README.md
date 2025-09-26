@@ -58,6 +58,7 @@ All procedures described in this guide assume compliance with the setup options 
    * tested options: [2x4GB RAM + 2x8GB RAM] or [3/4x8GB RAM] per cluster (uniform 8GB RAM clusters are better)
      * mimimal possible: [1x4GB RAM + 1x8GB RAM] (a minimal cluster, enough to create a single CirrOS virtual machine and nothing more)
      * OpenStack control/network nodes run on the same 8GB RPi host
+     * ideally, it would be to have one 16GB RAM RPi 5 in the cluster to host OpenStack control and network nodes)
    * all Pi are equipped with 32GB SD disk
    * Note: a single 8GB RAM RPi host in all-in-one setup of Kolla-Ansible OpenStack is barely able to host OpenStack in absolutely minimal configuration. In such a cluster, one can create a single CirrOS instance with 512MB memory, but the cloud becomes unstable. We have seen many times that even such a simple configuration ends in failure soon after instantiating the VM. And OpenStack all-in-one system immediately crashes due to lack of memory when a second similar CirrOS instance is created, unless you increase the swap memory size. This last option (increased swap memory), however, carries the risk that everything will become  v e r y  slow. That is the reason why we consider the dual-host configuration to be the minimum possible.
    * An illustrative diagram of the cluster with Linksys WRT54-GL as the local router is shown below:
@@ -177,8 +178,10 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 
 9. Increase swap memory size on the `control` node
 
+This section only applies when you are going to use 8GB RPi as the OpenStack control/network node. If you are going to use 16GB RAM RPi 5 for the control/network node in your OpenStack then you can stay with the default swap settings and skip the rest of this section. However, since we have not tested the 16GB RAM option so far, we still recommend monitoring memory/swap usage at least during the initial cluster startup period. This will ensure that resource usage is under control and will not cause any problems.
+
 > [!IMPORTANT]
-> This configuration is only for the host that will combine OpenStack roles of "control node" and "network node" in your OpenStack cluster. In this guide, we assume these roles will be assigned to the host with name `ost04`. In [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment) you can check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can be left with default swap memory size settings (512MB in the Raspberry Pi OS), but allocating more space will not be a mistake.
+> This configuration applies only to the host that will combine OpenStack roles of "control node" and "network node" in your OpenStack cluster. In this guide, we assume these roles will be assigned to the host with name `ost04`. In [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment) you can check how we assign roles to hosts in Kolla-Ansible inventory file `multinode`. Remaining hosts can be left with default swap memory size settings (512MB in the Raspberry Pi OS), but allocating more space will not be a mistake.
 >
 > Kolla-Ansible allows one to separate `control` and `network` functions by assigning them to different hosts in Ansible inventory. While this slightly reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network' hosts. Of course, if you are curious, you can give it a try.
 
