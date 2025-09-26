@@ -229,7 +229,7 @@ static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
     | veth0br |                     | veth1br |     tagged VLANs have to be configured by the admin from eth0 across veth1br to
-    +----┬----+                     +----┬----+     veth1 in caseof using VLAN provider networks
+    +----┬----+                     +----┬----+     veth1 in case of using VLAN provider networks
     +----┴-------------------------------┴----+
     |                   brmux                 |     L2 device, IP address not needed here, tagged VLANs have to be configured here
     +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
