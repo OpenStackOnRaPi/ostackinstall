@@ -86,9 +86,9 @@ All procedures described in this guide assume compliance with the setup options 
   
 ## 3. Raspberry Pi preparation
 
-The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you are free to make some automation using bash scripts or other tools if you want (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices).
+The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you can automate some steps using bash scripts or other tools if you wish (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices).
 
-You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP addresses to use can be checked in Linksys panel `Status->Device List`:
+You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP addresses to use can be checked in the Linksys panel `Status->Device List`:
 
 <p align="center">
  <img src=images/device-list-linksys.png width='62%' />
