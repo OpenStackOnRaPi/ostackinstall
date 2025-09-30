@@ -69,8 +69,10 @@ All procedures described in this guide assume compliance with the setup options 
    
 2. SW
    * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktopp environment).
+     - Ubuntu 24.04 LTS for Raspberry Pi may work as well. It comes with netplan and systemd-networkd as default network configuration tools, which should simplify certain installation steps from this guide.However, we haven't tried using Ubuntu on our RPi OpenStack clusters yet. The main reason is that the Kolla-Ansible container images for the latest OpenStack releases are built for Debian, not Ubuntu.
+   * Linux network configuration tools: netplan and systemd-networkd (they are not default on Debian but we use them to comply with the policies adopted in our labs).
    * Kolla-Ansible 2023.1 or 2025.1. 
-3. Network:
+3. Physical network:
    * the RPis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
    * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of the local network infrastructure
