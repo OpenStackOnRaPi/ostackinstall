@@ -450,9 +450,9 @@ Your network configuration is now the same as that from section 3.ii. You can co
 ### 4.i General notes
 
 1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud. 
-2. This guide refers to OpenStack release ```2025.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html)```. Please, note the ```2025.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
+2. This guide refers to OpenStack release ```2025.1``` and respective Kolla-Ansible guide is available under [this link](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Please, note the ```2025.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
 3. The main goal of this guide is to instruct how to _**install**_ OpenStack cloud with Kolla-Ansible on Raspberry Pi cluster. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
-4. For Kolla-Ansible 2023.1, the management host is implemented as Ubuntu 22.04 desktop in VirtualBox. Other OS may work too after appropriate adaptations. However, there are also dependencies between releases. For example, Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host. Be careful to install the right OS version.
+4. Be careful to install the right OS version. Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host. Kolla-Ansible 2023.1 requires Ubuntu 22.04 on the management host. Other OS-es may also work, possibly after appropriate adaptations, but we have not check other options.
 
 ### 4.ii VM creation and basic configs
 
@@ -463,7 +463,7 @@ Here, we assume using a virtual machine, but things do not change if the managem
   * After launching the VM in VirtualBox, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the steps that follow.
   * Disable the automatic upgrade option in the VM; in the desktop, search for this setting in `Options`.
   * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this for 24.04](https://askubuntu.com/questions/1536250/disabling-wayland-permanently-under-ubuntu-24-04-1-lts-doesnt-work-in-virtualbo) and [this for 22.04](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
-  * Assign sudo privileges to your user (we assume username `ubuntu`)
+  * Assign sudo privileges to your user (in this guide, we assume username `ubuntu`)
   ```
 $ sudo usermod -aG sudo $USER
   ```
