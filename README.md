@@ -977,15 +977,12 @@ Actually, this is similar to the example from file `init-runonce.2025.1.cirros` 
 
 ```
 # create VLAN based (external) provider network 
-openstack network create --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 102 --external
-```
-
-The creation of a subnetwork and assigning IP subnet and address range, and a gateway to it can be done as previously: 
-
-```
+openstack network create --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 102 public2 --external
+# create subnetwork in the external network with a range of floating IP addresses
 openstack subnet create --no-dhcp --ip-version 4 \
-        --allocation-pool 192.168.10.31 --network public1 \
-        --subnet-range ${EXT_NET_CIDR} --gateway ${EXT_NET_GATEWAY} public1-subnet
+   --allocation-pool start=192.168.10.31,end=192.168.10.35 --network public2 \
+   --subnet-range 192.168.10.0/24 --gateway 192.168.10.1 public2-subnet
+```
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
