@@ -971,7 +971,7 @@ Then use OpenStack RBAC to assign the provider network to a particular tenant (p
 openstack network rbac create --target-project <tenant_project_id> --action access --network dedicated-provider-net
 ```
 
-One can do the same using also the OpenStack dashboard. Try it yourself.
+One can do the same using also the OpenStack dashboard. You can try it on your own.
 
 #### 7.ii.b External network using VLAN provider network
 
