@@ -954,7 +954,9 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 #### 7.ii.a Provider network dedicated to a tenant
 
-Similarly to how a provider network is created in file `init-runonce.2025.1.cirros`, we can create a provider network dedicated to a tenant:
+You have to connect to OpenStack as admin (source appropriate rc file).
+
+Similarly to how a provider network is created in file `init-runonce.2025.1.cirros`, we can create a provider network dedicated to a tenant. First, create a VLAN based provider network and subnetwork. Note that this time the created provider network is not `shared`.
 
 ```
 # create the provider network
@@ -963,17 +965,17 @@ openstack network create --provider-physical-network physnet1 --provider-network
 openstack subnet create --network dedicated-provider-net --subnet-range 192.168.100.0/24 dedicated-provider-subnet
 ```
 
-Then use RBAC to assign the network to a particular tenant:
+Then use OpenStack RBAC to assign the provider network to a particular tenant (project):
 
 ```
 openstack network rbac create --target-project <tenant_project_id> --action access --network dedicated-provider-net
 ```
 
-One can do the above using also the OpenStack dashboard. Try it yourself.
+One can do the same using also the OpenStack dashboard. Try it yourself.
 
 #### 7.ii.b External network using VLAN provider network
 
-Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the example provided above.
+Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the dedicated provider network example described above.
 
 ```
 # create VLAN based (external) provider network 
