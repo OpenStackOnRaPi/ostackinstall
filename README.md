@@ -360,12 +360,12 @@ network:
         - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # ADJUST to Linksys dhcp server
-          - 8.8.8.8
-          - 8.8.2.2
+          - 192.168.1.1     # ADJUST to match your Linksys dhcp server address
+          - 8.8.8.8         # this is optional
+          - 8.8.2.2         # this is optional
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.1.1  # ADJUST to Linksys router
+          via: 192.168.1.1  # ADJUST to match your Linksys router address
     veth0br:
       dhcp4: false
       dhcp6: false
