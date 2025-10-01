@@ -450,7 +450,7 @@ Your network configuration is now the same as that from section 3.ii. You can co
 ### 4.i General notes
 
 1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud. 
-2. This guide refers to OpenStack release ```2023.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2023.1/user/quickstart.html)```. Please, note the ```2023.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
+2. This guide refers to OpenStack release ```2025.1``` and respective Kolla-Ansible guide is available under the link ```https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html)```. Please, note the ```2025.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
 3. The main goal of this guide is to instruct how to _**install**_ OpenStack cloud with Kolla-Ansible on Raspberry Pi cluster. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
 4. For Kolla-Ansible 2023.1, the management host is implemented as Ubuntu 22.04 desktop in VirtualBox. Other OS may work too after appropriate adaptations. However, there are also dependencies between releases. For example, Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host. Be careful to install the right OS version.
 
@@ -458,12 +458,11 @@ Your network configuration is now the same as that from section 3.ii. You can co
 
 Here, we assume using a virtual machine, but things do not change if the management host is a physical machine.
 
-  * Create `Ubuntu 22.04 LTS` VM as a desktop machine. We are using `Ubuntu 22.04 LTS` for Kolla-Ansible 2023.1 as the highest distribution supported by Kolla-Ansible 2023.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1; but it becomes mandatory for Kolla-Ansible 25.1_). We have not tested other Linux distributions. Resource requirements of the VM are moderate (4GB RAM, 20GB disk, 1vCPU should be sufficient).
-  * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in a basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy some files from the RPis to the management host). It is generally simpler when all components (cluster, management host, our physical host) work in the same subnetwork.
-  * It's best when your physical host is connected in the same L2 network segment as the OpenStack cluster (in our lab setup, attach it to the Linksys router).
+  * Create `Ubuntu 24.04 LTS` VM, preferably as a desktop machine. We are using `Ubuntu 24.04 LTS` for Kolla-Ansible 2025.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1, and you should use Ubuntu 22.04 as the highest distribution supported by Kolla-Ansible 2023.1_). We have not tested other Linux distributions. Resource requirements for the VM are moderate (4GB RAM, 20GB disk, 1vCPU should be sufficient).
+  * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in a basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy some files [from](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true) between the RPis and the management host). It is generally simpler when all components (cluster, management host, our physical host) operate in the same L2 segment.
   * After launching the VM in VirtualBox, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the steps that follow.
   * Disable the automatic upgrade option in the VM; in the desktop, search for this setting in `Options`.
-  * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
+  * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this for 24.04](https://askubuntu.com/questions/1536250/disabling-wayland-permanently-under-ubuntu-24-04-1-lts-doesnt-work-in-virtualbo) and [this for 22.04](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
   * Assign sudo privileges to your user (we assume username `ubuntu`)
   ```
 $ sudo usermod -aG sudo $USER
@@ -474,7 +473,7 @@ $ sudo usermod -aG sudo $USER
 $ sudo apt update && sudo apt upgrade
   ```
 
-  * When using VirtualBox, install GuestAdditions - refer, e.g., to [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
+  * When using VirtualBox, install GuestAdditions - refer, e.g., to [this](https://linuxconfig.org/installing-virtualbox-guest-additions-on-ubuntu-24-04) or [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
     
   * Enable passwordless sudo logging on the management host (required by Ansible) and reboot (reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt)
   ```
