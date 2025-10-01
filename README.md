@@ -680,7 +680,7 @@ network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
 # The following line must be commented out for 2023.1 where proxysql is not used at all. However,
-# it is needed for 2025.1, otherwise there will be page size incompatibility between
+# disabling proxysql is needed for 2025.1 on Raspberry Pi OS, otherwise there will be page size incompatibility between
 # Raspberry Pi OS and the proxysql application.
 enable_proxysql: "no"
 ```
