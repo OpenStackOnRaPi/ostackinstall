@@ -960,7 +960,7 @@ Similarly to how a provider network is created in file `init-runonce.2025.1.cirr
 # create the provider network
 openstack network create --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 101 dedicated-provider-net
 # create subnetwork in the provider network
-openstack subnet create --network dedicated-provider-net --subnet-range 192.168.1.0/24 dedicated-provider-subnet
+openstack subnet create --network dedicated-provider-net --subnet-range 192.168.100.0/24 dedicated-provider-subnet
 ```
 
 Then use RBAC to assign the network to a particular tenant:
@@ -976,11 +976,16 @@ One can do the above using also the OpenStack dashboard. Try it yourself.
 Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the example provided above.
 
 ```
-# create VLAN based provider network 
+# create VLAN based (external) provider network 
 openstack network create --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 102 --external
 ```
 
-The creation of a subnetwork and assigning IP address range to it (or 
+The creation of a subnetwork and assigning IP subnet and address range, and a gateway to it can be done as previously: 
+
+```
+openstack subnet create --no-dhcp --ip-version 4 \
+        --allocation-pool 192.168.10.31 --network public1 \
+        --subnet-range ${EXT_NET_CIDR} --gateway ${EXT_NET_GATEWAY} public1-subnet
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
