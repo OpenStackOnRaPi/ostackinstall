@@ -964,7 +964,7 @@ TODO
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
-You can set a VPN to access the cluster remotely. Any VPN platform of your choice can be used for that. In our lab, we are using the [Zero Tier](https://my.zerotier.com/ VPN solution. You can install it according to the original instructions. A Polish version of the instructions (adapted to our environment) is available [here](https://github.com/dbursztynowski/k3s-taskforce/blob/master/zt-manual.md#poradnik-po%C5%82%C4%85czenia-klastra-z-sieci%C4%85-zerotier-vpn).
+You can set a VPN to access the cluster remotely. Any VPN platform of your choice can be used for that. In our lab, we are using the [Zero Tier](https://my.zerotier.com/ VPN solution). You can install it according to the original instructions. A Polish version of the instructions (adapted to our environment) is available [here](https://github.com/dbursztynowski/k3s-taskforce/blob/master/zt-manual.md#poradnik-po%C5%82%C4%85czenia-klastra-z-sieci%C4%85-zerotier-vpn).
 
 There are two main options for installing ZeroTier in the cluster.
 
