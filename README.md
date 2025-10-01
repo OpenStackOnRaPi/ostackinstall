@@ -679,9 +679,9 @@ kolla_internal_vip_address: "192.168.1.60"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
-# The following line must be commented out for 2023.1 where proxysql is not used at all. However,
-# disabling proxysql is needed for 2025.1 on Raspberry Pi OS, otherwise there will be page size incompatibility between
-# Raspberry Pi OS and the proxysql application.
+# The following line must be commented for 2023.1 where proxysql is not used at all. However,
+# disabling proxysql is needed for 2025.1 on Raspberry Pi OS, otherwise there will be page size
+# incompatibility between Raspberry Pi OS and the proxysql application.
 enable_proxysql: "no"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
@@ -698,11 +698,11 @@ $ sudo tee /etc/kolla/config/nova/ << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
-# The following settings are not required for KVM configuration (our choice). They are provided here for informational purposes only.
+# The following settings are applicable only for qemu (not needed by KVM at all). Currently they serve informational purposes only.
 #for RPi 5 enable cortex-a76 <== maybe for the future, but currently theres a lack of support for cortex-a76 in 2023.1 and 2025.1 libvirtd
 #for RPi 4 enable cortex-a72
 #[libvirt]
-# qemu works only for RPi 4; if you really want it enable all three settings that follow
+# qemu works only for RPi 4; if you really want, it enable all three settings that follow
 #virt_type = qemu
 #cpu_mode = custom
 #cpu_models = cortex-a72
