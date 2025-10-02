@@ -994,7 +994,7 @@ openstack subnet create --no-dhcp --ip-version 4 \
    --subnet-range 192.168.10.0/24 --gateway 192.168.10.1 public2-subnet
 ```
 
-Note that the size of IP address pools for floating IP addresses above match the size of the reservation range suggested in section 3.
+Note that the size of the IP address pools for floating IP addresses above and in the init-runonce.x.y scripts match the size of the reservation range suggested in section 3.
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
