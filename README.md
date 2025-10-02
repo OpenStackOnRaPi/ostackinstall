@@ -12,24 +12,25 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 
 1. [Introduction](#1-introduction)
 2. [Platform components](#2-platform-components)
-3. [Raspberry Pi preparation](#3-raspberry-pi-preparation)
-   1. [RPi system configuration](#3i-rpi-system-configuration)
-   2. [RPi network configuration - pure flat provider network](#3ii-rpi-network-configuration---pure-flat-provider-network)
-   3. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
-4. [Management host preparation](#4-management-host-preparation)
+3. [Local network and Raspberry Pi preparation](#3-local-network-and-raspberry-pi-preparation)
+   1. [Local network preparation](#3i-local-network-preparation)
+   2. [RPi system configuration](#3ii-rpi-system-configuration)
+   3. [RPi network configuration - pure flat provider network](#3iii-rpi-network-configuration---pure-flat-provider-network)
+   4. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
+5. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#4i-general-notes)
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
    3. [Docker installation](#4iii-docker-installation)
-5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
+6. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Kolla-Ansible installation](#5i-kolla-ansible-installation)
    2. [Prepare configuration files for Kolla-Ansible](#5ii-prepare-configuration-files-for-kolla-ansible)
    4. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
    5. [Deploy OpenStack](#5iv-deploy-openstack)
    6. [Postdeployment and the first instance](#5v-postdeployment-and-the-first-instance)
-6. [Managing your cluster](#managing-your-cluster)
+7. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#6i-shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#6ii-destroy-your-cluster)
-7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
+8. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    1. [Setting VLANs for provider networks](#7i-setting-vlans-for-provider-networks)
       1. [Setting VLANS in the physical network (the TP-Link switch)](#7ia-setting-vlans-in-the-physical-network-the-tp-link-switch)
       2. [Setting VLANS on the RPi hosts](#7ib-setting-vlans-on-the-rpi-hosts)
@@ -37,7 +38,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
       2. [External network using VLAN provider network](#7iib-external-network-using-vlan-provider-network)
-8. [ADDENDUM - accessing the cluster using VPN](#8-addendum---accessing-the-cluster-using-vpn)
+9. [ADDENDUM - accessing the cluster using VPN](#8-addendum---accessing-the-cluster-using-vpn)
    
 ## 1. Introduction
 
@@ -84,9 +85,17 @@ All procedures described in this guide assume compliance with the setup options 
    * for general education purposes, we use setups with at least 3 RPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups (and may be very tricky when using virtual machines as the OpenStack hosts). But if one does not need VLAN provider networks, unmanaged switch can be used as well.
    * other details that may be relevant are explained in the description that follows
   
-## 3. Raspberry Pi preparation
+## 3. Local network and Raspberry Pi preparation
 
-The following has to be done for each Rasppbery Pi host in your cluster and the instructions will be described one by one. However, you can automate some steps using bash scripts or other tools if you wish (Note: sometimes a reboot is needed so you will have to prepare a couple of scripts for semi-automated installation or, e.g., Ansible playbook to automate the installation completely, but how to do it is out of the scope of this guide). The process is split into two phases: system configuration (installs, upgrades, etc.) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices).
+In section, 3.i we describe the basic configurations needed for your local (cluster) network devices.
+
+In sections 3.ii, 3.iii, and 3.iv, configurations needed for your Raspberry Pis are described. Note that they have to be applied to each Raspberry Pi host in your cluster. They are given in the form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). Additionally, in subesction 3.iv, initial configurations that later will be used for VLAN provider networks are provided (actually, they .
+
+### 3.i Local network preparation
+
+Reserve a pool of IP addresses for the use by OpenStack on your local router (Linksys in the diagram from section 2); 16 addresses will be sufficient for our purposes. They **must not** be managed by the DHCP server on your local router. Some of them will be assigned by you to the RPis using netplan (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iii), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will serve as OpenStack `floating IP addresses` allowing access to created virtual machines from outside the cloud. (We assume you will not create more than 10 virtual machines, so a pool of 16 reserved addresses should be enough.)
+
+Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure form section 1). In this guide we assume the mask is 192.168.10.0/24. Then 
 
 You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP addresses to use can be checked in the Linksys panel `Status->Device List`:
 
@@ -94,7 +103,7 @@ You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP add
  <img src=images/device-list-linksys.png width='62%' />
 </p>
 
-Before you begin, make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to TP-Link the following is correct (otherwise all existing VLANs should be deleted):
+Make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to TP-Link the following is correct (otherwise all existing VLANs should be deleted):
 
 <p align="center">
    <img src=images/tplink-factory.png width='60%' />
@@ -103,12 +112,11 @@ Before you begin, make sure your TP-Link switch is set to the manufacturer's set
 > [!Note]
 > In our TP-Link routers, after restoring factory settings, we log in as user=admin, passwd=admin and the password change is forced upon first login.
 
-Now you can proceed to the next subsection.
+Now you can proceed to subsection 3.2.
 
-### 3.i RPi system configuration
+### 3.ii RPi system configuration
 
 Generally, when choosing the installation environment, we follow the guidelines contained in the [Kolla-Ansible support matrix](#https://docs.openstack.org/kolla-ansible/2023.1/user/support-matrix.html) .
-
 
 1. Flash the Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktop environment) onto microSD card. We use Raspberry Pi Imager for that, but other tools can be used as well.
    * make sure password authentication for ssh access is enabled (the instructions given in the following fit this authentication method); this allows one to avoid the use of authentication keys in Ansible (not recommended for production, but simpler)
@@ -199,7 +207,7 @@ swapon --show        # ensure it is now active
 sudo reboot
   ```
 
-### 3.ii RPi network configuration - pure flat provider network
+### 3.iii RPi network configuration - pure flat provider network
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
 
@@ -267,7 +275,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 **_3. Host network configuration (for flat provider network)_**
 
 > [!NOTE]
-> This step is prepared for flat provider network only in your OpenStack DC. Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip this step and go to [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
+> This and the following steps are prepared for the use of flat provider network only in your OpenStack DC. **That means, you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip the remainder of this subsection and go to subsection [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
@@ -413,21 +421,21 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-### 3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)
+### 3.iv VLAN provider networks - part 1 (RPi network configuration for flat network)
 
 #### General
 
-There's no one generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of a single flat and several VLAN (tagged) provider networks. A flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.ii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs arising in a given data center.
+There's no one generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of a single flat and several VLAN (tagged) provider networks. In our case, flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.iii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs arising in a given data center.
 
-We adopt a two-step incremental approach. This section describes the first step. We will create a flat provider network setup already known from section 3.ii. This time most of the network configurations will be defined in networkd files (that is, in section 3.ii we used networkd as little as possible). This will result in an OpenStack network configuration that is identical to the one in section 3.ii (allowing you to perform the same experiments with OpenStack as with the configuration in section 3.ii). However, the current set of files will be better suited for conversion to enable VLAN provider networks.
+We adopt a two-step incremental approach for VLAN provider networks. This section describes the first step and we will create a flat provider network setup already known from section 3.iii. However, this time most of the network configurations will be defined in networkd files (contrary to this, in section 3.iii we used networkd as little as possible). This will result in an OpenStack network configuration that is identical to the one from section 3.ii (allowing one to perform the same experiments with OpenStack as with the configuration in section 3.iii). However, the current set of networkd and netplan files will be better suited for further conversion to enable VLAN provider networks.
 
 In the second, crucial step, we will change some networkd configuration files to actually create tagged VLANs, enable VLAN provider networks and use them in our cluster. That is covered in section [7. VLAN provider networks - part 2](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Configuring the network (flat)
 
   * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
-  * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory to the `/etc/netplan` directory on the RPi, and from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet layer isolation between tenants; for now, this will be implemented in OpenStack using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
-  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router).
+  * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory should be uploaded to the `/etc/netplan` directory on each RPi, and those from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory on each RPi. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet traffic isolation between tenants using such a flat provider network. Basic tenant L2 traffic isolation will be implemented using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
+  * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update the IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router) according to your environment.
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
