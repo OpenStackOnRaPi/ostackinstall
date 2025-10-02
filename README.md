@@ -93,9 +93,9 @@ In sections 3.ii, 3.iii, and 3.iv, configurations needed for your Raspberry Pis 
 
 ### 3.i Local network preparation
 
-Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure form section 2). Throughout this guide we assume the mask is 192.168.10.0/24.
+Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure form section 2). Throughout this guide, we assume the mask is 192.168.10.0/24.
 
-Then reserve a pool of IP addresses for the use by OpenStack on your local router (Linksys in the diagram from section 2); 16 addresses will be sufficient for our purposes. The term **reserved** means they **must not** be managed by the DHCP server on your local router, but they should be routable in your local network. Some of them will be assigned by you to the RPis using netplan (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iii), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will be used to create a pool of OpenStack `floating IP addresses` allowing access to virtual machines from outside the cloud. (We assume you will not create more than 11 virtual machines, so a pool of 16 reserved addresses should be enough.)
+Then reserve a pool of continuous IP addresses for the use by OpenStack on your local router; 16 addresses will be sufficient for our purposes. The term **reserved** means they **must not** be managed by the DHCP server on your local router, but they should be routable in your local network (typically, it suffices to define the DHCP pool such that it does not contain this reserved pool). Some of those reserved addresses will be assigned by you to the RPis using netplan configuration file (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iv), and one will be allocated as the so-called ```kolla_internal_vip_address``` (see [section 5.iii](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will be used to create a pool of OpenStack `floating IP addresses` allowing access to virtual machines from outside the cloud. (We assume you will not create more than 11 virtual machines, so a pool of 16 reserved addresses should be enough.)
 
 You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP addresses to use can be checked in the Linksys panel `Status->Device List`:
 
@@ -103,16 +103,16 @@ You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP add
  <img src=images/device-list-linksys.png width='62%' />
 </p>
 
-Make sure your TP-Link switch is set to the manufacturer's settings. One can press a button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to TP-Link the following is correct (otherwise all existing VLANs should be deleted):
+Make sure your TP-Link switch is set to the factory settings. This can be performed by holding the reset button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to the switch the following configuration is correct (otherwise all existing VLANs should be deleted):
 
 <p align="center">
    <img src=images/tplink-factory.png width='60%' />
 </p>
 
 > [!Note]
-> In our TP-Link routers, after restoring factory settings, we log in as user=admin, passwd=admin and the password change is forced upon first login.
+> In our TP-Link switches, after restoring factory settings, we log in with userneme=admin, passwd=admin and the password change is forced upon the first login.
 
-Now you can proceed to subsection 3.2.
+Now you can proceed to subsection 3.ii.
 
 ### 3.ii RPi system configuration
 
@@ -213,7 +213,7 @@ In this section, we describe how to configure networking in our OpenStack provid
 
 If you want to use flat provider networks only, follow the remainder of this subsection and then continue with sections [5. Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [6. Managing your cluster](#managing-your-cluster).
 
-If you are determined to use VLAN provider networks in your cluster, follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_), and then proceed to [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Note that in this case we use a two-step approach. In subsection 3.iii only a flat provider network will be set in the cluster, while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
+If you are determined to use VLAN provider networks in your cluster, follow this section up to step _2. Install and enable netplan_ (but not _3. Host network configuration (for flat provider network)_), and then proceed to [3.iv VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network). Note that in the latter case we use a two-step approach: in subsection 3.iv only a flat provider network will be set in the cluster, while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks).
 
 #### Network configuration description
 
@@ -226,7 +226,7 @@ SCHEMATIC VIEW OF RPi INTERNAL NETWORK EMULATING REAL DC NETWORK ENVIRONMENT
 
 network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
-static IP 192.168.1.6x/24         no IP address assigned (Kolla-Ansible requires that)
+static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible requires that)
  
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
@@ -275,7 +275,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 **_3. Host network configuration (for flat provider network)_**
 
 > [!NOTE]
-> This and the following steps are prepared for the use of flat provider network only in your OpenStack DC. **That means, you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip the remainder of this subsection and go to subsection [3.iii VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iii-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
+> This and the following steps are prepared for the use of flat provider network only in your OpenStack DC. **That means, you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting VLAN provider networks in your cluster, skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network).
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
@@ -365,15 +365,15 @@ network:
     # note thet the veth pair device has to be defined in networkd file, not here
     veth0:                  # network_interface for kolla-ansible
       addresses:
-        - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
+        - 192.168.10.2x/24  # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.1.1     # ADJUST to match your Linksys dhcp server address
+          - 192.168.10.1    # ADJUST to match your Linksys dhcp server address
           - 8.8.8.8         # this is optional
           - 8.8.2.2         # this is optional
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.1.1  # ADJUST to match your Linksys router address
+          via: 192.168.10.1 # ADJUST to match your Linksys router address
     veth0br:
       dhcp4: false
       dhcp6: false
@@ -433,7 +433,7 @@ In the second, crucial step, we will change some networkd configuration files to
 
 #### Configuring the network (flat)
 
-  * First, if not already done, execute steps 1 and 2 from the previous section 3.ii (stop NetworkManager and install netplan).
+  * First, if not already done, execute steps 1 and 2 from the previous section 3.iii (i.e., stop NetworkManager and install netplan).
   * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory should be uploaded to the `/etc/netplan` directory on each RPi, and those from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory on each RPi. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet traffic isolation between tenants using such a flat provider network. Basic tenant L2 traffic isolation will be implemented using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
   * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update the IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router) according to your environment.
 ```
@@ -451,7 +451,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-Your network configuration is now the same as that from section 3.ii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
+Your network configuration is now the same as that from section 3.iii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
 
 ## 4. Management host preparation
 
@@ -529,7 +529,7 @@ $ docker run hello-world
 
 ### 5.i Kolla-Ansible installation
 
-The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Installation of [Kolla-Ansible 2023.1](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html) is very similar, but not identical, to 2025.1. One difference is that in 2023.1 one has to install Ansible explicitly by running a separate command while in 2025.1 this step is already included in the Kolla-Ansible script and you do not bother with Ansible installation. Other differences are a direct consequence of the 2023.1 release status being changed to "unmaintained", but without corresponding updates in the publicly available Kolla-Ansible manual and in a single Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions applicable for 2023.1 are outlined in the following.
+The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Installation of [Kolla-Ansible 2023.1](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html) is very similar to, but not identical as that of 2025.1. One difference is that in 2023.1 one has to install Ansible explicitly by running a separate command while in 2025.1 this step is already included in the Kolla-Ansible script and you do not bother with Ansible installation. Other differences are a direct consequence of the 2023.1 release status being changed to "unmaintained", but without corresponding updates in the publicly available Kolla-Ansible manual and in a single Kolla-Ansible configuration file (the term ```stable``` is used instead of ```unmaintained```). Corrective changes to respective instructions applicable for 2023.1 are outlined in the following.
 
 One can use the original source document for 2025.1 and install on his own or take advantage of 100% ready-to-use commands documented below.
 
@@ -602,10 +602,10 @@ $ cat /etc/hosts
 127.0.0.1	localhost
 127.0.1.1	labs
 
-192.168.1.61    ost01
-192.168.1.62    ost02
-192.168.1.63    ost03
-192.168.1.64    ost04
+192.168.10.21    ost01
+192.168.10.22    ost02
+192.168.10.23    ost03
+192.168.10.24    ost04
 ...
 ```
 
@@ -683,13 +683,13 @@ $ sudo nano /etc/kolla/globals.yml
 # Valid options are ['centos', 'debian', 'rocky', 'ubuntu']
 kolla_base_distro: "debian"
 openstack_tag_suffix: "-aarch64"
-kolla_internal_vip_address: "192.168.1.60"
+kolla_internal_vip_address: "192.168.10.20"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
 # The following line must be commented for 2023.1 where proxysql is not used at all. However,
-# disabling proxysql is needed for 2025.1 on Raspberry Pi OS, otherwise there will be page size
-# incompatibility between Raspberry Pi OS and the proxysql application.
+# it must be uncommented for 2025.1 on Raspberry Pi OS to disable using proxysql, otherwise
+# there will be page size incompatibility between Raspberry Pi OS and the proxysql application.
 enable_proxysql: "no"
 ```
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
@@ -993,6 +993,8 @@ openstack subnet create --no-dhcp --ip-version 4 \
    --allocation-pool start=192.168.10.31,end=192.168.10.35 --network public2 \
    --subnet-range 192.168.10.0/24 --gateway 192.168.10.1 public2-subnet
 ```
+
+Note that the size of IP address pools for floating IP addresses above match the size of the reservation range suggested in section 3.
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
