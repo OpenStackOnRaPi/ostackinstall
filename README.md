@@ -87,9 +87,9 @@ All procedures described in this guide assume compliance with the setup options 
   
 ## 3. Local network and Raspberry Pi preparation
 
-In section, 3.i we describe the basic configurations needed for your local (cluster) network devices.
+In section 3.i we describe the basic configurations needed for your local (cluster) network devices.
 
-In sections 3.ii, 3.iii, and 3.iv, configurations needed for your Raspberry Pis are described. Note that they have to be applied independently to each Raspberry Pi host in your cluster. They are given in a form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). Additionally, in subesction 3.iv, initial configurations that later will be used for VLAN provider networks are provided (actually, they .
+In sections 3.ii, 3.iii, and 3.iv, configurations needed for your RPis are described. Note that they have to be applied independently to each RPi host in your cluster. They are given in a form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). Additionally, in subesction 3.iv, initial configurations that later will be used for VLAN provider networks are provided (actually, they .
 
 ### 3.i Local network preparation
 
@@ -125,9 +125,9 @@ Generally, when choosing the installation environment, we follow the guidelines 
  <img src=images/enablessh.png width='50%' />
 </p>
 
-   * it is recommended to set the host name, user name and password as you will use later in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and password, and use the convention ost01, ost02, ... to set the host name of our RPis.
+   * it is recommended to set the host name, user name and password to what you will use later in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and the password, and use the convention ost01, ost02, ... to set the host name of our RPis.
   
-3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (e.g., in setups with a Linksys router, check the ```Device list``` panel in the Linksys router GUI). These addresses are one-time use and will later be overwritten with persistent (fixed) addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved in step 3 in section [2. Platform components](#2-platform-components)).
+3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (e.g., in setups with a Linksys router, check the ```Device list``` panel in the Linksys router GUI). These addresses are single-use and will later be replaced with permanent addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from the pool reserved as described in subsection 3.i).
 
 **Execute steps 3-9 for each RPi**
 
@@ -425,7 +425,7 @@ $ sudo reboot
 
 #### General
 
-There's no one generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of a single flat and several VLAN (tagged) provider networks. In our case, flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.iii). Additionally, we will create a set of VLANs allowing the admin to create additional, tagged provider networks. Such tagged provider networks can then be configured as external or internal (without external access) networks, depending on the actual needs arising in a given data center.
+There's no one generic configuration of provider networks in OpenStack. In this guide, we describe how to deploy a combination of a single flat and several VLAN (tagged) provider networks. In our case, flat (untagged) provider network will support OpenStack management, external and tenant overlay networks (so similarly to the basic flat provider network setup described in section 3.iii). Additionally, we will create a set of VLANs allowing the admin to create additional, VLAN provider networks. Such VLAN provider networks can be configured as external or internal (without external access) networks, depending on tenant needs in a given data center.
 
 We adopt a two-step incremental approach for VLAN provider networks. This section describes the first step and we will create a flat provider network setup already known from section 3.iii. However, this time most of the network configurations will be defined in networkd files (contrary to this, in section 3.iii we used networkd as little as possible). This will result in an OpenStack network configuration that is identical to the one from section 3.ii (allowing one to perform the same experiments with OpenStack as with the configuration in section 3.iii). However, the current set of networkd and netplan files will be better suited for further conversion to enable VLAN provider networks.
 
