@@ -69,7 +69,7 @@ All procedures described in this guide assume compliance with the setup options 
 </p>
    
 2. SW
-   * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktopp environment).
+   * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktop environment).
      - Ubuntu 24.04 LTS for Raspberry Pi may work as well. It comes with netplan and systemd-networkd as default network configuration tools, which should simplify certain installation steps from this guide.However, we haven't tried using Ubuntu on our RPi OpenStack clusters yet. The main reason is that the Kolla-Ansible container images for the latest OpenStack releases are built for Debian, not Ubuntu.
    * Linux network configuration tools: netplan and systemd-networkd (they are not default on Debian but we use them to comply with the policies adopted in our labs).
    * Kolla-Ansible 2023.1 or 2025.1. 
