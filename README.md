@@ -1009,5 +1009,3 @@ If you do not have a spare machine to set a VPN jump host than you can assign se
 In either case, starting the cluster can be done by accessing the TP-Link switch dashboard and restarting the switch using the `System->Reboot` option. Of course, the TP-Link switch should be on if the remote access is to be used.
 
 Enjoy remote access to your OpenStack!
-
-
