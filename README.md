@@ -24,8 +24,8 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 6. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Kolla-Ansible installation](#5i-kolla-ansible-installation)
    2. [Preparing configuration files for Kolla-Ansible](#5ii-preparing-configuration-files-for-kolla-ansible)
-   4. [Configure Kolla-Ansible files for specific OpenStack depolyment](#5iii-configure-kolla-ansible-files-for-specific-openstack-depolyment)
-   5. [Deploy OpenStack](#5iv-deploy-openstack)
+   4. [Configuring Kolla-Ansible files for specific OpenStack depolyment](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment)
+   5. [Deploying OpenStack](#5iv-deploying-openstack)
    6. [Postdeployment and the first instance](#5v-postdeployment-and-the-first-instance)
 7. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#6i-shut-down-the-cluster-and-start-it-again)
@@ -609,7 +609,7 @@ $ cat /etc/hosts
 ...
 ```
 
-### 5.iii Configure Kolla-Ansible files for specific OpenStack depolyment
+### 5.iii Configuring Kolla-Ansible files for specific OpenStack depolyment
 
 1. Prepare passwords.yml file
 
@@ -749,7 +749,7 @@ EOT
 > * https://docs.redhat.com/en/documentation/red_hat_openstack_platform/10/html/networking_guide/bridge-mappings#bridge-mappings
 > * https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html#openvswitch-ml2-ovs
 
-### 5.iv Deploy OpenStack
+### 5.iv Deploying OpenStack
 
 In case of kolla-ansible below has problems with ssh to reach your RPis ("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"), check file /etc/hosts for the presence of resoultion data. If you have reinstalled the OS on the RPis, you have to **do delete** `rm ~/.ssh/known_hosts`.
 
