@@ -9,7 +9,7 @@ A number of OpenStack cluster configurations have been tested thoroughly. Each c
 In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and cheap, bare metal OpenStack clusters for education purposes. This guide covers Kolla-Ansible releases 2023.1 and 2025.1, assuming 2025.1 to be the reference version (differences applicable for version 2023.1 are discussed directly in the text). Updates will be added to this guide as new findings, propositions or recommendations emerge.
 
 > [!NOTE]
-> OpenStack/Kolla-Ansible 2025.1 was the latest release during preparation of this guide.
+> OpenStack/Kolla-Ansible 2025.1 was the latest version released while this guide was being prepared.
 
 ## Table of contents
 
