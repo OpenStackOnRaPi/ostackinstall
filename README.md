@@ -627,17 +627,17 @@ $ kolla-genpwd
 > [!Warning]
 > In case of getting `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions: `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions of `passwords.yml` after that.
 
-  * edit file ```/etc/kolla/passwords.yml``` and change the keystone admin password to human readable form (search ```keystone_admin_password```; you can set it simple, e.g., ```admin``` as in our case
+  * edit file `/etc/kolla/passwords.yml` and change the keystone admin password to a human-readable form (search `keystone_admin_password`; you can set it simple, e.g., `admin` as in our case
 ```
 $ sudo nano /etc/kolla/passwords.yml
 ```
 
-2. Prepare inventory file ```multinode``` and feature configuration file ```globals.yml```
+2. Prepare inventory file `multinode` and feature configuration file `globals.yml`
 
 > [!IMPORTANT]
 > Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts and specify those role allocations in inventory file. Our experiments have shown that the roles ```compute``` and ```network``` MUST be separated (i.e., allocated to different hosts) in clusters with 8GB RAM Raspberries. Otherwise the cluster becomes prone to out of memory issues which lead to severe instabilities. In all-in-one installation (one RPi in the cluster) the node runs close to out of memory very soon after creating the first CirrOS VM and OpenStack tends to crush. With more than one VM instance such cluster crushes immediately. Then, even if one can login to the hosts after rebooting and some Kolla-Ansible containers run in a healthy state, OpenStack as a whole is not functional anymore. Moreover, even in multinode cluster, when control and network functions run on the same host and compute function runs elswhere, the compute/network host saturates close to out of memory state after creating second CirrOS VM. So, even in Raspberry Pi multinode configuration the merging of ```compute``` and ```network``` should be avoided. These conclusions are reflected below in a sample fragment of the inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
 
-  * file ```multinode``` is in the working directory
+  * file `multinode` is stored in the working directory
 
 ```
 $ sudo nano multinode
