@@ -127,7 +127,7 @@ Generally, when choosing the installation environment, we follow the guidelines 
    * make sure password authentication for ssh access is enabled (the instructions given in the following fit this authentication method); this allows one to avoid the use of authentication keys in Ansible (not recommended for production, but simpler)
   
 <p align="center">
- <img src=images/enablessh.png width='50%' />
+ <img src=images/enablessh.png width='40%' />
 </p>
 
    * it is recommended to set the host name, user name and password to what you will use later in Kolla-Ansible playbooks. In the examples below, we set "ubuntu" for both the user name and the password, and use the convention ost01, ost02, ... to set the host name of our RPis.
