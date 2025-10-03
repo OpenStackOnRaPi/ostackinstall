@@ -522,7 +522,7 @@ $ sudo groupadd docker   <=== for any case
 $ sudo usermod -aG docker $USER
 $ newgrp docker          <=== adds the user to group docker in current shell without rebooting
   ```
-  * Verify if docker works (check if you can run docker without sudo - should be possible)
+  * Verify if docker works (check if you can run docker without sudo - it should be possible)
   ```
 $ docker run hello-world
   ```
