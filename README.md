@@ -620,12 +620,13 @@ $ cat /etc/hosts
 
   * Generate passwors in file ```/etc/kolla/passwords.yml```
 
-> [!Warning]
-> In case of getting `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions: `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions of `passwords.yml` after that.
-
 ```
 $ kolla-genpwd
 ```
+
+> [!Warning]
+> In case of getting `PermissionError: [Errno 13] Permission denied: '/etc/kolla/passwords.yml'` change file permissions: `chown a+wr /etc/kolla/passwords.yml`. You can restore original permissions of `passwords.yml` after that.
+
   * edit file ```/etc/kolla/passwords.yml``` and change the keystone admin password to human readable form (search ```keystone_admin_password```; you can set it simple, e.g., ```admin``` as in our case
 ```
 $ sudo nano /etc/kolla/passwords.yml
