@@ -92,7 +92,7 @@ All procedures described in this guide assume compliance with the setup options 
   
 ## 3. Local network and Raspberry Pi preparation
 
-In section 3.i we describe the basic configurations necessary for the physical devices of the cluster network..
+In section 3.i we describe the basic configurations necessary for the physical devices of the cluster network.
 
 In sections 3.ii, 3.iii, and 3.iv, configurations needed for your RPis are described. Note that they have to be applied independently to each RPi host in your cluster. They are given in a form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). Additionally, in subesction 3.iv, initial configurations that later will be used for VLAN provider networks are provided (actually, they .
 
