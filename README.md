@@ -200,7 +200,7 @@ This section only applies when you are going to use 8GB RPi as the OpenStack con
 >
 > Kolla-Ansible allows one to separate the `control` and `network` functions by assigning them to different hosts in Ansible inventory. If you are curious, you can give it a try. However, remember that while such separation reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network` hosts.
 
-  * follow the instructions below; they are drawn from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory that we have observed so far is 2.5GB. Below we set the size to **`4096`** which should provide a safe margin, but you can double it if you want greater guarantees.
+  * follow the instructions below; they are drawn from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory that we have observed so far is 2.5GB. Below we set the size to **`4096`** which should provide a safe margin.
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
