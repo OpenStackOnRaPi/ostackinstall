@@ -19,7 +19,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    1. [Local network preparation](#3i-local-network-preparation)
    2. [RPi system configuration](#3ii-rpi-system-configuration)
    3. [RPi network configuration - pure flat provider network](#3iii-rpi-network-configuration---pure-flat-provider-network)
-   4. [VLAN provider networks - part 1 (RPi network configuration for flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-flat-network)
+   4. [VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)
 5. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#4i-general-notes)
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
@@ -426,7 +426,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-### 3.iv VLAN provider networks - part 1 (RPi network configuration for flat network)
+### 3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)
 
 #### General
 
