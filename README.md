@@ -103,9 +103,9 @@ In sections 3.ii, 3.iii, and 3.iv, configurations needed for your RPis are descr
 
 ### 3.i Local network preparation
 
-Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure form section 2). Throughout this guide, we assume the mask is 192.168.10.0/24.
+Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure from section 2). Throughout this guide, we assume the mask is 192.168.10.0/24.
 
-Then reserve a contiguous pool of IP addresses for use by OpenStack on your local router; 16 addresses will be sufficient for our purposes. The term **reserved** means here these addresses **must not** be managed by the DHCP server on your local router, but they should be routable in your local network (typically, it suffices to define a DHCP address pool such that it does not contain that reserved address pool). Some of these reserved addresses will later be assigned by you to the RPis using netplan configuration file (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iv). One address will be allocated as the so-called `kolla_internal_vip_address` (see [section 5.iii](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will be used to create OpenStack `floating IP addresses`. These floating IPs allow access to virtual machines from outside the cloud. (We assume you will not create more than 11 virtual machines, so the suggested pool of 16 reserved addresses for the cluster will be more than enough.)
+Then reserve a contiguous pool of IP addresses for use by OpenStack on your local router (Linksys); 16 addresses will be sufficient for our purposes. The term **reserved** means here these addresses **must not** be managed by the DHCP server on your local router, but they should be routable in your local network (typically, it suffices to define a DHCP address pool such that it does not contain that reserved address pool). Some of these reserved addresses will later be assigned by you to the RPis using netplan configuration file (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iv). One address will be allocated as the so-called `kolla_internal_vip_address` (see [section 5.iii](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will be used to create OpenStack `floating IP addresses`. In OpenStack, floating IPs allow access to virtual machines from outside the cloud. (We assume you will not create more than 11 virtual machines, so the suggested pool of 16 reserved addresses for the cluster will be more than enough.)
 
 You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP addresses to use can be checked in the Linksys panel `Status->Device List`:
 
@@ -113,7 +113,7 @@ You will access the devices in the cluster (RPis, TP-Link) using ssh. The IP add
  <img src=images/device-list-linksys.png width='62%' />
 </p>
 
-Make sure your TP-Link switch is set to the factory settings. This can be performed by holding the reset button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs set in the `VLAN->802.1Q VLAN Configuration` tab, i.e., after logging to the switch the following configuration is correct (otherwise all existing VLANs should be deleted):
+Make sure your TP-Link switch is set to the factory settings. This can be performed by holding the reset button in a small hole on the rear panel of the switch for a couple of seconds. It is important that there are no VLANs defined in the switch. You can check it the `VLAN->802.1Q VLAN Configuration` tab. The following configuration is correct (otherwise all existing VLANs should be deleted):
 
 <p align="center">
    <img src=images/tplink-factory.png width='60%' />
