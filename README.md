@@ -698,7 +698,7 @@ kolla_internal_vip_address: "192.168.10.20"
 network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
-# The following line must be commented for 2023.1 where proxysql is not used at all. However,
+# The following line must be commented or deleted for 2023.1 where proxysql is not used at all. However,
 # it must be uncommented for 2025.1 on Raspberry Pi OS to disable using proxysql, otherwise
 # there will be page size incompatibility between Raspberry Pi OS and the proxysql application.
 enable_proxysql: "no"
