@@ -214,7 +214,7 @@ CONF_MAXSWAP=4096    # <=== should be no less than CONF_SWAPSIZE (limit)
 sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
 swapon --show        # ensure it is now active
-sudo reboot
+sudo reboot          # for any case
   ```
 
 ### 3.iii RPi network configuration - pure flat provider network
