@@ -209,7 +209,7 @@ This section only applies when you are going to use 8GB RPi as the OpenStack con
   ```
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
-CONF_SWAPSIZE=4096   # <=== desired size, save
+CONF_SWAPSIZE=4096   # <=== desired size, safe
 CONF_MAXSWAP=4096    # <=== should be no less than CONF_SWAPSIZE (limit)
 sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
