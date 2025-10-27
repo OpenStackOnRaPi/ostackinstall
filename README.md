@@ -552,14 +552,14 @@ $ source kolla-2025.1/bin/activate
 
 ```
 
-  - Hint: deactivate active venv / completely delete given venv:
+  - Hint: deactivate an active venv and completely remove a venv in question:
 ```
 $ deactivate
 $ rm -r <venv-root-folder-name->
 ```
 
 > [!Note]
-> From now on, we work in virtual environment kolla-2025.1. The versions of all components installed are compatible with kolla-2025.1 and should be changed appropriately if you use other release of Kolla-Ansible (follow respective Kolla-Ansible _Quick start section_ for each release: [quickstart](https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)).
+> From now on, we work in virtual environment kolla-2025.1. In the text below, the versions of all components installed are assumed to be compatible with kolla-2025.1 and should be changed appropriately if you use other release of Kolla-Ansible (follow respective Kolla-Ansible _Quick start section_ for each release: [quickstart](https://docs.openstack.org/kolla-ansible/YOUR-RELEASE/user/quickstart.html)).
 
   * Install Kolla-Ansible in the active venv
 ```
