@@ -993,7 +993,7 @@ openstack network rbac create --target-project <tenant_project_id> --action acce
 
 One can do the same using also the OpenStack dashboard. You can try it on your own.
 
-Once the provider network has been assigned to a tenant, login as this tenant and check the availability of the network in the project.
+Once you have assigned the provider network to a tenant, log in as that tenant and check the network availability in the project.
 
 #### 7.ii.b External network using VLAN provider network
 
