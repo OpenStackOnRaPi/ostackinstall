@@ -242,21 +242,21 @@ static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible require
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
-=== |  veth0  | =================== |   veth1 | ==  interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack
-    +----┬----+                     +----┬----+     they correspond to physical network cards (interfaces) in a production server
-         |                               |          tagged VLANS will be configured for veth1 in case of using VLAN provider networks
+=== |  veth0  | =================== |   veth1 | ==  - interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack;
+    +----┬----+                     +----┬----+     - they correspond to physical network cards (interfaces) in a production server
+         |                               |          - tagged VLANS will be configured for veth1 in case of using VLAN provider networks
          |                               |
          | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
-    | veth0br |                     | veth1br |     tagged VLANs have to be configured by the admin from eth0 across veth1br to
+    | veth0br |                     | veth1br |     - tagged VLANs have to be configured by the admin from eth0 across veth1br to
     +----┬----+                     +----┬----+     veth1 in case of using VLAN provider networks
     +----┴-------------------------------┴----+
-    |                   brmux                 |     L2 device, IP address not needed here, tagged VLANs have to be configured here
+    |                   brmux                 |     - L2 device, IP address not needed here, tagged VLANs have to be configured here
     +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
                           |                         - corresponds to a physical switch in data center L2 network
    Raspberry Pi      +----┴----+
-   xxxxxxxxxxxxxxxxx |  eth0   | xxxxxxxxxxxxxx     physical interface of RPi (taken by brmux), needs no IP address, but 
+   xxxxxxxxxxxxxxxxx |  eth0   | xxxxxxxxxxxxxx     - physical interface of RPi (taken by brmux), needs no IP address, but 
                      +---------+                    tagged VLAN have to be configured here in case of using VLAN provider networks
 ```
 
@@ -645,6 +645,8 @@ $ sudo nano /etc/kolla/passwords.yml
 
   * file `multinode` is stored in the working directory
 
+Edit the inventory file _multinode_ and assign the _control_, _network_ and _compute_ functions to particular RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the _control_ function on a separate host. Remaining groups in the file should be left unchanged.
+
 ```
 $ sudo nano multinode
 
@@ -658,11 +660,15 @@ ost03
 [compute]
 ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
+(remaining groups go here - leave them unchanged)
+
 [monitoring]
 #monitoring01
 
 [storage]
 #storage01
+
+...
 ```
 
 > [!Important]
