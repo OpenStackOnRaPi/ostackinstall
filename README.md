@@ -993,6 +993,8 @@ openstack network rbac create --target-project <tenant_project_id> --action acce
 
 One can do the same using also the OpenStack dashboard. You can try it on your own.
 
+Once the provider network has been assigned to a tenant, login as this tenant and check the availability of the network in the project.
+
 #### 7.ii.b External network using VLAN provider network
 
 Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the dedicated provider network example described above. In the example below, we use VLAN 102 for that.
