@@ -645,7 +645,7 @@ $ sudo nano /etc/kolla/passwords.yml
 
   * file `multinode` is stored in the working directory
 
-Edit the inventory file `multinode` and assign the `control`, `network` and `compute` functions to particular RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the `control` function on a separate host. Note: for every appearance of each node provide ansible directives `ansible_user`/`password`/`become`.Remaining groups in file `multinode` should be left unchanged.
+Edit the inventory file `multinode` and assign the `control`, `network` and `compute` functions to individual RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the `control` function on a separate host. Note: for every appearance of each node provide ansible directives `ansible_user`/`password`/`become` (it is sufficient to provide the directives once for a given host regardless of the number of groups it belongs to, e.g. ost03 in our example). Remaining groups in file `multinode` should be left unchanged.
 
 ```
 $ sudo nano multinode
