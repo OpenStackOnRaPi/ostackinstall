@@ -645,7 +645,7 @@ $ sudo nano /etc/kolla/passwords.yml
 
   * file `multinode` is stored in the working directory
 
-Edit the inventory file _multinode_ and assign the _control_, _network_ and _compute_ functions to particular RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the _control_ function on a separate host. Remaining groups in the file should be left unchanged.
+Edit the inventory file _multinode_ and assign the ```control```, ```network``` and ```compute``` functions to particular RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the ```control``` function on a separate host. Remaining groups in file _multinode_ should be left unchanged.
 
 ```
 $ sudo nano multinode
