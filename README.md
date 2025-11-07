@@ -974,7 +974,7 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 #### 7.ii.a Provider network dedicated to a tenant
 
-You have to connect to OpenStack as admin (source appropriate rc file).
+You have to connect to OpenStack using OpenStack command line tool as admin (source appropriate rc file).
 
 Similarly to how a provider network is created in file `init-runonce.2025.1.cirros`, we can create a provider network dedicated to a tenant. First, create a VLAN based provider network and subnetwork. Note that this time the created provider network is not `shared`. In the example below, we use VLAN 101 for that.
 
