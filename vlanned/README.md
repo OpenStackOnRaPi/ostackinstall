@@ -4,3 +4,4 @@ This folder contains network configuration files to enhance the network setup of
 
 > [!Warning]
 > Remember that it is necessary to only replace the files provided here **keeping untouched remaining files** already present in the `/etc/systemd/network` directory. Otherwise you will cut off remote access to your RPis unless you have enabled WiFi on the boards. Or you will need to directly attach to the boards using monitor, keybord and mouse.
+> Remember that it is necessary to only replace the files provided here **keeping untouched remaining files** already present on the RPis in directory `/etc/systemd/network`. Otherwise you will cut off remote access to your RPis unless you enable WiFi access to the boards before. As a last resort, to avoid a complete reinstallation, you will need to connect your devices to a monitor, keyboard, and mouse.
