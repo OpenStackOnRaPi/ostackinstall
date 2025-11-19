@@ -996,7 +996,7 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 #### 7.ii.a Provider network dedicated to a tenant
 
-Before you run this experiment, first create a new regular project and a new regular user if such regular project/user are not already present in your OpenStack (the project/user admin is not a very good match for what we are going to do). Then assign this new project to the new user. This is an easy task, and we do not describe it here. You can try this from the OpenStack dashboard where the procedure is quite intuitive. Or check the offcial OpenStack guides for details.
+Before you run this experiment, first create a new regular project and a new regular user if such regular project/user are not already present in your OpenStack (the project/user `admin` is not a very good match for what we are going to do). Then assign this new project to the new user. This is an easy task, and we do not describe it here. You can try this from the OpenStack dashboard where the procedure is quite intuitive. Or check the offcial OpenStack guides for details.
 
 You have to connect to OpenStack using OpenStack command line tool as admin (source appropriate rc file).
 
