@@ -348,8 +348,10 @@ network:
 # WiFi should be configured as isolated subnetwork - distinct form the fixed (cable)
 # network used to access OpenStack (provider external network/management network).
 # E.g., on Linksys, you should dedicate a separate bridge (e.g., br1) to WiFi with
-# distinct IP address range for this subnetwork. You will also have to enable routing
-# between WiFi subnetwork and the fixed subnetwork used to access OpenStack.
+# distinct IP address range for this subnetwork. It will then be sufficient to attach
+# from your namagement host to Linsys WiFi access point. Alternatively, if you prefer to
+# continue using the cable connection to Linksys, you will also have to enable routing on
+# Linksys between this subnetwork and the fixed subnetwork used to access OpenStack.
 
 ## wlan0 interface will receive IP address from the Linksys DHCP.
 #  adjust access point SSID and password according to your environment
@@ -945,7 +947,7 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
 
 #### 7.i.b Setting VLANs on the RPi hosts
 
-On each RPi, replace some files in the `/etc/systemd/network` directory with versions that define the VLAN configuration. New versions are available in this repository in the `vlanned/etc/systemd/network` directory - upload them to your RPis. You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command, or if you attach to your RPis using WiFi you can restart only the networking with the following commands:
+On each RPi, replace some files in the `/etc/systemd/network` directory with versions that define the VLAN configuration. New versions are available in this repository in the `vlanned/etc/systemd/network` directory - upload them to your RPis. You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command. Alternatively, you can reach to your RPis using WiFi restart only the networking with the following commands:
 
 ```
 $ ip link set down brmux
