@@ -1,9 +1,10 @@
-# We're redefining brmux in networkd.netdev due to the requirement to set VLANFiltering=true,
-# which (at least currently) can't be set in netplan.
-# - brmux is obviously unnecessary in the netplan file (indeed, defining it in the netplan file would
-# result in incorrect network configuration - see the description in file netplan/50-cloud-init.yaml)
-# - this definition creates the brmux device, but it remains inactive (Down); we bring it Up in
-# file 01-st-brmux.network.
+# We're redefining brmux to enable VLANs on the bridge by setting VLANFiltering=true, wchich
+# (at least at the time of this writing) can't be done in netplan.
+# - having brmux defined here, we should not define it again in the netplan file (indeed,
+# defining it in the netplan file would result in incorrect network configuration - see the
+# description in file /etc/netplan/50-cloud-init.yaml)
+# - this definition creates the brmux device, but it remains inactive (Down) after creation; we
+# bring it Up in file 01-st-brmux.network.
 
 [NetDev]
 Name=brmux
