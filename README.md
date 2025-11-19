@@ -980,7 +980,7 @@ Follow the steps described below.
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
-* Now, uncomment VLAN2 declarations (the parts related to [BridgeVLAN] VLAN=2) in networkd files 
+* Now, uncomment VLAN2 declarations (the parts related to `[BridgeVLAN] VLAN=2`) in network files `02-ost-eth0.network`, `10-ost-net-ext-veth1br.network` and `10-ost-net-itf-veth0br.network` in the `/etc/systemd/network directory`.
 
 * Finally, restart the RPis or the networking (via WiFi) as described in the previous subsection.
 
