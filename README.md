@@ -237,7 +237,7 @@ SCHEMATIC VIEW OF RPi INTERNAL NETWORK EMULATING REAL DC NETWORK ENVIRONMENT
 
 network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
-static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible requires that)
+static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects that)
  
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
