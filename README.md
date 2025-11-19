@@ -980,6 +980,10 @@ Follow the steps described below.
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
+* Now, uncomment VLAN2 declarations (the parts related to [BridgeVLAN] VLAN=2) in networkd files 
+
+* Finally, restart the RPis or the networking (via WiFi) as described in the previous subsection.
+
 As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI.
 
 ### 7.ii Creating and using VLAN provider networks
