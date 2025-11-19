@@ -12,12 +12,12 @@ Bridge=brmux
 # - connecting a flat provider network to the veth1 interface with an IP address from the
 # Linksys routable range for OpenStack's "external network" purposes;
 # - from the tagged VLAN=2 segment to veth1, an untagged network (with default VLAN=1) will be provided;
-# - note: the same applies to veth0br and veth0 for network-interface purposes; # - below, PVID=2
-# causes the VLAN=2 tag to be added to every untagged frame arriving on this interface, and
-# EgressUntagged=2 forces every frame tagged with VLAN=2 that has an output on this interface to be
+# - note: the same applies to veth0br and veth0 for network-interface purposes;
+# - below, PVID=2 results in VLAN=2 tag being added to each untagged frame arriving on this interface, and
+# EgressUntagged=2 forces the VLAN=2 tag in every VLAN=2 frame that has an output on this interface to be
 # removed and exit the switch via veth1 as untagged (the direction of incoming/outgoing frame
 # transmission is always determined from the switch/bridge perspective).
-# - note: in fact, It would be possible to not use VLAN=2 at all and use the standard, untagged eth,
+# - note: in fact, it would be possible to not use VLAN=2 at all and use the standard, untagged eth,
 # but we introduce VLAN=2 for educational purposes to compare it with vendor VLANs and thus better
 # illustrate the latter.
 
