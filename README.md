@@ -56,7 +56,7 @@ This guide assumes a specific combination of network hardware and network topolo
 > [!NOTE]
 > * There are other minicomputer platforms available on the market that may seem attractive for implementing OpenStack educational deployments, to mention Turing Pi 2 / 2.5, DeskPi Super6C or Sipeed's NanoCluster. However, Turing Pi and DeskPi Super6C support Raspberry Pi CM4 modules and not CM5 (Turing Pi 2.5 supports also other, more powerfull modules, still not Raspberry Pi CM5). They also result in higher budget requirements for the same educational result. The Sipeed NanoCluster may be attractive because it comes with a managed switch and a router on board, which can simplify network configuration; we have not evaluated overall cost of a setup based on it, though. Moreover, all three alternatives may not be as readily available in different countries, and it may be safer to stick with the more conservative derivatives of [Raspberry Pi Dramble](https://www.pidramble.com/) :grin:.
 > 
-> * It's also worth noting that Raspberry Pi clusters make an excellent base for Kubernetes experiments. In our lab, we set [bare-metal K3s clusters](https://github.com/dbursztynowski/k3s-taskforce), which works perfectly for the Raspberry Pi.
+> * As a side note, it is worth mentioning that Raspberry Pi clusters are an excellent base for Kubernetes experiments. In our lab, we set [bare-metal K3s clusters](https://github.com/dbursztynowski/k3s-taskforce), which works perfectly for the Raspberry Pi.
 
 ## 2. Platform components
 
