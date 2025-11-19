@@ -104,7 +104,7 @@ In sections 3.ii, 3.iii, and 3.iv, configurations needed for your RPis are descr
 
 ### 3.i Local network preparation
 
-Its best to begin with configuring suitable IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure from section 2). Throughout this guide, we assume the mask is 192.168.10.0/24.
+It is best to start by configuring the appropriate IP subnet parameters (subnetwork mask, DHCP address range) on your local router (Linksys router in the figure from section 2). Throughout this guide, we assume the mask is 192.168.10.0/24.
 
 Then reserve a contiguous pool of IP addresses for use by OpenStack on your local router (Linksys); 16 addresses will be sufficient for our purposes. The term **reserved** means here these addresses **must not** be managed by the DHCP server on your local router, but they should be routable in your local network (typically, it suffices to define a DHCP address pool such that it does not contain that reserved address pool). Some of these reserved addresses will later be assigned by you to the RPis using netplan configuration file (see [Configuring the network (flat)](#configuring-the-network-flat) in subsection 3.iv). One address will be allocated as the so-called `kolla_internal_vip_address` (see [section 5.iii](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment)). The remaining addresses will be used to create OpenStack `floating IP addresses`. In OpenStack, floating IPs allow access to virtual machines from outside the cloud. (We assume you will not create more than 11 virtual machines, so the suggested pool of 16 reserved addresses for the cluster will be more than enough.)
 
@@ -979,7 +979,7 @@ Follow the steps described below.
  <img src=images/tplink-vlan2.png width='60%' />
 </p>
 
-* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab set the VLAN ID to tag traffic coming from the router (Linksys) to the switch on Port 5 of the switch.
+* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab, set the VLAN ID to tag the traffic coming from the router (Linksys) to the switch on Port 5.
 
 <p align="center">
  <img src=images/tplink-pvid2.png width='60%' />
