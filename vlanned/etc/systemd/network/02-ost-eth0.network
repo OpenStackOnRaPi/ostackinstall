@@ -13,8 +13,9 @@ Bridge=brmux
 # VLAN1 (untagged) and OpenStack will receive it as "flat"
 # - in fact, it could be omitted at all and a standard untagged ethernet could be used, but we
 # are introducing it for educational purposes to better highlight the role of VLAN provider networks.
-[BridgeVLAN]
-VLAN=2
+# Uncomment to enable VLAN2 for carrying OpenStack flat provider network traffic.
+#[BridgeVLAN]
+#VLAN=2
 
 # VLANs for VLAN provider networks (implemented as tagged VLANs)
 # for educational purposes - three VLANs are completely sufficient
