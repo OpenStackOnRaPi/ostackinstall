@@ -947,13 +947,16 @@ In the `VLAN -> 802.1Q VLAN Configuration` tab, enable VLAN support using the `E
 
 #### 7.i.b Setting VLANs on the RPi hosts
 
-On each RPi, replace some files in the `/etc/systemd/network` directory with versions that define the VLAN configuration. New versions are available in this repository in the `vlanned/etc/systemd/network` directory - upload them to your RPis. You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command. Alternatively, you can reach to your RPis using WiFi restart only the networking with the following commands:
+On each RPi, replace some files in the `/etc/systemd/network` directory with versions that define the VLAN configuration. New versions are available in this repository in the `vlanned/etc/systemd/network` directory - upload them to your RPis. You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command. Alternatively, you can reach your RPis using Linksys WiFi access poit and restart only the networking with the following commands:
 
 ```
 $ ip link set down brmux
 $ ip link del dev brmux
 $ systemctl restart systemd-networkd
 ```
+
+> [!Note]
+> To access RPis using WiFi you hve to enable WiFi on the boards in your netplan file - see [this section](README.md#configuring-the-network-flat).
 
 After completing the above steps, VLANs 101, 102 and 103 will also be activated in the virtual devices on our RPi hosts. This will make these networks finally ready for building OpenStack VLAN provider networks on top of them.
 
