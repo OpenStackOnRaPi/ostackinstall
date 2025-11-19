@@ -85,7 +85,7 @@ All procedures described in this guide assume compliance with the setup options 
    * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of the local network infrastructure
    * **reserve a pool of IP addresses for the use by OpenStack** on your local router as described in subsection 3.i.
 4. Virtualization
-   * we have tested qemu and KVM positively on Raspberry Pi 4, and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
+   * we have successfully tested qemu and KVM on Raspberry Pi 4 and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
 
 > [!NOTE]
 > * there are various types of PoE HAT for Raspberry Pi 4/5 and various PoE switches available on the market that also will work for you; one should only take care of the required power budget of the switch (please note that the required power budget will be different for the Raspberry Pi 4 and 5 platforms).
