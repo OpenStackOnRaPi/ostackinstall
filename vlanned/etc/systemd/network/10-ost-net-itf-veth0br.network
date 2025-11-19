@@ -17,8 +17,8 @@ Bridge=brmux
 # - note: the same applies to veth1br, but for the needs of the flat provider network and possibly
 # tenant networks implemented using the VLAN technique (if tenant VLANs are allowed in the ml.2 file -
 # see the configuration for kolla-ansible)
-# - below, PVID=2 causes the VLAN=2 tag to be added to each untagged frame arriving on this
-# interface, and EgressUntagged=2 forces each frame tagged with VLAN=2 and leaving the switch via this
+# - below, PVID=2 results in VLAN=2 tag being added to each untagged frame arriving on this
+# interface, and EgressUntagged=2 forces each frame tagged with VLAN=2 that leaves the switch via this
 # interface to be sent untagged (the direction of incoming/outgoing frame transmission is always
 # determined from the switch/bridge perspective)
 # - note: in fact, VLAN 2 can be omitted at all and a standard untagged ethernet can be used, but we
