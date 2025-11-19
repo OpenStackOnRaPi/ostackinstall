@@ -12,7 +12,7 @@ Bridge=brmux
 # - this VLAN will be invisible at the OpenStack level - in brmux, it will be replaced with
 # VLAN1 (untagged) and OpenStack will receive it as "flat"
 # - in fact, it could be omitted at all and a standard untagged ethernet could be used, but we
-# are introducing it for educational purposes to better highlight the VLAN provider networks.
+# are introducing it for educational purposes to better highlight the role of VLAN provider networks.
 [BridgeVLAN]
 VLAN=2
 
