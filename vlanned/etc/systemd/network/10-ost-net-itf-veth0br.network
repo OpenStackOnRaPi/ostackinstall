@@ -23,10 +23,10 @@ Bridge=brmux
 # determined from the switch/bridge perspective)
 # - note: in fact, VLAN 2 can be omitted at all and a standard untagged ethernet can be used, but we
 # are introducing it for educational purposes to better highlight the VLAN provider networks.
-
-[BridgeVLAN]
-PVID=2
-EgressUntagged=2
+# Uncomment to enable VLAN2 for carrying OpenStack flat provider network traffic.
+#[BridgeVLAN]
+#PVID=2
+#EgressUntagged=2
 
 # NOTE: VLANs for VLAN provider networks are defined only for veth1 and not eth0. These interfaces serve
 # different functions in kolla-ansible OpenStack.
