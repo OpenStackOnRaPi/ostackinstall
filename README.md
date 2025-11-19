@@ -956,7 +956,7 @@ $ systemctl restart systemd-networkd
 ```
 
 > [!Note]
-> To access RPi board using WiFi you have to activate WiFi access point on the Linksys router, enable WiFi on the board in your netplan file, and run `netplan generate` - refer to point 3 in [this part](README.md#configuring-the-network-flat) of the guide.
+> To access RPi board using WiFi you have to activate WiFi access point on the Linksys router, enable WiFi on the board in your netplan file `50-cloud-init.yaml`, and run `netplan generate` - refer to point 3 in [this part](README.md#configuring-the-network-flat) of the guide for details.
 
 After completing the above steps, VLANs 101, 102 and 103 will also be activated in the virtual devices on our RPi hosts. This will make these networks finally ready for building OpenStack VLAN provider networks on top of them.
 
