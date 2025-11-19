@@ -20,10 +20,10 @@ Bridge=brmux
 # - note: in fact, it would be possible to not use VLAN=2 at all and use the standard, untagged eth,
 # but we introduce VLAN=2 for educational purposes to compare it with vendor VLANs and thus better
 # illustrate the latter.
-
-[BridgeVLAN]
-PVID=2
-EgressUntagged=2
+# Uncomment to enable VLAN2 for carrying OpenStack flat provider network traffic.
+#[BridgeVLAN]
+#PVID=2
+#EgressUntagged=2
 
 # - for internal OpenStack networks, such as VLAN provider networks, implemented
 # as tagged VLANs (and possibly for tenant VLANs - if allowed in the ml.2 file -
