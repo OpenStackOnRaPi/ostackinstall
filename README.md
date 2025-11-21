@@ -1026,7 +1026,7 @@ Actually, this is similar to the example from file `init-runonce.2025.1.cirros` 
 > [!Note]
 > Note that for this network to becone truly `external` it is necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and it accepts only untagged frames on its LAN ports. As we already use untagged frames (VLAN1) cluster wide for the flat provider network and the management network of our OpenStack, we can not convert VLAN102 frames in TP-Link into VLAN1 frames on its WAN port (the port on the Linksys side). This is the reason why in our case the created tagged provider network will not reach the Linksys router and will remain "internal". That means it will only allow for communication inside the OpenStack cluster. Nevertheless, as it will provide floating IP addresses and so the VMs of different tenants will be able to reach each other, this example can be regarded as yet another approach to defining comunication policies in an OpenStack cluster.
 >
-> In our particular case (with the limitations mentioned) this provider network does not differ much from the one created in the previous section except that now there is not a DHCP server in the network and TP addresses have to be manually assigned to VMs as floating IP.
+> Concluding, in our specific case (taking into account the mentioned limitations), the created provider network is not much different from the network created in the previous section, except that now there is no DHCP server in the network and IP addresses must be manually assigned to the VMs as floating IP addresses.
 
 ```
 # create VLAN based (external) provider network 
