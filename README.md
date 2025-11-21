@@ -8,7 +8,7 @@ A number of OpenStack cluster configurations have been tested thoroughly. Each c
 
 In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and cheap, bare metal OpenStack clusters for education purposes. This guide describes the complete installation procedure for release 2023.1 and 2025.1 using Kolla-Ansible, assuming 2025.1 to be the reference version (differences applicable in release 2023.1 are discussed directly in the text). Updates will be added to this guide as new findings, propositions or recommendations emerge.
 
-> [!NOTE]
+> [!Note]
 > At the time of writing this guide, the stable latest release of Kolla-Ansible is 2025.1 (Epoxy).
 > 
 > Update: although OpenStack 2025.2 was released in October 2025, correspondent _latest_ (2025.2) version of Kolla-Ansible is currently (November 2025) in development phase, known to contain bugs. We do not recommend using it for educational purposes.
@@ -53,7 +53,7 @@ This guide covers the steps to create your first virtual machine in a newly depl
 
 This guide assumes a specific combination of network hardware and network topology in the cluster. However, it should also be applicable to other configurations provided the required networking constructs (e.g., VLANs) are supported.
 
-> [!NOTE]
+> [!Note]
 > * There are other minicomputer platforms available on the market that may seem attractive for implementing OpenStack educational deployments, to mention Turing Pi 2 / 2.5, DeskPi Super6C or Sipeed's NanoCluster. However, Turing Pi and DeskPi Super6C support Raspberry Pi CM4 modules and not CM5 (Turing Pi 2.5 supports also other, more powerfull modules, still not Raspberry Pi CM5). They also result in higher budget requirements for the same educational result. The Sipeed NanoCluster may be attractive because it comes with a managed switch and a router on board, which can simplify network configuration; we have not evaluated overall cost of a setup based on it, though. Moreover, all three alternatives may not be as readily available in different countries, and it may be safer to stick with the more conservative derivatives of [Raspberry Pi Dramble](https://www.pidramble.com/) :grin:.
 > 
 > * As a side note, it is worth mentioning that Raspberry Pi clusters are an excellent base for Kubernetes experiments. In our lab, we set [bare-metal K3s clusters](https://github.com/dbursztynowski/k3s-taskforce), which works perfectly for the Raspberry Pi.
@@ -88,7 +88,7 @@ All procedures described in this guide assume compliance with the setup options 
 4. Virtualization
    * we have successfully tested qemu and KVM on Raspberry Pi 4 and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
 
-> [!NOTE]
+> [!Note]
 > * there are various types of PoE HAT for Raspberry Pi 4/5 and various PoE switches available on the market that also will work for you; one should only take care of the required power budget of the switch (please note that the required power budget will be different for the Raspberry Pi 4 and 5 platforms).
 >
 > * for education purposes, we use configurations with at least 3 RPis and a managed switch (802.1Q) in the cluster to demonstrate how VLAN-based provider networks can be used in OpenStack; this is impossible to show using AIO (all-in-one) OpenStack setups (and may be very tricky when using virtual machines as OpenStack hosts). But if one does not plan to deploy VLAN provider networks, unmanaged switch can be used as well.
@@ -1024,7 +1024,7 @@ Once you have assigned the provider network to a tenant, log in as that tenant a
 Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the dedicated provider network example described above. In the example below, we use VLAN 102 for that.
 
 > [!Note]
-> Note that for this network to becone truly `external` it is necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and does not allow to mix untagged and tagged frames on its LAN ports. As we already use untagged frames (VLAN1) to connect to the flat provider network and the management network of our OpenStack we can not convert VLAN102 traffic in TP-Link into VLAN1 on its WAN port (towards Linksys). This is the reason why in our case the created network will not reach the Linksys router and will remain "closed". That means it will only allow for communication inside the OpenStack cluster. Nevertheless, as it will provide floating IP addresses and so the VMs of different tenants will be able to reach each other, this example can be regarded as yet another approach to defining comunication policies in OpenStack cluster. 
+> Note that for this network to becone truly `external` it is necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and does not allow to mix untagged and tagged frames on its LAN ports. As we already use untagged frames (VLAN1) cluster wide for the flat provider network and the management network of our OpenStack we can not convert VLAN102 frames in TP-Link into VLAN1 frames on its WAN port (on the Linksys side). This is the reason why in our case the created tagged provider network will not reach the Linksys router and will remain "closed". That means it will only allow for communication inside the OpenStack cluster. Nevertheless, as it will provide floating IP addresses and so the VMs of different tenants will be able to reach each other, this example can be regarded as yet another approach to defining comunication policies in OpenStack cluster. 
 
 ```
 # create VLAN based (external) provider network 
