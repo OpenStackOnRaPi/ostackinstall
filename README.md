@@ -1024,6 +1024,7 @@ Once you have assigned the provider network to a tenant, log in as that tenant a
 Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the dedicated provider network example described above. In the example below, we use VLAN 102 for that.
 
 > [!NOTICE]
+> 
 > Note, that for this network to becone `external` it is necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and does not allow to mix untagged and tagged frames on its LAN ports. As we already use untagged frames (VLAN1) to connect to flat provider network and the management network of our OpenStack we can not convert VLAN102 traffic in TP-Link into VLAN1 on its WAN port (towards Linksys). This is the reason why in our case the created network will not reach the Linksys router, and it will remain "closed". That means it will allow only for communication inside the OpenStack cluster. Nevertheless, as it will provide floating IP addresses so the VMs of different tenants will be able to reach each other. 
 
 ```
