@@ -266,7 +266,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 #### Configuring the network (flat)
 
 > [!Note]
-> Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (i one has access to Kolla-Ansible container images for Ubuntu).
+> Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (if one is lucky to have access to Kolla-Ansible container images for Ubuntu).
 
 **_1. Stop NetworkManager, and and start systemd-networkd_**
 
@@ -284,10 +284,10 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-**_3. Host network configuration (for flat provider network)_**
+**_3. Host network configuration (only for flat provider network)_**
 
 > [!NOTE]
-> **This and the following steps are prepared for the use of flat provider network only** in your OpenStack DC. **That means, you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting also VLAN provider networks in your cluster, skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network).
+> **This and the following steps in current section 3.iii are prepared for the use of flat provider network only** in your OpenStack DC. **That means you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting also VLAN provider networks in your cluster, **skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)**.
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
