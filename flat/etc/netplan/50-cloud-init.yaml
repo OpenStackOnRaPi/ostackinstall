@@ -30,8 +30,8 @@ network:
 #  wifis:
 #    wlan0:
 #      access-points:
-#        someaccesspoint:
-#          password: somepassword
+#        "accesspointSSID":
+#          password: "accesspoitpassword"
 #      dhcp4: true
 #      optional: true
 
