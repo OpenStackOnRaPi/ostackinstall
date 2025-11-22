@@ -22,20 +22,20 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    2. [RPi system configuration](#3ii-rpi-system-configuration)
    3. [RPi network configuration - pure flat provider network](#3iii-rpi-network-configuration---pure-flat-provider-network)
    4. [VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)
-5. [Management host preparation](#4-management-host-preparation)
+4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#4i-general-notes)
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
    3. [Docker installation](#4iii-docker-installation)
-6. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
+5. [Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation)
    1. [Kolla-Ansible installation](#5i-kolla-ansible-installation)
    2. [Preparing configuration files for Kolla-Ansible](#5ii-preparing-configuration-files-for-kolla-ansible)
    4. [Configuring Kolla-Ansible files for specific OpenStack depolyment](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment)
    5. [Deploying OpenStack](#5iv-deploying-openstack)
    6. [Postdeployment and the first instance](#5v-postdeployment-and-the-first-instance)
-7. [Managing your cluster](#managing-your-cluster)
+6. [Managing your cluster](#managing-your-cluster)
    1. [Shut down the cluster and start it again](#6i-shut-down-the-cluster-and-start-it-again)
    2. [Destroy your cluster](#6ii-destroy-your-cluster)
-8. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
+7. [VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks)
    1. [Setting VLANs for provider networks](#7i-setting-vlans-for-provider-networks)
       1. [Setting VLANs in the physical network (the TP-Link switch)](#7ia-setting-vlans-in-the-physical-network-the-tp-link-switch)
       2. [Setting VLANs on the RPi hosts](#7ib-setting-vlans-on-the-rpi-hosts)
@@ -43,7 +43,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
    3. [Creating and using VLAN provider networks](#7ii-creating-and-using-vlan-provider-networks)
       1. [Provider network dedicated to a tenant](#7iia-provider-network-dedicated-to-a-tenant)
       2. [External network using VLAN provider network](#7iib-external-network-using-vlan-provider-network)
-9. [ADDENDUM - accessing the cluster using VPN](#8-addendum---accessing-the-cluster-using-vpn)
+8. [ADDENDUM - accessing the cluster using VPN](#8-addendum---accessing-the-cluster-using-vpn)
    
 ## 1. Introduction
 
@@ -223,7 +223,7 @@ sudo reboot          # just for any case
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
 
-If you want to use flat provider networks only, follow the remainder of this subsection and then continue with sections [5. Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [6. Managing your cluster](#managing-your-cluster).
+If you want to use flat provider networks only, follow the remainder of this subsection 3.iii and then continue with sections [5. Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [6. Managing your cluster](#managing-your-cluster).
 
 If you are determined to use VLAN provider networks in your cluster, follow this section only up to step _2. Install and enable netplan_, and then proceed to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network). Note that in the latter case we use a two-step approach: in subsection 3.iv we only set a flat provider network in the cluster (step 1), while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks) (step 2).
 
@@ -287,7 +287,7 @@ $ sudo apt-get update && sudo apt-get -y install netplan.io
 **_3. Host network configuration (only for flat provider network)_**
 
 > [!NOTE]
-> **This and the following steps in current section 3.iii are prepared for the use of flat provider network only** in your OpenStack DC. **That means you are not planning to use VLAN provider networks.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting also VLAN provider networks in your cluster, **skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)**.
+> **This and the following steps in current subsection 3.iii are prepared for the use of flat provider network only** in your OpenStack DC. **This means it is assumed that you will not experiment with VLAN provider networks later.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting also VLAN provider networks in your cluster, **skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)**.
 
   * for `networkd` backend, for `veth0-veth0br` pair
 
@@ -375,25 +375,6 @@ network:
       dhcp4: false
       dhcp6: false
 
-# In the following, only the parts for veth0 and veth1 are necessary. The rest is redundant and incorrect when using
-# systemd-networkd. It has been left for educational/comparative purposes. However, if only flat network were to be
-# used in our OpenStack then one could uncomment the below definitions and not use systemd-networkd files at all.
-#
-# EXPLANATION: We must use systemd-networkd for persistent network constructs because some settings that are
-# needed to set VLANs for provider networks are not possible to declare in netplan (at least at the time of this
-# writing). At the same time, the rule for using netplan and systemd-networkd jointly is that a definition of a
-# given network related construct must not appear in both the netplan file and the networkd file simultaneously.
-#
-# For example, uncommenting the bridge "brmux" with interfaces "veth0br" and "veth1br" will result in
-# incorrect VLAN configuration for those interfaces (they will be completely ignored) - see also the
-# files in the /etc/systemd/network/ directory. In contrast, the DHCP declaration for eth0, and the
-# addressing/DNS and IP routing settings for veth0 are correct, because they supplement the
-# definitions of eth0 and veth0 with new elements (addressing and routing) - these elements
-# are not present in the definitions provided in the /etc/systemd/network/ directory.
-#
-# NOTE: If netplan ever allows defining tagged VLANs for bridge interfaces, using systemd-networkd files
-# will no longer be necessary, and all the configurations we need can be defined in the current netplan file.
-
     # veth0-veth0br pair (defined in networkd file as veth pair)
     veth0:                  # network_interface for kolla-ansible
       addresses:
@@ -422,12 +403,12 @@ network:
 # logically, this is a switch belonging to the local network of the
 # data centre provider network (normally, L2 segment of a physical network)
 #
-#  bridges:
-#    brmux:
-#      interfaces:
-#        - eth0
-#        - veth0br
-#        - veth1br
+  bridges:
+    brmux:
+      interfaces:
+        - eth0
+        - veth0br
+        - veth1br
 EOT
 ```
 
