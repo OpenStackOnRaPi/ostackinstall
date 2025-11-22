@@ -46,9 +46,9 @@ network:
       dhcp4: false
       dhcp6: false
 
-# In the following, only veth0 and veth1 are necessary. The rest is incorrect when using systemd-networkd.
-# It has been left for educational/comparative purposes. However, if only flat network were to be used in
-# our OpenStack then one could uncomment the below definitions and not use systemd-networkd files at all.
+# In the following, only the parts for veth0 and veth1 are necessary. The rest is redundant and incorrect when using
+# systemd-networkd. It has been left for educational/comparative purposes. However, if only flat network were to be
+# used in our OpenStack then one could uncomment the below definitions and not use systemd-networkd files at all.
 #
 # EXPLANATION: We must use systemd-networkd for persistent network constructs because some settings that are
 # needed to set VLANs for provider networks are not possible to declare in netplan (at least at the time of this
@@ -92,7 +92,7 @@ network:
 # Bridge brmux 
 # logically, this is a switch belonging to the local network of the
 # data centre provider network (normally, L2 segment of a physical network)
-
+#
 #  bridges:
 #    brmux:
 #      interfaces:
