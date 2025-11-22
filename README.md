@@ -359,8 +359,8 @@ network:
 #  wifis:
 #    wlan0:
 #      access-points:
-#        someaccesspoint:
-#          password: somepassword
+#        "accesspointSSID":
+#          password: "accesspointpassword"
 #      dhcp4: true
 #      optional: true
 
@@ -425,8 +425,8 @@ sudo nano /etc/netplan/50-cloud-init.yaml
     Note: you will loose connectivity to your RPi because of the change of IP address. To continue, ssh again using the new address.
 
 ```
-$ sudo netplan generate      <=== neglect a WARNING about too open permissions
-$ sudo netplan apply         <=== neglect five WARNINGS about too open permissions
+$ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions (--debug option generates verbose output)
+$ sudo netplan --debug apply         <=== neglect five WARNINGS about too open permissions (--debug option generates verbose output)
 
 # ssh now disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
 # check the connectivity again and reboot for any case
