@@ -375,42 +375,59 @@ network:
       dhcp4: false
       dhcp6: false
 
-    # veth0-veth0br pair
-    # note thet the veth pair device has to be defined in networkd file, not here
+# In the following, only the parts for veth0 and veth1 are necessary. The rest is redundant and incorrect when using
+# systemd-networkd. It has been left for educational/comparative purposes. However, if only flat network were to be
+# used in our OpenStack then one could uncomment the below definitions and not use systemd-networkd files at all.
+#
+# EXPLANATION: We must use systemd-networkd for persistent network constructs because some settings that are
+# needed to set VLANs for provider networks are not possible to declare in netplan (at least at the time of this
+# writing). At the same time, the rule for using netplan and systemd-networkd jointly is that a definition of a
+# given network related construct must not appear in both the netplan file and the networkd file simultaneously.
+#
+# For example, uncommenting the bridge "brmux" with interfaces "veth0br" and "veth1br" will result in
+# incorrect VLAN configuration for those interfaces (they will be completely ignored) - see also the
+# files in the /etc/systemd/network/ directory. In contrast, the DHCP declaration for eth0, and the
+# addressing/DNS and IP routing settings for veth0 are correct, because they supplement the
+# definitions of eth0 and veth0 with new elements (addressing and routing) - these elements
+# are not present in the definitions provided in the /etc/systemd/network/ directory.
+#
+# NOTE: If netplan ever allows defining tagged VLANs for bridge interfaces, using systemd-networkd files
+# will no longer be necessary, and all the configurations we need can be defined in the current netplan file.
+
+    # veth0-veth0br pair (defined in networkd file as veth pair)
     veth0:                  # network_interface for kolla-ansible
       addresses:
-        - 192.168.10.2x/24  # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
+        - 192.168.1.6x/24   # ADJUST THIS ADDRESS FOR EACH YOUR RPI !!!!!!!!
       nameservers:
         addresses:
-          - 192.168.10.1    # ADJUST to match your Linksys dhcp server address
-          - 8.8.8.8         # this is optional
-          - 8.8.2.2         # this is optional
+          - 192.168.1.1     # ADJUST to match your Linksys dhcp server
+          - 8.8.8.8
+          - 8.8.2.2
       routes:
         - to: 0.0.0.0/0
-          via: 192.168.10.1 # ADJUST to match your Linksys router address
-    veth0br:
-      dhcp4: false
-      dhcp6: false
+          via: 192.168.1.1  # ADJUST to match your Linksys router
+#    veth0br:
+#      dhcp4: false
+#      dhcp6: false
 
-    # veth1-veth1br pair
-    # note that the veth pair device has to be defined in networkd file, not here
+    # veth1-veth1br pair (defined in networkd file as veth pair)
     veth1:                  # neutron_external_interface for kolla-ansible
       dhcp4: false
       dhcp6: false
-    veth1br:
-      dhcp4: false
-      dhcp6: false
+#    veth1br:
+#      dhcp4: false
+#      dhcp6: false
 
 # Bridge brmux 
 # logically, this is a switch belonging to the local network of the
 # data centre provider network (normally, L2 segment of a physical network)
-
-  bridges:
-    brmux:
-      interfaces:
-        - eth0
-        - veth0br
-        - veth1br
+#
+#  bridges:
+#    brmux:
+#      interfaces:
+#        - eth0
+#        - veth0br
+#        - veth1br
 EOT
 ```
 
