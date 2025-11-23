@@ -14,7 +14,7 @@ Kind=bridge
 VLANFiltering=true
 DefaultPVID=none
 
-# DB newest, specifically for debian
+# DB 20251123, added specifically for debian https://github.com/systemd/systemd/issues/5716#issuecomment-1694532154
 [BridgeVLAN]
 PVID=1
 EgressUntagged=1
