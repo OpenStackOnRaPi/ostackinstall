@@ -469,7 +469,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-Your network configuration is now the same as that one would obtain following all instructions from [subsection 3.iv](#3iv-flat-provider-network). You can now proceed to the installation procedure (sections 4 and 5) and enjoy using OpenStack with a flat provider network. We will come back to VLAN provider networks in section 7.
+Your network configuration is now the same as the one you would obtain following the instructions from [subsection 3.iv](#3iv-flat-provider-network). You can now proceed to the installation procedure (sections 4 and 5) and enjoy using OpenStack with a flat provider network. We will come back to VLAN provider networks in section 7.
 
 ## 4. Management host preparation
 
