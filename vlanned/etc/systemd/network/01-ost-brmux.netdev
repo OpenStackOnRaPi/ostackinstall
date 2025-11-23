@@ -10,12 +10,16 @@
 Name=brmux
 Kind=bridge
 
-# Enable VLAN processing on the bridge
+# Configure the bridge for VLANs
+#
 [Bridge]
+
+# Enable VLAN processing on the bridge
 VLANFiltering=true
+
 # Allow untagged frames in both directions on all ports of the bridge.
-DefaultPVID=1        # <== this option works correctly on Debian, actually, the value "1" is default so 
-#                          there's no need to set it explicitly, but doing so makes the configuration clearer
+DefaultPVID=1        # <== actually, the value "1" is default so there's no need to set it explicitly, 
+#                          but we believe doing so makes the configuration (our intents) clearer
 #DefaultPVID=none    # <== this "none" setting to enable the "dumb switch" behaviour worked well on Ubuntu, 
 #                          but on Debian it seems to drop all untagged traffic
 
