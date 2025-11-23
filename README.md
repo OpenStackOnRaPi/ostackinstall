@@ -449,7 +449,7 @@ In the second, crucial step, we will change some networkd configuration files to
 
 #### Configuring the network (flat)
 
-  * First, if not already done, execute the steps from point 10 in [subsection 3.ii](#3ii-rpi-system-configuration) (i.e., stop NetworkManager and install netplan).
+  * First, if not already done, execute the steps from step 10 in [subsection 3.ii](#3ii-rpi-system-configuration) (i.e., stop NetworkManager and install netplan).
   * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, file from the `/flat/etc/netplan` directory should be uploaded to the `/etc/netplan` directory on each RPi, and those from the `flat/etc/systemd/network` directory shoul go to the `/etc/systemd/network` directory on each RPi. These files configure the RbPi for a flat (untagged) provider network, meaning no VLANs. There is no Ethernet traffic isolation between tenants using such a flat provider network. Tenant L2 traffic isolation will later be implemented using VXLANs, where Ethernet frames are encapsulated frames in IP/UDP packets.
   * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update the IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router) according to your environment.
 ```
