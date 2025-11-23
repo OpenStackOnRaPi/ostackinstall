@@ -20,8 +20,8 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 3. [Local network and Raspberry Pi preparation](#3-local-network-and-raspberry-pi-preparation)
    1. [Local network preparation](#3i-local-network-preparation)
    2. [RPi system configuration](#3ii-rpi-system-configuration)
-   3. [RPi network configuration - pure flat provider network](#3iii-rpi-network-configuration---pure-flat-provider-network)
-   4. [VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)
+   3. [RPi network configuration](#3iii-rpi-network-configuration)
+   4. [VLAN provider networks - part 1 (initial configuration for a flat network)](#3iv-vlan-provider-networks---part-1-initial-configuration-for-a-flat-network)
 4. [Management host preparation](#4-management-host-preparation)
    1. [General notes](#4i-general-notes)
    2. [VM creation and basic configs](#4ii-vm-creation-and-basic-configs)
@@ -218,8 +218,32 @@ sudo dphys-swapfile swapon
 swapon --show        # ensure it is now active
 sudo reboot          # just for any case
   ```
+10. Activate preferred network configuration backend
 
-### 3.iii RPi network configuration - pure flat provider network
+We disable NetworkManager and activate systemd-networkd daemon to manage network configurations. If one prefers to use NetworkManager it will be necessary to convert all specifications of virtual network devices provided in this repository into NetworkManager structures on her/his own.
+
+> [!Note]
+> Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (in our case, if one is lucky to have access to Kolla-Ansible container images for Ubuntu).
+
+**_1. Stop NetworkManager, and and start systemd-networkd_**
+
+We use networkd to have persistent configuration of network devices in our RPis. One can use NetworkManager for this, but it will be necessary to convert the code from networkd notation to NetworkManager notation (both notations differ one from the other).
+
+  ```
+$ sudo systemctl stop NetworkManager && sudo systemctl disable NetworkManager
+$ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
+$ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
+  ```
+
+**_2. Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+
+  ```
+$ sudo apt-get update && sudo apt-get -y install netplan.io
+  ```
+
+
+
+### 3.iii RPi network configuration
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
 
@@ -264,27 +288,6 @@ static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` configuration files to define our network setup. Basically, networkd files allow to define veth pair devices and tagged VLANs on ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code contains the rest of needed information. In fact, using networkd files turned out to be necessary because it was not possible to declare all the necessary details in netplan. It cannot be ruled out that all necessary configurations (veth pairs and tagged VLANs on eth0, brmux, veth0br and veth1br) will be fully achievable in future netplan versions (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
 
 #### Configuring the network (flat)
-
-> [!Note]
-> Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (if one is lucky to have access to Kolla-Ansible container images for Ubuntu).
-
-**_1. Stop NetworkManager, and and start systemd-networkd_**
-
-We use networkd to have persistent configuration of network devices in our RPis. One can use NetworkManager for this, but it will be necessary to convert the code from networkd notation to NetworkManager notation (both notations differ one from the other).
-
-  ```
-$ sudo systemctl stop NetworkManager && sudo systemctl disable NetworkManager
-$ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-networkd
-$ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
-  ```
-
-**_2. Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
-
-  ```
-$ sudo apt-get update && sudo apt-get -y install netplan.io
-  ```
-
-**_3. Host network configuration (only for flat provider network)_**
 
 > [!NOTE]
 > **This and the following steps in current subsection 3.iii are prepared for the use of flat provider network only** in your OpenStack DC. **This means it is assumed that you will not experiment with VLAN provider networks later.** Introducing VLAN provider networks requires additional configurations for ```eth0```, ```brmux``` and ```veth1br``` to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting also VLAN provider networks in your cluster, **skip the remainder of this subsection and go to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network)**.
@@ -433,7 +436,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-### 3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)
+### 3.iv VLAN provider networks - part 1 (initial configuration for a flat network)
 
 #### General
 
