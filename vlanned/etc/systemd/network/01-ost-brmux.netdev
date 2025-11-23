@@ -13,13 +13,15 @@ Kind=bridge
 # Enable VLAN processing on the bridge
 [Bridge]
 VLANFiltering=true
-#DefaultPVID=none    <== this "dumb switch" feature worked well on Ubuntu (even without setting [BridgeVLAN] as below), 
-#                        but must not be used on Debian as it seems to drop all untagged traffic
+# Allow untagged frames in both directions on all ports of the bridge.
+DefaultPVID=1        # <== this option works correctly on Debian, actually, the value "1" is default so 
+#                       there's no need to set it explicitly, but doing so makes the configuration clearer
+#DefaultPVID=none    # <== this "none" setting to enable the "dumb switch" behaviour worked well on Ubuntu (even
+#                        without setting [BridgeVLAN] as below), but on Debian it seems to drop all untagged traffic
 
-# DB 20251123, added specifically for debian https://github.com/systemd/systemd/issues/5716#issuecomment-1694532154
-# On Debian, networkd requires to explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
-# frames of the default (externally untagged) VLAN. In our case, this form seems cleaner than DefaultPVID.
+# We can also explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
+# frames of the default (externally untagged) VLAN. This form seems cleaner than DefaultPVID.
 # Shortly: allow untagged frames in both directions on all ports of the bridge.
-[BridgeVLAN]
-PVID=1
-EgressUntagged=1
+#[BridgeVLAN]
+#PVID=1
+#EgressUntagged=1
