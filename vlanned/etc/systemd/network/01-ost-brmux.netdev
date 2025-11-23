@@ -12,9 +12,11 @@ Kind=bridge
 
 [Bridge]
 VLANFiltering=true
-DefaultPVID=none
+#DefaultPVID=none    <== this worked well on Ubuntu (and without setting [BridgeVLAN] as below), but must not be used on Debian
 
 # DB 20251123, added specifically for debian https://github.com/systemd/systemd/issues/5716#issuecomment-1694532154
+# On Debian, networkd requires to explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
+# frames of the default VLAN 1.
 [BridgeVLAN]
 PVID=1
 EgressUntagged=1
