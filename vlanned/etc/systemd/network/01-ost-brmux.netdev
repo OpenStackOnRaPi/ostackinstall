@@ -15,10 +15,11 @@ Kind=bridge
 VLANFiltering=true
 # Allow untagged frames in both directions on all ports of the bridge.
 DefaultPVID=1        # <== this option works correctly on Debian, actually, the value "1" is default so 
-#                       there's no need to set it explicitly, but doing so makes the configuration clearer
-#DefaultPVID=none    # <== this "none" setting to enable the "dumb switch" behaviour worked well on Ubuntu (even
-#                        without setting [BridgeVLAN] as below), but on Debian it seems to drop all untagged traffic
+#                          there's no need to set it explicitly, but doing so makes the configuration clearer
+#DefaultPVID=none    # <== this "none" setting to enable the "dumb switch" behaviour worked well on Ubuntu, 
+#                          but on Debian it seems to drop all untagged traffic
 
+# Bonus ===============================
 # We can also explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
 # frames of the default (externally untagged) VLAN. This form seems cleaner than DefaultPVID.
 # Shortly: allow untagged frames in both directions on all ports of the bridge.
