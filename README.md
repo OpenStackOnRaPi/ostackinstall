@@ -141,7 +141,7 @@ Generally, when choosing the installation environment, we follow the guidelines 
   
 3. After switching on the RPis, SSH to each of them using the credentials from step 1 above. Their IP addresses can be found in the management panel of your local router (e.g., in configurations with a Linksys router, check the ```Device list``` panel in the Linksys router GUI). These addresses are single-use and will later be replaced with permanent addresses during network stack configuration on each RPi host (you will draw those fixed IP addresses from address pool reserved as described in subsection 3.i).
 
-**Execute steps 3-9 for each RPi**
+**Execute steps 3-10 for each RPi**
 
 3. Add your user to the `sudo` group (adapt user name according to your setup):
 
@@ -225,7 +225,7 @@ We disable NetworkManager and activate systemd-networkd daemon to manage network
 > [!Note]
 > Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (in our case, if one is lucky to have access to Kolla-Ansible container images for Ubuntu).
 
-**_1. Stop NetworkManager, and and start systemd-networkd_**
+   * Stop NetworkManager, and and start systemd-networkd
 
 We use networkd to have persistent configuration of network devices in our RPis. One can use NetworkManager for this, but it will be necessary to convert the code from networkd notation to NetworkManager notation (both notations differ one from the other).
 
@@ -235,11 +235,12 @@ $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-network
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
   ```
 
-**_2. Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+   * Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
   ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
+
 ### 3.iii RPi network configuration
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
