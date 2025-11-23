@@ -240,16 +240,13 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
   ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
-
-
-
 ### 3.iii RPi network configuration
 
 In this section, we describe how to configure networking in our OpenStack providing support only for flat provider network. This is the simplest option regarding network configuration in OpenStack, still sufficient to demonstrate many OpenStack features. Introducing VLAN provider networks requires additional configurations in L2 of the data center. In our case, this concerns TP-Link switch and the internal network devices in our RPis: ```eth0```, ```brmux``` and ```veth1br``` (VLANs must be configured in all those devices).
 
 If you want to use flat provider networks only, follow the remainder of this subsection 3.iii and then continue with sections [4. Management host preparation](#4-management-host-preparation), [5. Kolla-ansible and OpenStack installation](#5-kolla-ansible-and-openstack-installation) and [6. Managing your cluster](#managing-your-cluster).
 
-If you are determined to use VLAN provider networks in your cluster, follow this section only up to step _2. Install and enable netplan_, and then proceed to subsection [3.iv VLAN provider networks - part 1 (RPi network configuration for a flat network)](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network). Note that in the latter case we use a two-step approach: in subsection 3.iv we only set a flat provider network in the cluster (step 1), while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks) (step 2).
+If you are determined to use VLAN provider networks in your cluster, follow this section only up to step _2. Install and enable netplan_, and then proceed to subsection [3.iv VLAN provider networks - part 1 (initial configuration for a flat network)](#3iv-vlan-provider-networks---part-1-initial-configuration-for-a-flat-network). Note that in the latter case we use a two-step approach: in subsection 3.iv we only set a flat provider network in the cluster (step 1), while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks) (step 2).
 
 #### Network configuration description
 
