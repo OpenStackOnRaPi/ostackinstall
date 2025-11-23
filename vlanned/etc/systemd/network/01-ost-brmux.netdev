@@ -4,7 +4,7 @@
 # defining it in the netplan file would result in incorrect network configuration - see the
 # description in file /etc/netplan/50-cloud-init.yaml)
 # - this definition creates the brmux device, but it remains inactive (Down) after creation; we
-# bring it Up in file 01-st-brmux.network.
+# bring it Up in file 01-ost-brmux.network.
 
 [NetDev]
 Name=brmux
