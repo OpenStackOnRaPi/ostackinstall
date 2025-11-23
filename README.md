@@ -20,7 +20,7 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 3. [Local network and Raspberry Pi preparation](#3-local-network-and-raspberry-pi-preparation)
    1. [Local network preparation](#3i-local-network-preparation)
    2. [RPi system configuration](#3ii-rpi-system-configuration)
-   3. [RPi network configuration](#3iii-rpi-network-configuration)
+   3. [RPi network model](#3iii-rpi-network-model)
    4. [Flat provider network](#3iv-flat-provider-network)
    5. [VLAN provider networks - part 1 (initial configuration for a flat network)](#3v-vlan-provider-networks---part-1-initial-configuration-for-a-flat-network)
 4. [Management host preparation](#4-management-host-preparation)
@@ -102,7 +102,7 @@ All procedures described in this guide assume compliance with the setup options 
 
 In section 3.i we describe the basic configurations necessary for the physical devices of the cluster network.
 
-In sections 3.ii, 3.iii, and 3.iv, configurations needed for your RPis are described. These configurations have to be applied independently to each RPi host in your cluster. They are given in a form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). In addition, subsection 3.iv describes the initial configurations of the RPis that are recommended if we plan to use VLAN provider networks in the cluster.
+In sections 3.ii, 3.iii, and 3.iv, models and configurations needed for your RPis are described. Configurations have to be applied independently to each RPi host in your cluster. They are given in a form corresponding to a manual procedure. However, you can automate many steps using bash scripts or other tools if you wish (_Note: sometimes a restart of the Raspberry Pi is required, so you'll likely need to create some semi-automatic installation scripts. Alternatively, you can use Ansible to completely automate the installation. However, discussing the details of such solutions is beyond the scope of this guide._) The process is split into two phases: system configuration (installs, upgrades, etc.; subsection 3.ii) and host network configuration (enabling networkd, installing netplan, configuring persistent virtual devices; subsection 3.iii). In addition, subsection 3.iv describes the initial configurations of the RPis that are recommended if we plan to use VLAN provider networks in the cluster.
 
 ### 3.i Local network preparation
 
@@ -242,7 +242,7 @@ $ sudo systemctl status systemd-networkd                  <= should be Active: a
 $ sudo apt-get update && sudo apt-get -y install netplan.io
   ```
 
-### 3.iii RPi network configuration
+### 3.iii RPi network model
 
 #### Network configuration options
 
@@ -252,7 +252,7 @@ As some people may be interested only in basic networking, while the others in m
 
 If you are determined to **use VLAN provider networks in your cluster**, follow this subsection to the end, and then proceed to subsection [3.v VLAN provider networks - part 1 (initial configuration for a flat network)](#3v-vlan-provider-networks---part-1-initial-configuration-for-a-flat-network). Note that in the VLAN provider network track we use a two-step approach: in subsection 3.v we only set a flat provider network in the cluster (step 1), while VLAN provider networks will be deployed as late as in section [7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)](#7-vlan-provider-networks---part-2-enabling-and-using-vlan-provider-networks) (step 2).
 
-#### Network configuration description
+#### Server network model
 
 Network devices on our RPi have to meet Kolla-Ansible requirements for network interfaces. In particular, Kolla-Ansible requires that there are at least two network interfaces available on each OpenStack host (Kolla-Ansible user will then assign OpenStack roles to those interfaces). As Raspbbery Pi comes with only one network card we have to use virtual interfaces to fulfill the above requirement.
 
