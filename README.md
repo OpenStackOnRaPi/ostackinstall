@@ -268,22 +268,22 @@ static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects
                                                     HOST NETWORK domain ("host-internal" in production),
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
-=== |  veth0  | =================== |   veth1 | ==  - interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack;
+### |  veth0  | ################### |   veth1 | ##  - interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack;
     +----┬----+                     +----┬----+     - they correspond to physical network cards (interfaces) in a production server
          |                               |          - tagged VLANS will be configured for veth1 in case of using VLAN provider networks
          |                               |
-         | <-------- veth pairs -------> |          DATA CENTER NETWORK domain ("physical" in production),
+         | <-------- veth pairs -------> |          DATA CENTER NETWORK domain (this would be "physical" in production),
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
     | veth0br |                     | veth1br |     - tagged VLANs have to be configured by the admin from eth0 across veth1br to
     +----┬----+                     +----┬----+     veth1 in case of using VLAN provider networks
     +----┴-------------------------------┴----+
-    |                   brmux                 |     - L2 device, IP address not needed here, tagged VLANs have to be configured here
-    +---------------------┬-------------------+     (they extend towards veth1) in case of using provider VLAN networks
+    |                   brmux                 |     - L2 device, does not need IP address, tagged VLANs have to be configured here
+    +---------------------┬-------------------+       in case of using provider VLAN networks (tagged VLANs extend towards veth1) 
                           |                         - corresponds to a physical switch in data center L2 network
    Raspberry Pi      +----┴----+
-   xxxxxxxxxxxxxxxxx |  eth0   | xxxxxxxxxxxxxx     - physical interface of RPi (taken by brmux), needs no IP address, but 
-                     +---------+                    tagged VLAN have to be configured here in case of using VLAN provider networks
+ ################### |  eth0   | #################  - physical interface of RPi (taken by brmux), needs no IP address, but tagged
+                     +---------+                      VLANs have to be configured for eth0 in case of using VLAN provider networks
 ```
 
 To make sure the above structure is persistent (survives system reboots), we use ```networkd``` and ```netplan``` configuration files to define our network setup. Basically, networkd files allow to define veth pair devices and tagged VLANs on devices ```eth0```, ```brmux```, ```veth0br``` and ```veth1br```, while neplan code contains the rest of needed configuration information. In fact, using networkd files turned out to be necessary because it was not possible to declare all the necessary details in netplan. It cannot be ruled out that all necessary configurations (veth pairs and tagged VLANs on eth0, brmux, veth0br and veth1br) will be fully achievable in future versions of netplan (interested user can check it on her/his own). For more details on how to configure network devices in networkd and netplan, please refer to respective documentation.
