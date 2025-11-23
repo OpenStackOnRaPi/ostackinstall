@@ -225,7 +225,7 @@ We disable NetworkManager and activate systemd-networkd daemon to manage network
 > [!Note]
 > Steps 1 and 2 below are needed only in case of Debian and can be skipped for Ubuntu (in our case, if one is lucky to have access to Kolla-Ansible container images for Ubuntu).
 
-   * Stop NetworkManager, and and start systemd-networkd
+   * Stop NetworkManager, and start systemd-networkd
 
 We use networkd to have persistent configuration of network devices in our RPis. One can use NetworkManager for this, but it will be necessary to convert the code from networkd notation to NetworkManager notation (both notations differ one from the other).
 
@@ -235,7 +235,7 @@ $ sudo systemctl enable systemd-networkd && sudo systemctl start systemd-network
 $ sudo systemctl status systemd-networkd                  <= should be Active: active (running) ... 
   ```
 
-   * Install and enable netplan_** (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
+   * Install and enable netplan (ref. https://installati.one/install-netplan.io-debian-12/?expand_article=1)
 
   ```
 $ sudo apt-get update && sudo apt-get -y install netplan.io
