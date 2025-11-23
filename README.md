@@ -957,7 +957,7 @@ On each RPi, replace four files in the `/etc/systemd/network` directory with the
 > [!Warning]
 > Remember that it is necessary to only replace the files fromn the `vlanned/etc/systemd/network` directory **keeping untouched remaining files** already present on the RPis in directory `/etc/systemd/network`. Otherwise you will cut off remote access to your RPis unless you enable WiFi access to the boards before. As a last resort, to avoid a complete reinstallation, you will need to connect your devices to a monitor, keyboard, and mouse.
 
-You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command. Alternatively, if you can reach your RPis using Linksys WiFi access point, you can restart only the networking system with the following commands:
+You are encouraged to review these files to learn how persistent configuration of VLANs can be achieved in Linux. The files contain explanation of each construct used. After uploading them, you can restart the RPi with the `reboot` command. Alternatively, if you can reach your RPis using Linksys WiFi access point or serial port (GPIO), you can restart only the networking system with the following commands:
 
 ```
 $ ip link set down brmux
