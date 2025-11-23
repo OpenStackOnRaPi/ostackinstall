@@ -325,7 +325,7 @@ EOT
     **NOTE 2:** in case of problems during `netplan generate` (or `netplan apply`) check the format of your file `/etc/netplan/50-cloud-init.yaml` - it's YAML and spaces matter.
 
 > [!Warning]
-> This part sometimes does not copy-paste correctly. If command `sudo netplan generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by inserting missing spaces. 
+> This part sometimes fails to copy-paste correctly. If command `sudo netplan --debug generate` reports formatting errors then edit file /etc/netplan/50-cloud-init.yaml and manually format it to the form visible below by aligning all columns using spaces (tabs are not allowed). 
 
 ```
 sudo tee /etc/netplan/50-cloud-init.yaml << EOT
@@ -359,6 +359,8 @@ network:
 # Linksys between this subnetwork and the fixed subnetwork used to access OpenStack.
 
 ## wlan0 interface will receive IP address from the Linksys DHCP.
+# Warning: enabling WiFi out-of-the-box currently fails at least on Raspberry Pi 5 under
+# Raspberry Pi OS Bookworm. Do not enable it.
 #  adjust access point SSID and password according to your environment
 #  wifis:
 #    wlan0:
