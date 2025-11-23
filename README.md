@@ -446,16 +446,16 @@ In the second, crucial step, we will change some networkd configuration files to
 #### Configuring the network (flat)
 
   * First, if not already done, execute steps 1 and 2 from the previous section 3.iii (i.e., stop NetworkManager and install netplan).
-  * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, files from the `flat/etc/netplan` directory should be uploaded to the `/etc/netplan` directory on each RPi, and those from the `flat/etc/systemd/network` directory to the `/etc/systemd/network` directory on each RPi. These files configure the RbPi for a flat network, meaning no VLANs. There is no Ethernet traffic isolation between tenants using such a flat provider network. Basic tenant L2 traffic isolation will be implemented using VXLANs, which encapsulate Ethernet frames into IP/UDP packets.
+  * Then upload the files stored in this repo in directory `flat` to respective directories on each RPi. Make sure to preserve the names of the paths contained inside directory `flat`. That is, file from the `/flat/etc/netplan` directory should be uploaded to the `/etc/netplan` directory on each RPi, and those from the `flat/etc/systemd/network` directory shoul go to the `/etc/systemd/network` directory on each RPi. These files configure the RbPi for a flat (untagged) provider network, meaning no VLANs. There is no Ethernet traffic isolation between tenants using such a flat provider network. Tenant L2 traffic isolation will later be implemented using VXLANs, where Ethernet frames are encapsulated frames in IP/UDP packets.
   * On each RPi, edit file `/etc/netplan/50-cloud-init.yaml` and update the IP address of interface `veth0`, DHCP server address (the Linksys or other router in your network), and the default route (typically the same as the DHCP server address in your router) according to your environment.
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
-  * Then, if you are sure all files hav been prepared correctly simply reboot the RPi and it should be available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file. If you want to first check for correctness, do the following:
+  * Then, if you are sure all files have been prepared correctly simply reboot the RPi and it should become available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file. If you want to first check for correctness, do the following:
 
 ```
-$ sudo netplan generate      <=== neglect a WARNING about too open permissions
-$ sudo netplan apply         <=== neglect five WARNINGS about too open permissions
+$ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions
+$ sudo netplan --debug apply         <=== neglect five WARNINGS about too open permissions
 
 ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
 check the connectivity
@@ -463,7 +463,7 @@ $ ping wp.pl
 $ sudo reboot
 ```
 
-Your network configuration is now the same as that from section 3.iii. You can continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
+Your network configuration is now the same as that one would obtain following all instructions from section 3.iii. You can now continue with the installation procedure (section 4 and 5) to enjoy using OpenStack with a flat provider network.
 
 ## 4. Management host preparation
 
