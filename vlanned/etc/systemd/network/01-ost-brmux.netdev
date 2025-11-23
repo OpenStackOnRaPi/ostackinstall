@@ -14,7 +14,7 @@ Kind=bridge
 VLANFiltering=true
 DefaultPVID=none
 
-# DB newest / debian
+# DB newest, specifically for debian
 [BridgeVLAN]
 PVID=1
 EgressUntagged=1
