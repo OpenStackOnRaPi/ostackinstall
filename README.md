@@ -359,9 +359,9 @@ network:
 # Linksys between this subnetwork and the fixed subnetwork used to access OpenStack.
 
 ## wlan0 interface will receive IP address from the Linksys DHCP.
-# Warning: enabling WiFi out-of-the-box currently fails at least on Raspberry Pi 5 under
-# Raspberry Pi OS Bookworm. Do not enable it.
-#  adjust access point SSID and password according to your environment
+# Note: to enable WiFi we use security protocol suite to WPA/WPA2 Personal with
+#  TKIP/AES ciphering. Otrher settings may also work.
+# Adjust access point SSID and password according to your environment
 #  wifis:
 #    wlan0:
 #      access-points:
