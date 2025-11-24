@@ -26,6 +26,7 @@ network:
 # between WiFi subnetwork and the fixed subnetwork used to access OpenStack.
 
 ## wlan0 itf will receive IP address from your router DHCP (linksys or TOTOLink in our case).
+#  Note: we set WPA/WPA2 Personal security protocol and TKIP/AES ciphering.
 #  adjust access point SSID and password according to your environment
 #  wifis:
 #    wlan0:
