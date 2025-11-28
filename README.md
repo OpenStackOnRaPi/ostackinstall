@@ -77,7 +77,7 @@ All procedures described in this guide assume compliance with the setup options 
 </p>
    
 2. SW
-   * OS: Raspberry Pi OS Lite 64bit (a port of Debian 12 Bookworm with no desktop environment).
+   * OS: **Raspberry Pi OS Lite 64bit** (a port of Debian 12 Bookworm with no desktop environment).
      - Ubuntu 24.04 LTS for Raspberry Pi may work as well. It comes with netplan and systemd-networkd as default network configuration tools, which should simplify certain installation steps from this guide. Actually, Ubuntu 23.04 did work for Kolla-Ansible Zed release and Debina Bullseye AARCH64 container images (AARCH64 is the Raspberry Pi processor architecture). However, we prefer to use fully compatible components to avoid potential side effects. For this reason we decided to use Raspberry Pi OS (being Debian derivative) as there are only Debian-based AARCH64 container images for Kolla-Ansible (se [here](#https://quay.io/repository/openstack.kolla/neutron-openvswitch-agent?tab=tags)).
    * Linux network configuration tools: netplan and systemd-networkd (they are not default on Debian but we use them to comply with the policies adopted in our labs).
    * Kolla-Ansible 2023.1 or 2025.1. 
