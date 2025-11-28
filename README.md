@@ -348,10 +348,10 @@ network:
 # (uncomment if needed)                   #
 #-----------------------------------------#
 # WiFi can be hepful during configurations when we will teporarily loose connectivity to
-# RPis from the fixed (cable) network used by OpenStack). RPis (but not OpenStack) will
+# RPis from the fixed (cable) network used by OpenStack. RPis (but not OpenStack) will
 # then be accessible via WiFi.
 # WiFi should be configured as isolated subnetwork - distinct form the fixed (cable)
-# network used to access OpenStack (provider external network/management network).
+# network used to access OpenStack (i.e., OpenStack provider external network).
 # E.g., on Linksys, you should dedicate a separate bridge (e.g., br1) to WiFi with
 # distinct IP address range for this subnetwork. It will then be sufficient to attach
 # from your namagement host to Linsys WiFi access point. Alternatively, if you prefer to
