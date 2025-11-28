@@ -265,7 +265,7 @@ network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
 static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects that)
  
-                                                    HOST NETWORK DOMAIN ("host-internal" in production),
+                                                    OPENSTACK HOST NETWORK DOMAIN ("host-internal" in production)
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
 ### |  veth0  | ################### |   veth1 | ##  - interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack;
