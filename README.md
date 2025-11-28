@@ -265,14 +265,14 @@ network_interface, veth0          neutron_external_interface, veth1
 (OStack services, tenant nets)    (provider networks, tenant routers/floating IPs)
 static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects that)
  
-                                                    HOST NETWORK domain ("host-internal" in production),
+                                                    HOST NETWORK DOMAIN ("host-internal" in production),
                                                     - under Nova/Neutron governance
     +---------+                     +---------+
 ### |  veth0  | ################### |   veth1 | ##  - interfaces to be specified in globals.yml, used by Kolla-Ansible and OpenStack;
     +----┬----+                     +----┬----+     - they correspond to physical network cards (interfaces) in a production server
          |                               |          - tagged VLANS will be configured for veth1 in case of using VLAN provider networks
          |                               |
-         | <-------- veth pairs -------> |          DATA CENTER NETWORK domain (this would be "physical" in production),
+         | <-------- veth pairs -------> |          DATA CENTER NETWORK DOMAIN (this would be "physical" in production),
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
     | veth0br |                     | veth1br |     - tagged VLANs have to be configured by the admin from eth0 across veth1br to
