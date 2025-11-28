@@ -123,7 +123,7 @@ Make sure your TP-Link switch is set to the factory settings. This can be perfor
 </p>
 
 > [!Note]
-> In our TP-Link switches, after restoring factory settings, we log in with username=`admin`, password=`admin` and the password change is forced upon the first login. The management portal of the switch is intuitive. To access it, you can use a Web browser and (on Windows) _Easy Smart Configuration Utility_ application. You can download the guides and the utility from [here](https://www.tp-link.com/pl/support/download/tl-sg105pe/).
+> You can check the IP address of yout TP-Link switch in the management portasl of Linksys (or TOTO-Link) router. For a TP-Link switch, after restoring factory settings, we log in with username=`admin`, password=`admin` and the password change is forced upon the first login. The management portal of the switch is intuitive. To access it, you can use a Web browser and (on Windows) _Easy Smart Configuration Utility_ application. You can download both the guides and the configuration utility software from [here](https://www.tp-link.com/pl/support/download/tl-sg105pe/).
 
 Now you can proceed to subsection 3.ii.
 
