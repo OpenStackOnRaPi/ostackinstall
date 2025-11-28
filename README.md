@@ -648,11 +648,14 @@ $ sudo nano /etc/kolla/passwords.yml
 2. Prepare inventory file `multinode` and feature configuration file `globals.yml`
 
 > [!IMPORTANT]
-> Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts by specifying role assignments in the inventory file. Our experiments revealed that the roles ```compute``` and ```network``` SHOULD be separated (i.e., allocated to different hosts) in clusters with 8GB RAM Raspberries. Otherwise the cluster becomes prone to out of memory (OOM) issues which lead to severe instabilities of the cloud. In an all-in-one installation (one RPi in a cluster), the node goes out of memory right after the first CirrOS VM is created and OpenStack tends to hang. If there is more than one virtual machine instance, the cluster fails immediately. In such situations, even if one can login to the hosts after rebooting and even if some Kolla-Ansible containers remain in a healthy state, OpenStack as a whole is not functional anymore. In a multinode cluster, when the control and network functions run on the same host and the compute function runs elswhere, the control/network host reaches a stete close to the OOM regime after creating the second CirrOS VM. So, in the case of Raspberry Pi clusters, even with a multinode configuration the merging of ```compute``` and ```network``` functions in a single host should be avoided. These conclusions are reflected below in a sample fragment of the inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
+> Kolla-Ansible expects the user to assign OpenStack roles (```control```, ```network```, ```compute```, etc.) to hosts by specifying role assignments in the inventory file. Our experiments revealed that the roles ```compute``` and ```network``` SHOULD be separated (i.e., allocated to different hosts) in clusters with 8GB RAM Raspberries. Without this the cluster becomes prone to out of memory (OOM) issues which lead to severe instabilities of the cloud. In an all-in-one installation (one RPi in a cluster), the node goes out of memory right after the first CirrOS VM is created and OpenStack tends to hang. If there is more than one virtual machine instance, the cluster fails immediately. In such situations, even if one can login to the hosts after rebooting and even if some Kolla-Ansible containers remain in a healthy state, OpenStack as a whole is not functional anymore. In a multinode cluster, when the control and network functions run on the same host and the compute function runs elswhere, the control/network host reaches a stete close to the OOM regime after creating the second CirrOS VM. So, in the case of Raspberry Pi clusters, even with a multinode configuration the merging of ```compute``` and ```network``` functions in a single host should be avoided. These conclusions are reflected below in a sample fragment of the inventory file where ```copmute``` and ```network``` roles are assigned to different hosts (```ost4``` and ```ost3```, respectively).
 
   * file `multinode` is stored in the working directory
 
-Edit the inventory file `multinode` and assign the `control`, `network` and `compute` functions to individual RPis. The following are the recommended settings for a four-host cluster. Adjust them for other cluster sizes, keeping the `control` function on a separate host. Note: for every appearance of each node provide ansible directives `ansible_user`/`password`/`become` (it is sufficient to provide the directives once for a given host regardless of the number of groups it belongs to, e.g. ost03 in our example). Remaining groups in file `multinode` should be left unchanged.
+Edit the inventory file `multinode` and assign the `control`, `network` and `compute` functions to individual RPis. The following are the recommended settings for a four-host cluster (adjust the numbering for a three-board cluster). Adjust them for other cluster sizes, keeping the `control` function on a separate host. Note: for every appearance of each node provide ansible directives `ansible_user`/`password`/`become` (it is sufficient to provide the directives once for a given host regardless of the number of groups it belongs to, e.g. ost03 in our example). Remaining groups in file `multinode` should be left unchanged. In a three-board cluster the `control` and `network` node roles should also be separated (allocated to different boards).
+
+> [!Warning]
+> Remember to deploy your OpenStack `control` node on 8GB Raspberry Pi board. Otherwise the installation will become unstable due to running out of memory. This board should be configured with extended swap memory size as described in section [RPi system configuration](#3ii-rpi-system-configuration), step 9.
 
 ```
 $ sudo nano multinode
@@ -668,7 +671,7 @@ ost03
 [compute]
 ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
-(Note: remaining groups go here - leave them unchanged)
+(Note: remaining groups go below - leave them unchanged, DO NOT delete)
 
 [monitoring]
 #monitoring01
@@ -681,7 +684,7 @@ ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
 > [!Important]
 > Below, you will check cluster connctivity for Ansible. If Ansible can not reach your RPis _via_ ssh with messages `UNREACHABLE! => {
-    "changed": false, "msg": "Failed to connect to the host via ssh...` then check file `/etc/hosts` for the presence of the resolution data. If previous installation of OpenStack failed and you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` should solve the problem. 
+    "changed": false, "msg": "Failed to connect to the host via ssh...` then check the file `/etc/hosts` on your management host for the presence of the resolution data (it should contain resolution entries for your RPis as shown in the previous subsection). If the previous installation of OpenStack failed and you have reinstalled the OS on the RPis, deleting file `~/.ssh/known_hosts` on the management host should solve the problem. 
 
 ```
 # check if ansible can reach target hosts (our RPis):
