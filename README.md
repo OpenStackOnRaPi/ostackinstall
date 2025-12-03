@@ -1003,6 +1003,8 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 #### 7.ii.a Provider network dedicated to a tenant
 
+This part is based on [this OpenStack documentation](#https://docs.openstack.org/neutron/2025.1/admin/config-rbac.html).
+
 Before you run this experiment, first create a new regular project and a new regular user if such regular project/user are not already present in your OpenStack (the project/user `admin` is not a very good match for what we are going to do). Then assign this new project to the new user. This is an easy task to be exectuted as the `admin` user, and we do not describe it here. You can try this from the OpenStack dashboard where the procedure is quite intuitive. Or check the offcial OpenStack guides for details.
 
 Once regular projec/user are ready connect to OpenStack using OpenStack command line tool as `admin` (source appropriate rc file).
@@ -1019,7 +1021,7 @@ openstack subnet create --network dedicated-provider-net --subnet-range 192.168.
 Then use OpenStack RBAC to assign the provider network to a particular tenant (project):
 
 ```
-openstack network rbac create --target-project <tenant_project_id> --action access --network dedicated-provider-net
+openstack network rbac create --target-project <tenant_project_id> --action access_as_shared --type network dedicated-provider-net
 ```
 
 One can do the same using also the OpenStack dashboard. You can try it on your own.
