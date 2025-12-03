@@ -1013,7 +1013,8 @@ Similarly to how a provider network is created in file `init-runonce.2025.1.cirr
 
 ```
 # create the provider network
-openstack network create --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 101 dedicated-provider-net
+openstack network create --provider-physical-network physnet1 --provider-network-type vlan \
+   --provider-segment 101 dedicated-provider-net
 # create subnetwork in the provider network
 openstack subnet create --network dedicated-provider-net --subnet-range 192.168.100.0/24 dedicated-provider-subnet
 ```
@@ -1021,7 +1022,8 @@ openstack subnet create --network dedicated-provider-net --subnet-range 192.168.
 Then use OpenStack RBAC to assign the provider network to a particular tenant (project):
 
 ```
-openstack network rbac create --target-project <tenant_project_id> --action access_as_shared --type network dedicated-provider-net
+openstack network rbac create --target-project <tenant_project_id> \
+   --action access_as_shared --type network dedicated-provider-net
 ```
 
 One can do the same using also the OpenStack dashboard. You can try it on your own.
@@ -1039,7 +1041,8 @@ Actually, this is similar to the example from file `init-runonce.2025.1.cirros` 
 
 ```
 # create VLAN based (external) provider network 
-openstack network create --share --external --provider-physical-network physnet1 --provider-network-type vlan --provider-segment 102 public2
+openstack network create --share --external --provider-physical-network physnet1 \
+   --provider-network-type vlan --provider-segment 102 public2
 # create subnetwork in the external network with a range of floating IP addresses
 openstack subnet create --no-dhcp --ip-version 4 \
    --allocation-pool start=192.168.10.31,end=192.168.10.35 --network public2 \
