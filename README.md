@@ -804,14 +804,14 @@ $ kolla-ansible deploy -i multinode
 
 Postdeployment includes installing OpenStack CLI tool, running additional `post-delopy` script to generate configuration file `clouds.yaml` containing credentials to use OpenStack CLI tool, and copying `clouds.yaml` to appropriate locations.
 
-  * Install `python-openstackclient` to access OpenStack commands in the console
+  * Install `python-openstackclient` to access OpenStack commands in the console ro maintained release of Koll-Ansible
     ```bash
     $ pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/2025.1
-           ==> for the unmaintained release 2023.1: 
+           ==> for unmaintained release, as 2023.1: 
                pip install python-openstackclient -c https://opendev.org/openstack/requirements/raw/branch/unmaintained/2023.1/upper-constraints.txt
     ```
 
-  * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed by install-runonce stript in a while to create your first instance): 
+  * Run post-deploy script, create appropriate directories and copy cloud.config file (it will be needed in a while by the install-runonce stript to create your first network stack): 
 
     ```
 
@@ -822,7 +822,7 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
     # working directory as assumed below:
     $ kolla-ansible post-deploy -i multinode
     
-    # for 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to provide inventory file name explicitly) 
+    # for 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to explicitly pass it in the command) 
     $ kolla-ansible post-deploy
     
     $ sudo mkdir ~/.config 
@@ -834,7 +834,7 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
     
 #### 5.v.b First checks - create the first instance
 
-   Your first instance will be created from openstak client command line. First, you will use a prepared script to create tenant network and other artifacts (e.h., VM image to create form) needed to create instances. Then, you will enable python-openstack client tool and create the instance from command line using openstack command line client (similar to creating pods in Kubernetes using kubctl).
+   Your first instance will be created from openstak client command line. But first, you will use a separate script to create tenant network and other artifacts (e.g., the VM image to create from, VM flavor definitions, etc.) needed to create an instances attached to a network and able to communicate. Only then you will enable python-openstack client tool and use it to create the instance itself (similar to creating pods in Kubernetes using kubctl).
 
   * use init-runonce script to create external network, subnetwork, router, download the image of cirros VM, and create a couple of flavors of VM in the admin project
     - init-runonce script files for various kolla-ansible/OpenStack releases and tuned for our Raspberry Pi environment are available in this repo. Select appropriate <kolla-ansible-release> and <image-os-name>, possibly edit the file to change some settings according to your environment (e.g., external network address range). The file name format of those scripts is as follows:
@@ -848,18 +848,20 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
       - run the script
       ```bash
       # for Kolla-Ansible 2025.1
+      $ chmod u+x init-runonce.2025.1.cirros
       $ ./init-runonce.2025.1.cirros
       
       # or (for Kolla-Ansible/OpenStack 2023.1)
+      $ chmod u+x init-runonce.2023.1.cirros
       $ ./init-runonce.2023.1.cirros
        ```
       
 > [!Note]
-> Script `init-runonce` illustrates the use of several `openstack client` commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only **once** and subsequent runs will generate errors because of all constructs having already been created. In such a case free experimenting with it should depend on echo-ing openstack commands (to display them as ready-to-run strings) at the same time suppressing in the script the execution of the commands in OpenStack.
+> Script `init-runonce` illustrates the use of several `openstack client` commands in bash. It is recommended to analyse it, possibly even echo-ing openstack client commands to see how they look like in plain. It may help you write your own commands if such a need arises in the future. Remember that `init-runonce` is designed to be run "as is" only **once** and subsequent runs will generate errors because all constructs have already been created. In such a case you can consider echo-ing openstack commands (to display them as ready-to-run strings) and at the same time suppressing in the script the execution of the commands in OpenStack.
 
 After running `./init-runonce.20xy.z`, the following OpenStack objects are created and ready for use: the external and tenant networks, VM image, several VM flavors (we have adjusted their properties for Raspberry Pi) and the default security group settings. The first server instance can now be created in the following two steps:
 
-  * source `admin-openrc.sh` script to enable python-openstackclient
+  * source `admin-openrc.sh` script to enable python-openstackclient for your project
     ``` bash
     $ source /etc/kolla/admin-openrc.sh
     ```
