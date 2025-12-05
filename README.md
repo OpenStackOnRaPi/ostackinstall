@@ -1017,7 +1017,8 @@ With a slight modification of how a provider network is created in file `init-ru
 # create the provider network
 openstack network create --provider-physical-network physnet1 --provider-network-type vlan \
    --provider-segment 101 dedicated-provider-net
-# create a subnetwork in the provider network
+
+# create a subnetwork in the provider network (subnet range below is exemplary)
 openstack subnet create --network dedicated-provider-net --subnet-range 192.168.100.0/24 dedicated-provider-subnet
 ```
 
