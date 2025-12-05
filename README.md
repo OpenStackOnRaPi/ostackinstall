@@ -816,20 +816,20 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
     ```
 
 
-    # for 2025.1 (a form slightly different from 2023.1 because inventory folder /etc/kolla/ansible/inventory has been
-    # introduced in 2025.1 and script post-deploy requires this inventory as command parapeter, but this change has not been
-    # reflected in the original Kolla-Ansible guide); we can point to inventory file located elsewhere, e.g., in our
+    # for 2025.1 (this form is slightly different from that for 2023.1 because inventory directory /etc/kolla/ansible/inventory has been
+    # introduced in 2025.1 and the script post-deploy requires this inventory as a command parameter; this change has not been
+    # reflected in the original Kolla-Ansible documentation); we of course can point to inventory file located elsewhere, e.g., in our
     # working directory as assumed below:
-    $ kolla-ansible post-deploy -i multinode-2025.1
+    $ kolla-ansible post-deploy -i multinode
     
-    # for 2023.1 (existence of inventory file in working directory is checked so do do not have to provide inventory file name here) 
+    # for 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to provide inventory file name explicitly) 
     $ kolla-ansible post-deploy
     
     $ sudo mkdir ~/.config 
     $ mkdir ~/.config/openstack
-    #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name>
     $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
     $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
+    #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name> and repeat above cp operations
     ```
     
 #### 5.v.b First checks - create the first instance
