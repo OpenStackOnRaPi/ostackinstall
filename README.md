@@ -205,8 +205,6 @@ This section only applies when you are going to use 8GB RPi as the OpenStack con
 
 > [!IMPORTANT]
 > This configuration applies only to the host that will play the role of "control node" in your OpenStack cluster. We recommend to separate the control and network node roles form each other and dedicate one RPi host exclusively for the control node role. Remaining hosts can be left with default swap memory size settings (512MB in the Raspberry Pi OS), but allocating more space will not be a mistake. In this guide, we assume the control node role to be be assigned to host with the name `ost04` and network node to be assigned to host `ost3`. This is shown in [section 5.iii](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment) where you can check how we assign OpenStack roles to hosts in Kolla-Ansible inventory file `multinode`. 
->
-> Kolla-Ansible allows one to separate the `control` and `network` functions by assigning them to different hosts in Ansible inventory. If you are curious, you can give it a try. However, remember that while such separation reduces the maximal memory occupancy of the hosts, it does not relieve you of neither the need to increase the swap memory size nor the responsibility to monitor memory usage on the `control` and `network` hosts.
 
   * follow the instructions below; they are drawn from [this guide](https://itsfoss.com/pi-swap-increase/). The highest usage of swap memory that we have observed so far is 2.5GB. Below we set the size to **`4096`** which should provide a safe margin.
   ```
