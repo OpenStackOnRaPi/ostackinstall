@@ -731,7 +731,7 @@ enable_proxysql: "no"
 
 <pre>
 $ sudo mkdir -p /etc/kolla/config/nova
-$ sudo tee /etc/kolla/config/nova/ << EOT
+$ sudo tee /etc/kolla/config/nova/nova-compute.conf << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
 
