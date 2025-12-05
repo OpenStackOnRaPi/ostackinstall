@@ -1007,7 +1007,7 @@ As before, you should now be able to access OpenStack via the dashboard or the O
 
 This part is based on [this OpenStack documentation](https://docs.openstack.org/neutron/2025.1/admin/config-rbac.html).
 
-Before you run this experiment, first create a new regular project and a new regular user if such regular project/user are not already present in your OpenStack (the project/user `admin` is not a good match for what we are going to do). Then assign this new project to the new user. This is an easy task to be exectuted as the `admin` user, and we do not describe it here. You can try this from the OpenStack dashboard where the procedure is quite intuitive. Or check the offcial OpenStack guides for details.
+Before you run this experiment, first create a new regular project (e.g. `my-project`) and a new regular user if such regular project/user are not already present in your OpenStack (the project/user `admin` is not a good match for what we are going to do). Then assign this new project to the new user. This is an easy task to be exectuted as the `admin` user, and we do not describe it here. You can try this from the OpenStack dashboard where the procedure is quite intuitive. Or check the offcial OpenStack guides for details.
 
 Once regular projec/user are ready connect as `admin` to OpenStack using OpenStack command line tool (source appropriate rc file).
 
@@ -1017,14 +1017,19 @@ With a slight modification of how a provider network is created in file `init-ru
 # create the provider network
 openstack network create --provider-physical-network physnet1 --provider-network-type vlan \
    --provider-segment 101 dedicated-provider-net
-# create subnetwork in the provider network
+# create a subnetwork in the provider network
 openstack subnet create --network dedicated-provider-net --subnet-range 192.168.100.0/24 dedicated-provider-subnet
 ```
 
 Then use OpenStack RBAC (Role Based Access Control) to assign the provider network to a particular tenant (project):
 
 ```
-openstack network rbac create --target-project <your-tenant_project_id-or-name> \
+# template
+openstack network rbac create --target-project <project_id_or_name> \
+   --action access_as_shared --type <network_id_or_name>
+
+# our example
+openstack network rbac create --target-project my-project \
    --action access_as_shared --type network dedicated-provider-net
 ```
 
