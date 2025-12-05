@@ -428,7 +428,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 
 ```
 $ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions (--debug option generates verbose output)
-$ sudo netplan --debug apply         <=== neglect five WARNINGS about too open permissions (--debug option generates verbose output)
+$ sudo netplan --debug apply         <=== neglect multiple WARNINGS about too open permissions (--debug option generates verbose output)
 
 # ssh now disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
 # check the connectivity again and reboot for any case
@@ -459,7 +459,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 
 ```
 $ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions
-$ sudo netplan --debug apply         <=== neglect five WARNINGS about too open permissions
+$ sudo netplan --debug apply         <=== neglect multiple WARNINGS about too open permissions
 
 ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
 check the connectivity
