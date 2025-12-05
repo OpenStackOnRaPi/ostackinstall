@@ -936,6 +936,9 @@ To reinstall your cluster in case of failure, first destroy current installation
 $ kolla-ansible destroy --yes-i-really-really-mean-it -i multinode
 ```
 
+> [!Note]
+> If you destroy your cluster with running VM instances then they will survive the operation and you will have to remove them manually using `virsh`.
+
 ## 7. VLAN provider networks - part 2 (enabling and using VLAN provider networks)
 
 In this section, we describe how to enable VLAN provider networks by modifying the setup from section [3.iv VLAN provider networks - part 1](#3iv-vlan-provider-networks---part-1-rpi-network-configuration-for-a-flat-network). Then we show how such networks can be used.
