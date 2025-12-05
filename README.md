@@ -1029,7 +1029,7 @@ Then use OpenStack RBAC (Role Based Access Control) to assign the provider netwo
 openstack network rbac create --target-project <project id or name> \
    --action access_as_shared --type network <network id or name>
 
-# our example
+# our example (project and network name are used in this case)
 openstack network rbac create --target-project my-project \
    --action access_as_shared --type network dedicated-provider-net
 ```
