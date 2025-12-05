@@ -455,19 +455,19 @@ In the second, crucial step, we will change some networkd configuration files to
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
-  * Then, if you are sure all files have been prepared correctly simply reboot the RPi and it should become available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file. If you want to first check for correctness, do the following:
+  * Now, if you are sure all files have been prepared correctly, simply use netplan as shown below to deploy the new configuration. The RPi should then become available on the statically assigned IP address provided in the /etc/netplan/50-cloud-init.yaml file (you will have to ssh to the RPi again).
 
 ```
 $ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions
 $ sudo netplan --debug apply         <=== neglect multiple WARNINGS about too open permissions
 
-ssh disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
-check the connectivity
+#... ssh disconnects so reconnect using the fixed IP addresses you set in file `50-cloud-init.yaml`
+
+#check the connectivity
 $ ping wp.pl
-$ sudo reboot
 ```
 
-Your network configuration is now the same as the one you would obtain following the instructions from [subsection 3.iv](#3iv-flat-provider-network). You can now proceed to the installation procedure (sections 4 and 5) and enjoy using OpenStack with a flat provider network. We will come back to VLAN provider networks in section 7.
+Your network configuration is now the same as the one you would obtain following the instructions from [subsection 3.iv](#3iv-flat-provider-network). However, it can be easily changed to introduce tagged VLAN provider networks. You can now proceed to the installation procedure (sections 4 and 5) and enjoy using OpenStack with a flat provider network. We will come back to VLAN provider networks in section 7.
 
 ## 4. Management host preparation
 
