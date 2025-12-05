@@ -734,7 +734,6 @@ $ sudo mkdir -p /etc/kolla/config/nova
 $ sudo tee /etc/kolla/config/nova/nova-compute.conf << EOT
 [DEFAULT]
 resume_guests_state_on_host_boot = true
-
 # The following settings are applicable only for qemu (not needed by KVM at all). Currently they serve informational purposes only.
 #for RPi 5 enable cortex-a76 <== maybe for the future, but currently theres a lack of support for cortex-a76 in 2023.1 and 2025.1 libvirtd
 #for RPi 4 enable cortex-a72
