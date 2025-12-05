@@ -884,7 +884,7 @@ After running `./init-runonce.20xy.z`, the following OpenStack objects are creat
     $ openstack server list
     ```
 
-  * now you can ssh to the instance; both password and key authentication work for ther cirros (the key was installed in the `openstack create` command you run above); the user is `cirros` and the passoword is `gocubsgo`
+  * now you can ssh to the instance; both password and key authentication work for the cirros (the key was installed in the instance by the `openstack create` command you run above); the user is `cirros` and the passoword is `gocubsgo`
 
 ## 6. Managing your cluster 
 
