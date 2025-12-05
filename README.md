@@ -1026,7 +1026,7 @@ Then use OpenStack RBAC (Role Based Access Control) to assign the provider netwo
 ```
 # template
 openstack network rbac create --target-project <project_id_or_name> \
-   --action access_as_shared --type <network_id_or_name>
+   --action access_as_shared --type network <network_id_or_name>
 
 # our example
 openstack network rbac create --target-project my-project \
