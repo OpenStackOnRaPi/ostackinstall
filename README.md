@@ -992,7 +992,7 @@ Follow the steps described below.
 
 * Restart the RPis or the networking (via WiFi) as described in the previous subsection.
 
-* Finally, in the `VLAN -> 802.1Q PVID Setting` tab, set the VLAN ID to tag the traffic coming from the router (Linksys) to the switch on Port 5.
+* Finally, in the `VLAN -> 802.1Q PVID Setting` tab, set the VLAN ID 2 on Port 5 to tag the traffic from the router (Linksys) directed to the cluster.
 
 <p align="center">
  <img src=images/tplink-pvid2.png width='60%' />
