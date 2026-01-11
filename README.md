@@ -982,23 +982,23 @@ The practical benefit of using this extra encapsulation will be increased securi
 
 Follow the steps described below.
 
-* Create the additional VLAN in the TP-Link switch (we set VLAN ID = 2 but anthing different from the VLAN IDs reserved for provider networks will be fine). As before, you do this in the `VLAN -> 802.1Q VLAN Configuration` tab.
+* Declare the additional VLAN in the TP-Link switch (we set VLAN ID = 2 but anthing different from the VLAN IDs reserved for provider networks will be fine). As before, you do this in the `VLAN -> 802.1Q VLAN Configuration` tab.
 
 <p align="center">
  <img src=images/tplink-vlan2.png width='60%' />
 </p>
 
-* Additionally, in the `VLAN -> 802.1Q PVID Setting` tab, set the VLAN ID to tag the traffic coming from the router (Linksys) to the switch on Port 5.
+* Now, uncomment VLAN2 declarations (the parts related to `[BridgeVLAN] VLAN=2`) in network files `02-ost-eth0.network`, `10-ost-net-ext-veth1br.network` and `10-ost-net-itf-veth0br.network` in the `/etc/systemd/network directory`.
+
+* Restart the RPis or the networking (via WiFi) as described in the previous subsection.
+
+* Finally, in the `VLAN -> 802.1Q PVID Setting` tab, set the VLAN ID to tag the traffic coming from the router (Linksys) to the switch on Port 5.
 
 <p align="center">
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
-* Now, uncomment VLAN2 declarations (the parts related to `[BridgeVLAN] VLAN=2`) in network files `02-ost-eth0.network`, `10-ost-net-ext-veth1br.network` and `10-ost-net-itf-veth0br.network` in the `/etc/systemd/network directory`.
-
-* Finally, restart the RPis or the networking (via WiFi) as described in the previous subsection.
-
-As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI.
+As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI (this time over VLAN-separated connection in the TP-Link--RPi network segment).
 
 ### 7.ii Creating and using VLAN provider networks
 
