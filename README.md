@@ -1040,23 +1040,24 @@ Once you have assigned the provider network to a tenant, log in as that tenant a
 
 #### 7.ii.b External network using VLAN provider network
 
-Actually, this is similar to the example from file `init-runonce.2025.1.cirros` combined with the use of VLAN tag as in the dedicated provider network example described above. In the example below, we use VLAN 102 for that.
+This example is a little bit theoretical in our case - see the **Note** below. In theory, it is similar to the example from file `init-runonce.2025.1.cirros`, but enhanced with the use of VLAN tag as in the dedicated provider network example described above. In the example below, we use VLAN 102 for that.
+
+> [!Note]
+> Please note that for this network (named `public2` in the commands below) to become truly "external", it would be necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and it accepts only untagged frames on its LAN ports. As we already use untagged frames (VLAN1) cluster wide for the flat provider network and the management network of our OpenStack, we can not convert VLAN102 frames in TP-Link into VLAN1 frames on its WAN port (port 5, connected to Linksys). This is the reason why we use the term _theoretical_ for this example. In our case, the created tagged provider network `public2` will actually **not** reach the Linksys router and it will remain "internal". That means it will only allow for the communication between instances inside the OpenStack cluster (unless we connect it to appropriately configured Neutron router attached to "truly" external network). However, if you have a more advanced router than Linksys where the ports can handle tagged frames than `public2` can be used as full-fledged external network.
 
 ```
 # create VLAN based (external) provider network 
 openstack network create --share --external --provider-physical-network physnet1 \
    --provider-network-type vlan --provider-segment 102 public2
-# create subnetwork in the external network with a range of floating IP addresses
+# create a subnetwork in the external network without DHCP server, but assigned a pool of IP addresses
 openstack subnet create --no-dhcp --ip-version 4 \
    --allocation-pool start=192.168.10.31,end=192.168.10.35 --network public2 \
    --subnet-range 192.168.10.0/24 --gateway 192.168.10.1 public2-subnet
 ```
-> [!Note]
-> Please note that for this network (named "public2" in the commands above) to become truly "external", it would be necessary to extend it to the Linksys router. However, Linksys has limited functionality regarding 802.1Q and it accepts only untagged frames on its LAN ports. As we already use untagged frames (VLAN1) cluster wide for the flat provider network and the management network of our OpenStack, we can not convert VLAN102 frames in TP-Link into VLAN1 frames on its WAN port (port 5, connected to Linksys). This is the reason why in our case the created tagged provider network will not reach the Linksys router and we will leave it "internal". That means it will only allow for communication between instances inside the OpenStack cluster (unless we connect it to appropriately configured Neutron router attached to "truly" external network).
-> 
-> This network will be able to contain subnetworks with IP address pools, and VMs from even different tenants will be able to communicate with each other if they connect to it. The truly “external” network in our specific OpenStack environment (taking into account the aforementioned Linksys limitations) will remain “flat”. Thus, this example can be regarded as yet another pattern to organise inter-instance comunication in an OpenStack cluster. 
 
-Concluding, in our specific case (taking into account the mentioned limitations of Linksys), the resulting provider network differs from the network created in the previous section in that the communication can span all tenants in the cluster if we share this network instead of only one tenant. Both networks are similar in that they are tagged provider networks and in current form are secure by disabling destinations outside the cluster (enabling such a communication would require additional configurations to be performed by the administrator). Both can host a DHCP server or IP addresses must be manually assigned to the attached VMs and router ports.
+This network will be able to contain subnetworks with IP address pools, and VMs from even different tenants will be able to communicate with each other if they connect to it. The truly “external” network in our specific OpenStack environment (taking into account the aforementioned Linksys limitations) will remain “flat”. 
+
+In our specific case (taking into account the mentioned limitations of Linksys), the resulting provider network differs from the network created in the previous section in that the communication can span all tenants in the cluster if we share this network instead of only one tenant. Both networks are similar in that they are tagged provider networks and in current form are secure by disabling destinations outside the cluster (enabling such a communication would require additional configurations to be performed by the administrator). Both can host a DHCP server or IP addresses must be manually assigned to the attached VMs and router ports. Concluding, this example can be regarded as yet another pattern of organizing inter-instance comunication in an OpenStack cluster.
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
