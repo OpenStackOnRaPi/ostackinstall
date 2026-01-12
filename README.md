@@ -1055,9 +1055,11 @@ openstack subnet create --no-dhcp --ip-version 4 \
    --subnet-range 192.168.10.0/24 --gateway 192.168.10.1 public2-subnet
 ```
 
-This network will be able to contain subnetworks with IP address pools, and VMs from even different tenants will be able to communicate with each other if they connect to it. The truly “external” network in our specific OpenStack environment (taking into account the aforementioned Linksys limitations) will remain “flat”. 
+This network will be able to contain subnetworks with IP address pools allocated to them, and the VMs from even different tenants will be able to communicate with each other if they connect to it. The truly “external” network in our specific OpenStack environment (taking into account the aforementioned Linksys limitations) will remain “flat”. 
 
-In our specific case (taking into account the mentioned limitations of Linksys), the resulting provider network differs from the network created in the previous section in that the communication can span all tenants in the cluster if we share this network instead of only one tenant. Both networks are similar in that they are tagged provider networks and in current form are secure by disabling destinations outside the cluster (enabling such a communication would require additional configurations to be performed by the administrator). Both can host a DHCP server or IP addresses must be manually assigned to the attached VMs and router ports. Concluding, this example can be regarded as yet another pattern of organizing inter-instance comunication in an OpenStack cluster. However, if you have a more advanced router than Linksys where the ports can handle tagged frames than `public2` can be converted to full-fledged external network.
+In our specific case, the resulting provider network differs from the network created in the previous section in that if we share this network, it can span all tenants in the cluster. Both networks are similar in that they are tagged provider networks and in current form are secure by disabling destinations outside the cluster (enabling such a communication would require additional configurations to be performed by the administrator). Both can host a DHCP server, or IP addresses will need to be manually assigned to the connected virtual machines and router ports.
+
+Concluding, this example can be regarded as yet another pattern of organizing inter-instance comunication in an OpenStack cluster. However, if you have a more advanced router than Linksys where the ports can handle tagged frames, than `public2` can be converted to full-fledged external network.
 
 ## 8. ADDENDUM - accessing the cluster using VPN
 
