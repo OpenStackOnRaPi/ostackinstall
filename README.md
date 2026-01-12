@@ -999,7 +999,7 @@ Follow the steps described below.
  <img src=images/tplink-pvid2.png width='60%' />
 </p>
 
-As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI (this time over VLAN-separated connection in the TP-Link--RPi network segment).
+As before, you should now be able to access OpenStack via the dashboard or the OpenStack CLI (this time over VLAN-isolated connection in the TP-Link<->RPi network segment).
 
 ### 7.ii Creating and using VLAN provider networks
 
