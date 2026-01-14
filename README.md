@@ -608,7 +608,7 @@ $ tee ansible.cfg << EOT
 [defaults]
 host_key_checking=False
 pipelining=True
-forks=100
+forks=4
 EOT
 ```
 
