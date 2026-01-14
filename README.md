@@ -291,7 +291,7 @@ To make sure the above structure is persistent (survives system reboots), we use
 > [!NOTE]
 > **This subsection 3.iv is prepared for the use of flat provider network only** in your OpenStack DC. Introducing VLAN provider networks requires more advanced configurations which is easier to do starting with settings different from those presented in this subsection. In particular, extra configurations for ```eth0```, ```brmux``` and ```veth1br``` are needed to serve VLANs in those devices. Respective VLAN configurations have also to be introduced in the TP-Link switch. If you are interested in setting not only flat, but also VLAN provider networks in your cluster, **skip the remainder of this subsection and go directly to subsection [3.v VLAN provider networks - part 1 (initial configuration for a flat network)](#3v-vlan-provider-networks---part-1-initial-configuration-for-a-flat-network)**.
 
-  * for `networkd` backend, for `veth0-veth0br` pair
+  * for `networkd` backend, for the `veth0-veth0br` pair
 
 ```
 sudo tee /etc/systemd/network/ost-net-itf-veth0.netdev << EOT
@@ -304,7 +304,7 @@ Name=veth0br
 EOT
 ```
 
-  * for `networkd` backend, for `veth1-veth1br` pair
+  * for `networkd` backend, for the `veth1-veth1br` pair
 ```
 sudo tee /etc/systemd/network/ost-neu-ext-veth1.netdev << EOT
 #neutron_external_interface w globals kolla-ansible
