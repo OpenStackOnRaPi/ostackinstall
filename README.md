@@ -670,14 +670,13 @@ ost03
 [compute]
 ost[01:03] ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
-Note: Remaining part of the file has been cut for brevity, but has to be preserved in your case ...
-
 [monitoring]
-#monitoring01
+#monitoring01   <== comment out
 
 [storage]
-#storage01
+#storage01      <== comment out
 
+Note: Remaining part of the file has been cut for brevity, but has to be preserved in your case ...
 and so on ...
 ```
 
