@@ -594,7 +594,7 @@ $ sudo chown $USER:$USER /etc/kolla
     
 ```
 $ sudo cp -r kolla-2025.1/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
-$ sudo cp kolla-2025.1/share/kolla-ansible/ansible/inventory/* .
+$ cp kolla-2025.1/share/kolla-ansible/ansible/inventory/* .
 ```
 
   * Install Ansible Galaxy dependencies
