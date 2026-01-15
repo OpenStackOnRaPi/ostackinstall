@@ -430,11 +430,10 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 $ sudo netplan --debug generate      <=== neglect a WARNING about too open permissions (--debug option generates verbose output)
 $ sudo netplan --debug apply         <=== neglect multiple WARNINGS about too open permissions (--debug option generates verbose output)
 
-# ssh now disconnects so reconnect, but using fixed IP addresses you set in file `50-cloud-init.yaml`
-# check the connectivity again and reboot for any case
+# ssh connection now breaks so reconnect using the fixed IP addresses you set in file `50-cloud-init.yaml`
+# check the connectivity again
 
 $ ping wp.pl
-$ sudo reboot
 ```
 
 ### 3.v VLAN provider networks - part 1 (initial configuration for a flat network)
