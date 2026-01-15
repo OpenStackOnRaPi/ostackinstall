@@ -912,7 +912,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     # check the following links for the ansible command options used:
     # https://www.jeffgeerling.com/blog/2018/reboot-and-wait-reboot-complete-ansible-playbook
     # https://www.middlewareinventory.com/blog/ansible_wait_for_reboot_to_complete/
-    CLUSTER_FILE="multinode"
+    CLUSTER_INVENTORY_FILE="multinode"
     ansible all -i $CLUSTER_INVENTORY_FILE --limit 'baremetal' -b -B 1 -P 0 -m shell -a "sleep 5 && shutdown now" -b   
     ```
     
