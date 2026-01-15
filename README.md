@@ -823,8 +823,7 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
     # for 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to explicitly pass it in the command) 
     $ kolla-ansible post-deploy
     
-    $ sudo mkdir ~/.config 
-    $ mkdir ~/.config/openstack
+    $ mkdir -p ~/.config/openstack
     $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
     $ cp /etc/kolla/clouds.yaml ~/.config/openstack/clouds.yaml
     #if you see error notification about unreachability of a file, do: $ chmod -R u+r <unreachable-directory-name> and repeat above cp operations
