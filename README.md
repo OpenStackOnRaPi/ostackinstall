@@ -657,17 +657,18 @@ $ sudo nano /etc/kolla/passwords.yml
 Edit the inventory file `multinode` in your working directory and assign the `control`, `network` and `compute` functions to individual RPis. The following are the recommended settings for a four-host cluster (adjust the numbering for a three-board cluster). Adjust them for other cluster sizes, keeping the `control` function on a separate host. Note: for every appearance of each node provide ansible directives `ansible_user`/`password`/`become` (it is sufficient to provide the directives once for a given host regardless of the number of groups it belongs to, e.g. ost03 in our example). Remaining groups in file `multinode` should be left unchanged. In a three-board cluster the `control` and `network` node roles should also be separated (allocated to different boards).
 
 > [!Warning]
-> * Remember to deploy your OpenStack `control` node on 8GB Raspberry Pi board. Otherwise the installation will become unstable due to running out of memory. This board should be configured with extended swap memory size as described in section [RPi system configuration](#3ii-rpi-system-configuration), step 9.
+> * Remember to deploy your OpenStack `control` and `network` nodes on 8GB Raspberry Pi board(s). Otherwise the installation will become unstable due to running out of memory. This board should be configured with extended swap memory size as described in section [RPi system configuration](#3ii-rpi-system-configuration), step 9.
 > * Use file 'multinode' created by Kolla-Ansible in your working directory, introducing the changes as shown below. Please note that for brevity, only a portion of the file is included below; however, the entire contents should be preserved.
 
 ```
 $ sudo nano multinode
 
 ...
-
+# On 8GB RAM RPi
 [control]
 ost04 ansible_user=ubuntu ansible_password=ubuntu ansible_become=true
 
+# On 8GB RAM RPi
 [network]
 ost03
 
