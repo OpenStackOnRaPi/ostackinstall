@@ -756,7 +756,7 @@ type_drivers = flat,vlan,vxlan
 tenant_network_types = vxlan
 
 [ml2_type_vlan]
-network_vlan_ranges = physnet1:100:110
+network_vlan_ranges = physnet1:101:110
 
 [ml2_type_flat]
 flat_networks = physnet1
