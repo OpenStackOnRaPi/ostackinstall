@@ -756,7 +756,7 @@ type_drivers = flat,vlan,vxlan
 tenant_network_types = vxlan
 
 [ml2_type_vlan]
-network_vlan_ranges = physnet1:101:200
+network_vlan_ranges = physnet1:100:110
 
 [ml2_type_flat]
 flat_networks = physnet1
@@ -766,7 +766,7 @@ EOT
 > [!Note]
 > This note is for students interested in what's going on under the hood and in the `ml2_conf.ini` file as above. Remember that in our case, we use OVS as a layer-2 agent in OpenStack (it's THE default SETTING in globals.yml). Binding physical interfaces (they are `veth0, veth1,...` in our case, but could be `eth0, eth1,...` in a physical infrastructure) to internal OpenStack bridges is the responsibility of the OpenStack installer, in our case Kolla-Ansible. That is why we have to specify the roles of the individual interfaces in our installation in the `globals.yml` file so that Kolla-Ansible knows exactly how to bind them, otherwise it assumes certain defaults. More detailed Kolla-Ansible description of the configuration rules for general case can be found [here](https://docs.openstack.org/kolla-ansible/2025.1/reference/networking/neutron.html). Below, we provide a couple of explanations relevant for our installation. Important to note is that all these configurations are performed by the OpenStack administrator and are hidden from regular users (tenants). 
 >
-> 1) Attribute `network_vlan_ranges = physnet1:100:200` will be included in the controller (network node) configuration file `/etc/neutron/plugins/ml2/ml2_conf.ini`. This is the allowed range of VLANS to be used by VLAN provider networks in our OpenStack ([see here](https://docs.openstack.org/neutron/queens/configuration/ml2-conf.html))
+> 1) Attribute `network_vlan_ranges = physnet1:101:110` will be included in the controller (network node) configuration file `/etc/neutron/plugins/ml2/ml2_conf.ini`. This is the allowed range of VLANS to be used by VLAN provider networks in our OpenStack ([see here](https://docs.openstack.org/neutron/queens/configuration/ml2-conf.html))
 > 2) Based on the above, and on the knowledge of the established Neutron operating principles and the configuration we provided in the `globals.yml` file for the physical port `neutron_external_interface: "veth1"`, Kolla-Ansible will configure the following bindings (see [here for details](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html)):
 > * On the OpenSTack level, in the `ovs-vsctl` database, binding of `veth1` to `br-ex` with a command like: `ovs-vsctl add-port br-ex veth1` (br-ex is the default name of a bridge assumed by OpenStack; can be different)
 > * in the `/etc/neutron/plugins/ml2/openvswitch_agent.ini` file, the binding of the above-mentioned external bridges (br-ex, br-ex2, ...) to the physical networks: `bridge_mappings = physnet1:br-ex,physnet2:br-ex2` (in our case, there's no `physnet2:br-ex2` - we'd need another "physical" port, e.g., `veth2`, for that).
