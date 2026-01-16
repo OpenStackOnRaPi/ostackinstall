@@ -819,14 +819,14 @@ Postdeployment includes installing OpenStack CLI tool, running additional `post-
     ```
 
 
-    # for 2025.1 (this form is slightly different from that for 2023.1 because inventory directory /etc/kolla/ansible/inventory has been
+    # for release 2025.1 (this form is slightly different from that for 2023.1 because inventory directory /etc/kolla/ansible/inventory has been
     # introduced in 2025.1 and the script post-deploy requires this inventory as a command parameter; this change has not been
     # reflected in the original Kolla-Ansible documentation); we of course can point to inventory file located elsewhere, e.g., in our
     # working directory as assumed below:
     $ kolla-ansible post-deploy -i multinode
     
-    # for 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to explicitly pass it in the command) 
-    $ kolla-ansible post-deploy
+    ## for release 2023.1 (in this release, the existence of inventory file in the working directory is checked so we do not have to explicitly pass it in the command) 
+    #$ kolla-ansible post-deploy
     
     $ mkdir -p ~/.config/openstack
     $ sudo cp /etc/kolla/clouds.yaml /etc/openstack/clouds.yaml
