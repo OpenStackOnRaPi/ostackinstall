@@ -466,6 +466,9 @@ $ sudo netplan --debug apply         <=== neglect multiple WARNINGS about too op
 
 #check the connectivity
 $ ping wp.pl
+
+# reboot for any case
+$ reboot
 ```
 
 Your network configuration is now the same as the one you would obtain following the instructions from [subsection 3.iv](#3iv-flat-provider-network-only). However, it can be easily updated to enable tagged VLAN provider networks. You can now proceed to the installation procedure (sections 4 and 5) and enjoy using OpenStack with a flat provider network. We will come back to VLAN provider networks in section 7.
