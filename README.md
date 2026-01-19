@@ -923,7 +923,7 @@ This will stop the entire cluster (to eventually power off the RPis) without dam
     
  #### 6.i.b Start the cluster
 
-This will restart the entire cluster after it has been stopped and resume OpenStack recovering also the state of all instances.
+This will restart the entire cluster after it has been stopped and resume OpenStack. In our case, it will also recover the state of all instances due to setting `resume_guests_state_on_host_boot = true` in the `nova-compute.conf` file.
  
   * Power on RPis
 
