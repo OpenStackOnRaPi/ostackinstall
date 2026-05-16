@@ -272,11 +272,11 @@ static IP 192.168.10.2x/24         no IP address assigned (Kolla-Ansible expects
     +----┬----+                     +----┬----+     - they correspond to physical network cards (interfaces) in a production server
          |                               |          - tagged VLANS will be configured for veth1 in case of using VLAN provider networks
          |                               |
-         | <-------- veth pairs -------> |          DATA CENTER NETWORK DOMAIN (this would be "physical" in production),
+         | <-------- veth pairs -------> |          DATA CENTER NETWORK DOMAIN (this would be "physical" network in production setups),
          |                               |          - under DC admin governance
     +----┴----+                     +----┴----+ 
-    | veth0br |                     | veth1br |     - tagged VLANs have to be configured by the admin from eth0 across veth1br to
-    +----┬----+                     +----┬----+     veth1 in case of using VLAN provider networks
+    | veth0br |                     | veth1br |     - in case of using VLAN provider networks, tagged VLANs have to be configured by 
+    +----┬----+                     +----┬----+      the admin starting from eth0 across veth1br to veth1
     +----┴-------------------------------┴----+
     |                   brmux                 |     - L2 device, does not need IP address, tagged VLANs have to be configured here
     +---------------------┬-------------------+       in case of using provider VLAN networks (tagged VLANs extend towards veth1) 
