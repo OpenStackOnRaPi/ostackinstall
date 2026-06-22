@@ -1,4 +1,4 @@
-# Installation of OpenStack on Raspberry Pi
+# Installation of OpenStack in a Raspberry Pi cluster
 
 ## Executive summary
 
