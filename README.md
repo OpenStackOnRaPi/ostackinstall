@@ -201,7 +201,10 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 
 9. Increase swap memory size on the `control` node
 
-This section only applies when you are going to use 8GB RPi as the OpenStack control/network node. If you are going to use 16GB RAM RPi 5 for the control/network node in your OpenStack then you can stay with the default swap settings and skip the rest of this section. However, since we have not tested the 16GB RAM option so far, we still recommend monitoring memory/swap usage at least during the initial cluster startup period. This will ensure that resource usage is under control and will not cause any problems.
+> [!Note]
+> It may be necessary to adjust your platform for memory page size required by proxysql. This is described in section [Configuring Kolla-Ansible files for specific OpenStack depolyment](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment) in the context of configuring the file `globals.yml` - please have look at it before continuing. If you decide to use option (2) as described therein, you may find it convenient to combine this step with the swap memory adjustment outlined below.
+
+Except the _Note_ given above, this section only applies when you are going to use 8GB RPi as the OpenStack control/network node. If you are going to use 16GB RAM RPi 5 for the control/network node in your OpenStack then you can stay with the default swap settings and skip the rest of this section. However, since we have not tested the 16GB RAM option so far, we still recommend monitoring memory/swap usage at least during the initial cluster startup period. This will ensure that resource usage is under control and will not cause any problems.
 
 > [!IMPORTANT]
 > This configuration applies only to the host that will play the role of "control node" in your OpenStack cluster. We recommend to separate the control and network node roles form each other and dedicate one RPi host exclusively for the control node role. Remaining hosts can be left with default swap memory size settings (512MB in the Raspberry Pi OS), but allocating more space will not be a mistake. In this guide, we assume the control node role to be be assigned to host with the name `ost04` and network node to be assigned to host `ost3`. This is shown in [section 5.iii](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment) where you can check how we assign OpenStack roles to hosts in Kolla-Ansible inventory file `multinode`. 
@@ -730,7 +733,8 @@ enable_neutron_provider_networks: "yes"
 # (2) Kolla-Ansible 2025.2 and Raspberry Pi 5+: One option is to change the kernel to kernel8 which can be done in
 # two ways. One of them is to modify the cmdline.txt file according to, e.g., https://pimylifeup.com/raspberry-pi-page-size/.
 # The other one is to run "sudo apt purge linux-image-rpi-2712" on your RPis. In both cases rebooting is required for
-# the change to take effect. This modification can well be done together with increasing the size of swap memory.
+# the change to take effect. This modification can well be done together with increasing swap memory size described in
+# point 9, section [RPi system configuration](#3ii-rpi-system-configuration).
 # (3) Kolla-Ansible 2025.1 and Raspberry Pi 5+: One can follow the modifications as outlined in (2) above. Alternatively
 # to this, the following line should be uncommented to disable using proxysql (Kolla-Ansible 2025.1 uses haproxy as a
 # database loadbalancer if proxysql is disabled, but haproxy has been discontinued in this role since 2025.2):
