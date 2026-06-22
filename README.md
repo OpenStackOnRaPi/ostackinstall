@@ -12,6 +12,8 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 > At the time of writing this guide, the stable latest release of Kolla-Ansible is 2025.1 (Epoxy).
 > 
 > Update: although OpenStack 2025.2 was released in October 2025, correspondent _latest_ (2025.2) version of Kolla-Ansible is currently (November 2025) known to contain bugs. At the moment, we do not recommend using it for educational purposes.
+>
+> Update, June 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2026.1 have been released by this time, but we have not  tested them so far. 
 
 ## Table of contents
 
