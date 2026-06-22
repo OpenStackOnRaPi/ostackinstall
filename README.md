@@ -202,7 +202,7 @@ $ sudo apt-get update && sudo apt-get install -y qemu-system-arm
 9. Increase swap memory size on the `control` node
 
 > [!Note]
-> It may be necessary to adjust your platform for memory page size required by proxysql. This is described in section [Configuring Kolla-Ansible files for specific OpenStack depolyment](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment) in the context of configuring the file `globals.yml` - please have look at it before continuing. If you decide to use option (2) as described therein, you may find it convenient to combine this step with the swap memory adjustment outlined below.
+> It may be necessary to adjust your platform for memory page size required by proxysql. This is described in section [Configuring Kolla-Ansible files for specific OpenStack depolyment](#5iii-configuring-kolla-ansible-files-for-specific-openstack-depolyment) in the context of configuring the file `globals.yml` - please have look at it before continuing. If you decide to use option (2) as described therein, you may find it convenient to combine this that with the swap memory adjustment outlined below.
 
 Except the _Note_ given above, this section only applies when you are going to use 8GB RPi as the OpenStack control/network node. If you are going to use 16GB RAM RPi 5 for the control/network node in your OpenStack then you can stay with the default swap settings and skip the rest of this section. However, since we have not tested the 16GB RAM option so far, we still recommend monitoring memory/swap usage at least during the initial cluster startup period. This will ensure that resource usage is under control and will not cause any problems.
 
