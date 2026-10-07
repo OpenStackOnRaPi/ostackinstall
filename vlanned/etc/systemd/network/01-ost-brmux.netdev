@@ -1,6 +1,6 @@
-# We're redefining brmux to enable VLANs on the bridge by setting VLANFiltering=true, wchich
+# We're redefining brmux to enable VLANs on the bridge by setting VLANFiltering=true, which
 # (at least at the time of this writing) can't be done in netplan.
-# - having brmux defined here, we should not define it again in the netplan file (indeed,
+# - having brmux defined here, we must not define it again in the netplan file (indeed,
 # defining it in the netplan file would result in incorrect network configuration - see the
 # description in file /etc/netplan/50-cloud-init.yaml)
 # - this definition creates the brmux device, but it remains inactive (Down) after creation; we
