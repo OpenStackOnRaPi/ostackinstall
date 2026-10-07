@@ -8,12 +8,12 @@ Name=eth0
 [Network]
 Bridge=brmux
 
-# VLAN for a flat provider external network extending across the physical network infrastructure.
-# - this VLAN will be invisible at the OpenStack level - in brmux, it will be replaced with
+# OPTIONAL VLAN (VLAN2): for a flat provider external network extending across the physical network infrastructure.
+# - this VLAN will be invisible at the OpenStack level - in brmux, it will be replaced by
 # VLAN1 (untagged) and OpenStack will receive it as "flat"
-# - in fact, it could be omitted at all and a standard untagged ethernet could be used, but we
-# are introducing it for educational purposes to better highlight the role of VLAN provider networks.
-# Uncomment to enable VLAN2 for carrying OpenStack flat provider network traffic.
+# - in fact, it can be omitted at all and a standard untagged Ethernet could be used, but we
+# are introducing it (as an option) for educational purposes to better highlight the role of VLAN provider networks.
+# Uncomment the lines below to enable VLAN2 for OpenStack "flat provider network" traffic.
 #[BridgeVLAN]
 #VLAN=2
 
