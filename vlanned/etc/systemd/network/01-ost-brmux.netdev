@@ -6,11 +6,13 @@
 # - this definition creates the brmux device, but it remains inactive (Down) after creation; we
 # bring it Up in file 01-ost-brmux.network.
 
+#######################
+# declare bridge device
 [NetDev]
 Name=brmux
 Kind=bridge
 
-# Configure the bridge for VLANs
+#######################
 #
 [Bridge]
 
