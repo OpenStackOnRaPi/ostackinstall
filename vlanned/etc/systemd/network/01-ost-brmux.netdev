@@ -24,9 +24,9 @@ VLANFiltering=true
 DefaultPVID=1        # <== actually, the value "1" is default so there's no need to set it explicitly, 
 #                          but we believe doing so makes the configuration clearer (our intent is explicit)
 
-# Bonus - alternative to the above ===============================
-# We can also explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
-# frames of the default (externally untagged) VLAN. This form seems cleaner than DefaultPVID.
+# Alternative to the above ===============================
+# We can explicitly tag on ingress (PVID=1) and untag on egress (EgressUntagged=1) the
+# frames of the default (externally untagged) VLAN. This form may seem to be cleaner than DefaultPVID.
 # Shortly: allow untagged frames in both directions on all ports of the bridge.
 #[BridgeVLAN]
 #PVID=1
