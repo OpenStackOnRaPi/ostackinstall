@@ -1,6 +1,6 @@
 # Definitions of tagged VLANs
 # - we use systemd files because tagged VLANs cannot currently be
-# set in netplan (this may change someday)
+# set in netplan (this may change in the future)
 # - definitions for network-external-interface according to kolla-ansible
 
 [Match]
