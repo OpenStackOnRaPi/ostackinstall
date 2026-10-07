@@ -25,9 +25,9 @@ Bridge=brmux
 #PVID=2
 #EgressUntagged=2
 
-# - for internal OpenStack networks, such as VLAN provider networks, implemented
-# as tagged VLANs (and possibly for tenant VLANs - if allowed in the ml.2 file -
-# see the configuration for kolla-ansible)
+# - for the OpenStack networks, such as VLAN provider networks (including OpenStack `external`
+# networks), implemented as tagged VLANs (and possibly for tenant VLANs - if allowed in
+# the ml.2 file - see the configuration for kolla-ansible in the main README.md)
 # - the following VLANs will cross veth1br to be available at (will reach) veth1
 # for the Neutron's needs
 
