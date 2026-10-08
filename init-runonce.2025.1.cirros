@@ -17,13 +17,14 @@ if [[ $KOLLA_DEBUG -eq 1 ]]; then
 fi
 
 # This script is meant to be run once after running start for the first
-# time.  This script downloads a cirros image and registers it.  Then it
+# time.  This script downloads a cirros image and registers it. Then it
 # configures networking and nova quotas to allow 8 m1.small instances
 # to be created.
 
 #ARCH=$(uname -m)
 ARCH=aarch64
-CIRROS_RELEASE=${CIRROS_RELEASE:-0.6.2}
+#CIRROS_RELEASE=${CIRROS_RELEASE:-0.6.3} # this has broaken Web terminal in OpenStack for ARM64
+CIRROS_RELEASE=${CIRROS_RELEASE:-0.5.3}  # this seems to be the last version with unbroaken Web termina in OpenStackfor ARM64
 IMAGE_PATH=/opt/cache/files/
 IMAGE_URL=https://github.com/cirros-dev/cirros/releases/download/${CIRROS_RELEASE}/
 IMAGE=cirros-${CIRROS_RELEASE}-${ARCH}-disk.img
@@ -173,6 +174,7 @@ $KOLLA_OPENSTACK_COMMAND quota set --cores 8 ${ADMIN_PROJECT_ID}
 $KOLLA_OPENSTACK_COMMAND quota set --ram 5120 ${ADMIN_PROJECT_ID}
 
 # add default flavors, if they don't already exist
+# the values below are tuned for use on Raspberry Pi hosts
 if ! $KOLLA_OPENSTACK_COMMAND flavor list | grep -q m1.tiny; then
     $KOLLA_OPENSTACK_COMMAND flavor create --id 1 --ram 512 --disk 1 --vcpus 1 m1.tiny
     $KOLLA_OPENSTACK_COMMAND flavor create --id 2 --ram 1024 --disk 1 --vcpus 1 m1.small
