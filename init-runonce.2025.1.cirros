@@ -23,8 +23,8 @@ fi
 
 #ARCH=$(uname -m)
 ARCH=aarch64
-#CIRROS_RELEASE=${CIRROS_RELEASE:-0.6.3} # this has broaken Web terminal in OpenStack for ARM64
-CIRROS_RELEASE=${CIRROS_RELEASE:-0.5.3}  # this seems to be the last version with unbroaken Web termina in OpenStackfor ARM64
+#CIRROS_RELEASE=${CIRROS_RELEASE:-0.6.3} # this has a broaken Web console in the OpenStack GUI for ARM64
+CIRROS_RELEASE=${CIRROS_RELEASE:-0.5.3}  # this seems to be the last version with unbroaken Web console in the OpenStack GUI for ARM64
 IMAGE_PATH=/opt/cache/files/
 IMAGE_URL=https://github.com/cirros-dev/cirros/releases/download/${CIRROS_RELEASE}/
 IMAGE=cirros-${CIRROS_RELEASE}-${ARCH}-disk.img
