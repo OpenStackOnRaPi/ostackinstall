@@ -18,7 +18,7 @@ fi
 
 # This script is meant to be run once after running start for the first
 # time.  This script downloads a cirros image and registers it. Then it
-# configures networking and nova quotas to allow 8 m1.small instances
+# configures networking and nova quotas to allow up to 8 m1.small instances
 # to be created.
 
 #ARCH=$(uname -m)
