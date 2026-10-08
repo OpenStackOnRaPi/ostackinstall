@@ -720,22 +720,26 @@ network_interface: "veth0"
 neutron_external_interface: "veth1"
 enable_neutron_provider_networks: "yes"
 # The following "enable_proxysql" case only refers to Raspberry Pi 5 and higher. No changes are needed on the
-# Raspberry Pi 4 platform (keep the reaminder unchanged).
+# Raspberry Pi 4 platform (keep the reaminder of this file unchanged).
 # Starting with the Raspberry Pi 5, the kernel shipped with the Raspberry Pi uses a 16K page size by default.
 # This is claimed to have a few benefits, one of the biggest being improved performance (by 7%+). However, it
-# has a huge disadvantage because many programs are not designed to handle this page size, Which is exactly
-# the case with proxysql in OpenStack releases starting from 2025.1. Depending on your platform, one of the following
-# modifications will be required.
+# has a huge disadvantage because many programs are not designed to handle this page size, which is exactly
+# the case with proxysql in OpenStack releases starting from 2025.1. Depending on your
+# platform/preferences, do one the following modifications.
 # (1) Kolla-Ansible 2023.1, all RPi releases: no changes are needed (leave the following untouched).
-# (2) Kolla-Ansible 2025.2 and Raspberry Pi 5+: One option is to change the kernel to kernel8 which can be done in
-# two ways. One of them is to modify the cmdline.txt file according to, e.g., https://pimylifeup.com/raspberry-pi-page-size/.
-# The other one is to run "sudo apt purge linux-image-rpi-2712" on your RPis. In both cases rebooting is required for
-# the change to take effect. This modification can well be done together with increasing swap memory size described in
-# point 9, section [RPi system configuration](#3ii-rpi-system-configuration).
-# (3) Kolla-Ansible 2025.1 and Raspberry Pi 5+: One can follow the modifications as outlined in (2) above. Alternatively
-# to this, the following line should be uncommented to disable using proxysql (Kolla-Ansible 2025.1 uses haproxy as a
-# database loadbalancer if proxysql is disabled, but haproxy has been discontinued in this role since 2025.2):
+# (2) Kolla-Ansible 2025.1+ and Raspberry Pi 5: One option is to change the kernel to kernel8 which can be done in
+# two ways. One of them is to modify the cmdline.txt file according to, e.g.,
+# https://pimylifeup.com/raspberry-pi-page-size/. The other option is to run
+# "sudo apt purge linux-image-rpi-2712" on your RPis. In both cases rebooting is
+# required for the change to take effect. This modification can well be done
+# together with increasing swap memory size described in point 9,
+# section [RPi system configuration](#3ii-rpi-system-configuration).
+# (3) Kolla-Ansible 2025.1+ and Raspberry Pi 5: Alternatively to the above (2), the following
+# line should be uncommented to disable using proxysql. Kolla-Ansible 2025.1 will then use
+# haproxy # as a database loadbalancer (haproxy has been discontinued in OpenStack as a default
+# loadbalancer since 2025.1):
 # enable_proxysql: "no"
+enable_proxysql: "no"
 ```
 
   Note: more details about OpenStack networking with Kolla-Ansible can be found [here](https://docs.openstack.org/kolla-ansible/latest/reference/networking/neutron.html).
