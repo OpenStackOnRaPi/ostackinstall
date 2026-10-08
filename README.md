@@ -6,14 +6,12 @@ In this guide, we describe how to install OpenStack on a Raspberry Pi cluster us
 
 A number of OpenStack cluster configurations have been tested thoroughly. Each configuration was determined by the Raspberry Pi board type (4B or 5), Kolla-Ansible OpenStack release (2023.1 or 2025.1), virtualization type (Qemu emulation or KVM). In all configurations, the RPis run under Raspberry Pi OS (Debian 12 Bookworm derivative). We confirm that KVM virtualization works excellent on RPi 4 and RPi 5 for both tested releases of Kolla-Ansible/OpenStack (2023.1 and 2025.1). Qemu only works well on RPi 4, and the VMs are more than twice as slow compared to when KVM host-passthrough is used. Qemu emulation has failed to work on RPi 5 because the Cortex-A76 processor model is not currently supported by the libvirtd package installed by Kolla-Ansible (we drew this conclusion based on the analysis of libvirtd logs). Considering the above, KVM is the recommended virtualization option for OpenStack deployments on the Raspberry Pi platform. Moreover, in all tested cases, the OpenStack control node was deployed on a dedicated RPi board with 8GB of RAM, we had to increase the swap memory size on this node from 512MB (the default value in the Raspberry Pi OS) to a much safer capacity of 4 GB, and adjustments for memory page size were necessary in case of Kolla-Ansible 2025.1+ running on Raspberry Pi 5.
 
-In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and cheap, bare metal OpenStack clusters for educational purposes. This guide describes the complete installation procedure for release 2023.1 and 2025.1 using Kolla-Ansible, and assuming the deployment of core (default in Kolla-Ansible) OpenStack modules. In the description, 2025.1 serves as the reference version, and the differences applicable in release 2023.1 are discussed directly in relevant parts of the text. Updates will be added to this guide as new findings, propositions or recommendations emerge.
+In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and cheap, bare metal OpenStack clusters for educational purposes. This guide describes the complete installation procedure for the release 2025.1 using Kolla-Ansible, and assuming the deployment of core (default in Kolla-Ansible) OpenStack modules. Although this description directly refers to Kolla-Ansible 2025.1 it can serve as a reference also for newer releases, however, in the latter case, one should first check for any differences regarding the Kolla-Ansible installation. Updates will be added to this guide as new findings, propositions or recommendations emerge.
 
 > [!Note]
 > At the time of writing this guide, the stable latest release of Kolla-Ansible is 2025.1 (Epoxy).
-> 
-> Update: although OpenStack 2025.2 was released in October 2025, correspondent _latest_ (2025.2) version of Kolla-Ansible is currently (November 2025) known to contain bugs. At the moment, we do not recommend using it for educational purposes.
 >
-> Update, June 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2026.1 have been released by this time, but we have not  tested them so far. 
+> Update, October 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2025.2, 2026.1 and 2026.2 have been released by this time, but we have not  tested them so far. 
 
 ## Table of contents
 
@@ -80,15 +78,16 @@ All procedures described in this guide assume compliance with the setup options 
    
 2. SW
    * OS: **Raspberry Pi OS Lite 64bit** (a port of Debian 12 Bookworm with no desktop environment).
-     - Ubuntu 24.04 LTS for Raspberry Pi may work as well. It comes with netplan and systemd-networkd as default network configuration tools, which should simplify certain installation steps from this guide. Actually, Ubuntu 23.04 did work for Kolla-Ansible Zed release and Debian Bullseye AARCH64 container images (AARCH64 is the Raspberry Pi processor architecture). However, it is known that only Debian-based AARCH64 container images are available for Kolla-Ansible (see [here](#https://quay.io/repository/openstack.kolla/neutron-openvswitch-agent?tab=tags)). In an attempt to maintain the highest possible compatibility between the components, we decided to use Raspberry Pi OS (port of Debian).
-   * Linux network configuration tools: netplan and systemd-networkd (they are not default on Debian but we use them to comply with the policies adopted in our labs).
-   * Kolla-Ansible 2023.1 or 2025.1. 
-3. Physical network:
+     - Note: as an artifact of certain problems from the past, we currently use Raspberry Pi OS (port of Debian). However, one can find Ubuntu more appropriate, with additional bonus that it comes with systemd-networkd enabled by default and Netplan installed (so one will not have to disable NetworkManager, install Netplan and enable systemd-metworkd which is required for Raspberry Pi OS).
+   * Kolla-Ansible 2025.1. 
+     - Note: as of October 2026, container images for releases 2025.2, 2026.1 and 2026.2 are all available for aarch64 architecture and Ubuntu (see [here](#https://quay.io/repository/openstack.kolla/neutron-openvswitch-agent?tab=tags). One can give them a try, checking the support matrix first and aligning accordingly the OS release on the Raspberries and the management node (where Kolla-Ansible will be installed).
+   * Linux network configuration tools: Netplan and systemd-networkd (they are not available by default in Debian, but we use them to maintain compliance with long-standing policies in our laboratories).
+4. Physical network:
    * the RPis are equipped with 802.3af/at PoE HAT from Waveshare (PoE is optional but simplifies cluster wiring) 
    * they are powered form TP-Link TL-SG105PE switch (it supports 802.1Q which can be used to set multiple VLAN provider networks in OpenStack)
    * TP-Link switch is connected to a local router with DHCP enabled to isolate the network segment of OpenStack DC from the rest of the local network infrastructure
    * **reserve a pool of IP addresses for the use by OpenStack** on your local router as described in subsection 3.i.
-4. Virtualization
+5. Virtualization
    * we have successfully tested qemu and KVM on Raspberry Pi 4 and KVM on Raspberry Pi 5 (qemu does not work correctly on Raspberry Pi 5 with standard Kolla-Ansible installation).
 
 > [!Note]
@@ -483,19 +482,19 @@ Your network configuration is now the same as the one you would obtain following
 ### 4.i General notes
 
 1. Maintaining 100% consistency between the version of Kolla-Ansible used and the OpenStack release deployed is key for successfull installation of the OpenStack cloud. 
-2. This guide refers to OpenStack release ```2025.1``` and respective Kolla-Ansible guide is available under [this link](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Please, note the ```2025.1``` discriminator of OpenStack release in the Kolla-Ansible URI.
+2. This guide refers to OpenStack release ```2025.1``` and respective Kolla-Ansible guide is available under [this link](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Please, note the ```2025.1``` discriminator of OpenStack release in the Kolla-Ansible URI. For other releases of Kolla-Ansible, use its tag in place of `2025.1` in the link above.
 3. The main goal of this guide is to instruct how to _**install**_ OpenStack cloud with Kolla-Ansible on Raspberry Pi cluster. For information on how to _**manage**_ OpenStack cloud using Kolla-Ansible, please refer to the original documentation of the Kolla-Ansible project.
-4. Be careful to install the right OS version. Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host. Kolla-Ansible 2023.1 requires Ubuntu 22.04 on the management host. Other OS-es may also work, possibly after appropriate adaptations, but we have not check other options.
+4. Be careful to install the right OS version. Kolla-Ansible/OpenStack 2025.1 requires Ubuntu 24.04 or Debian 12 on the management host (see the [support matrix](https://docs.openstack.org/kolla-ansible/2025.1/user/support-matrix.html)). For other releases, check respective support matrix.
 
 ### 4.ii VM creation and basic configs
 
 Here, we assume using a virtual machine, but things do not change if the management host is a physical machine.
 
-  * Create `Ubuntu 24.04 LTS` VM, preferably as a desktop machine. We are using `Ubuntu 24.04 LTS` for Kolla-Ansible 2025.1 (_Note: 'Ubuntu 24.04` is not supported by Kolla-Ansible 2023.1, and you should use Ubuntu 22.04 as the highest distribution supported by Kolla-Ansible 2023.1_). We have not tested other Linux distributions. Resource requirements for the VM are moderate (4GB RAM, 20GB disk, 1vCPU should be sufficient).
+  * Create `Ubuntu 24.04 LTS` VM, preferably as a desktop machine. We are using `Ubuntu 24.04 LTS` for Kolla-Ansible 2025.1. Resource requirements for the VM are moderate (4GB RAM, 20GB disk, 1vCPU should be sufficient).
   * We use VirtualBox and configure the network card of the VM to work in ```Bridged``` mode. Nevertheless, NAT mode should work as well in a basic scenario, but using briged mode is more convenient in non-standard situations (e.g., when one needs to copy files between the RPis and the management host). It is generally simpler when all components (cluster, management host, our physical host) operate in the same L2 segment.
   * After launching the VM in VirtualBox, the copy-paste feature will probably not work. You will have have to install GuestAdditions. This can be done in a while. First follow the steps that follow.
   * Disable the automatic upgrade option in the VM; in the desktop, search for this setting in `Options`.
-  * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this for 24.04](https://askubuntu.com/questions/1536250/disabling-wayland-permanently-under-ubuntu-24-04-1-lts-doesnt-work-in-virtualbo) and [this for 22.04](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
+  * If the terminal suspends/does not open, the screen is flickering or the cursor takes the form of a black rectangle, disable Wayland display server protocol, see e.g., [this for 24.04](https://askubuntu.com/questions/1536250/disabling-wayland-permanently-under-ubuntu-24-04-1-lts-doesnt-work-in-virtualbo)
   * Assign sudo privileges to your user (in this guide, we assume username `ubuntu`)
   ```
 $ sudo usermod -aG sudo $USER
@@ -506,7 +505,7 @@ $ sudo usermod -aG sudo $USER
 $ sudo apt update && sudo apt upgrade
   ```
 
-  * When using VirtualBox, install GuestAdditions - refer, e.g., to [this](https://linuxconfig.org/installing-virtualbox-guest-additions-on-ubuntu-24-04) or [this](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-virtualbox-guest-additions-on-ubuntu-22-04.html?utm_content=cmp-true)
+  * When using VirtualBox, install GuestAdditions - refer, e.g., to [this](https://linuxconfig.org/installing-virtualbox-guest-additions-on-ubuntu-24-04) 
     
   * Enable passwordless sudo logging on the management host (required by Ansible) and reboot (reboot is necessary for guaranteeing Ansible permissions if you make all the installation in one attempt)
   ```
@@ -554,7 +553,7 @@ $ docker run hello-world
 
 ### 5.i Kolla-Ansible installation
 
-The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html). Installation of [Kolla-Ansible 2023.1](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html) is very similar to2025.1 installation, but not identical. One difference is that in version 2023.1 you need to install Ansible explicitly by running a separate command, whereas in version 2025.1 this step is already included in the Kolla-Ansible script and you don't need to bother about installing Ansible. Other differences are a direct consequence of changing the status of the 2023.1 release to `unmaintained` without a corresponding update to the publicly available Kolla-Ansible manual and without updating one Kolla-Ansible configuration file (the term `stable` is used instead of `unmaintained`). Corrective changes to respective instructions applicable for 2023.1 are outlined below in a `Warning` paragraph.
+The installation procedure is in principle the same as in the original [Kolla-Ansible guide for the 2025.1 release](https://docs.openstack.org/kolla-ansible/2025.1/user/quickstart.html).
 
 One can use the original source document for 2025.1 and install on his own or take advantage of 100% ready-to-use commands documented below.
 
@@ -579,15 +578,11 @@ $ rm -r <venv-root-folder-name->
   * Install Kolla-Ansible in the active venv
 ```
 $ pip install -U pip
-      ==> for 2023.1 additionally run: pip install 'ansible>=6,<8'
-          installing Ansible in 2025.1 is done by the Kolla-Ansible install script below so we ommit installing Ansible in case of 2025.1
 $ pip install git+https://opendev.org/openstack/kolla-ansible@stable/2025.1
-      ==> for 2023.1: pip install git+https://opendev.org/openstack/kolla-ansible@unmaintained/2023.1
-          release 2023.1 has got the "unmaintained" status and one has to use a non-standard branch name to install it (see also the Warning below)
 ```
 
 > [!WARNING]
-> If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. Your release has probably got the "unmaintained" status. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your specific release is currently stored and where you will find its current branch name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1``` (every release will eventually get the "unmaintained" status so treat the above as an example and adapt it appropriately to your particular case if needed). More information about OpenStack release maintenance phases can be found [here](https://docs.openstack.org/project-team-guide/stable-branches.html#maintenance-phases).
+> For the future: If you see error message similar to _```error: pathspec 'stable/2023.1' did not match any file(s) known to git ERROR! Failed to switch a cloned Git repo `https://opendev.org/openstack/ansible-collection-kolla` to the requested revision `stable/2023.1`.```_, do not panic. Your release has probably got the "unmaintained" status. You should go to [this repo](https://opendev.org/openstack/kolla-ansible) and check the name of the branch where your specific release is currently stored and where you will find its current branch name. Then change the name of your (supposed) branch (```@stable``` in the example) to the right one. To this end, edit local file: ```nano kolla-2023.1/share/kolla-ansible/requirements.yml```. Most probably you will have to change the name from ```stable/2023.1``` to ```unmaintained/2023.1``` (every release will eventually get the "unmaintained" status so treat the above as an example and adapt it appropriately to your particular case if needed). More information about OpenStack release maintenance phases can be found [here](https://docs.openstack.org/project-team-guide/stable-branches.html#maintenance-phases).
 
 ### 5.ii Preparing configuration files for Kolla-Ansible
 
