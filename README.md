@@ -83,8 +83,7 @@ All procedures described in this guide assume compliance with the setup options 
    * Operating systems
      - Raspberry Pi OS Lite 64bit on Raspberry Pi boards (a port of Debian 12 Bookworm with no desktop environment).
        - Note: as an artifact of certain problems from the past, we currently use Raspberry Pi OS (port of Debian). However, one can find Ubuntu more appropriate, with additional bonus that it comes with systemd-networkd enabled by default and Netplan installed (so one will not have to disable NetworkManager, install Netplan and enable systemd-metworkd which is required for Raspberry Pi OS).
-
-   * Ubuntu 2024.04 on the management node
+     - Ubuntu 2024.04 on the management node
    * Kolla-Ansible 2025.1. 
      - Note: as of October 2026, container images for releases 2025.2, 2026.1 and 2026.2 are available for aarch64 architecture, and for Debian 13 and Ubuntu 2024.04 (see [here](#https://quay.io/repository/openstack.kolla/neutron-openvswitch-agent?tab=tags). You can try them out, but first check the [support matrix](https://docs.openstack.org/kolla-ansible/2026.2/user/support-matrix.html) and align the operating system versions on the Raspberry Pi and the management node (where Kolla-Ansible will be installed) accordingly.
    * Linux network configuration tools: Netplan and systemd-networkd (they are not available by default in Debian and have to be enabled; we use them for all OS variants to maintain compliance with long-standing policies in our laboratories).
