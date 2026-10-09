@@ -13,7 +13,9 @@ In summary, both the Raspberry Pi 4 and 5 are suitable for setting up small and 
 >
 > Update, October 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2025.2, 2026.1 and 2026.2 have been released by this time, but we have not tested them so far.
 >
-> Update, June 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2026.1 have been released by this time, but we have not tested them so far. Update, October 2026: OpenStack 2026.2 has been released. We are planning to test it on our platform - stay tuned.
+> Update, June 2026: Raspberry Pi OS Trixie (Debian 13) and OpenStack 2026.1 have been released by this time, but we have not tested them so far.
+>
+> Update, October 2026: OpenStack 2026.2 has been released. We are planning to test it on our platform - stay tuned.
 
 ## Table of contents
 
