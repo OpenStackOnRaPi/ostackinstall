@@ -1,6 +1,6 @@
 # Deploying OpenStack on a Raspberry Pi cluster
 
-## Executive summary
+## Summary
 
 In this guide, we describe how to install OpenStack on a Raspberry Pi cluster using Kolla-Ansible. The main field of application of such clusters is instructional tools for teaching. A cluster of this type allows us to present/explain various features/concepts of OpenStack, some of them being hard or impossible to show using AIO or virtualized OpenStack setups (e.g., the configuration of provider networks). While you can find other guides on the Internet on this topic, they are generally based on old versions of OpenStack, do not address more advanced features as provider networks, and do not cover several important details that would make your OpenStack Raspberry Pi cluster run reliably.
 
